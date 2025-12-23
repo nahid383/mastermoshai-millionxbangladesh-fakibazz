@@ -16,7 +16,8 @@ import {
   ChevronRight,
   Moon,
   Sun,
-  Check
+  Check,
+  Users
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -190,6 +191,22 @@ export const Profile: React.FC = () => {
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
           </button>
         </div>
+
+        {/* Meet Our Team */}
+        <button
+          onClick={() => navigate('/team')}
+          className="w-full glass-card rounded-xl p-4 flex items-center gap-4 hover:bg-card/80 transition-colors mt-2 animate-slide-up"
+          style={{ animationDelay: '300ms' }}
+        >
+          <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+            <Users className="w-5 h-5 text-accent" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="font-medium text-foreground">Meet Our Team</p>
+            <p className="text-xs text-muted-foreground">Team Fakibazz behind Master-Moshai</p>
+          </div>
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </button>
 
         {/* App Info */}
         <div className="text-center mt-8 text-xs text-muted-foreground">

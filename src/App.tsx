@@ -10,6 +10,7 @@ import { Subjects } from "./pages/Subjects";
 import { Quiz } from "./pages/Quiz";
 import { Progress } from "./pages/Progress";
 import { Profile } from "./pages/Profile";
+import { Team } from "./pages/Team";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -43,6 +44,7 @@ const AppRoutes = () => {
       <Route path="/quiz/:subjectId" element={<ProtectedRoute><Quiz /></ProtectedRoute>} />
       <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/team" element={<Team />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
