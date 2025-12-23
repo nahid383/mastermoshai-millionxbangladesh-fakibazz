@@ -21,7 +21,9 @@ export type Database = {
           created_at: string
           daily_progress: number | null
           id: string
+          institution: string | null
           level: string | null
+          location: string | null
           medium: string | null
           name: string | null
           questions_answered: number | null
@@ -38,7 +40,9 @@ export type Database = {
           created_at?: string
           daily_progress?: number | null
           id?: string
+          institution?: string | null
           level?: string | null
+          location?: string | null
           medium?: string | null
           name?: string | null
           questions_answered?: number | null
@@ -55,7 +59,9 @@ export type Database = {
           created_at?: string
           daily_progress?: number | null
           id?: string
+          institution?: string | null
           level?: string | null
+          location?: string | null
           medium?: string | null
           name?: string | null
           questions_answered?: number | null
