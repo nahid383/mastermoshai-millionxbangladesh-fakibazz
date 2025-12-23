@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
+import { useAuth } from '@/hooks/useAuth';
 import { badges as allBadges } from '@/lib/data';
 import { 
   User, 
@@ -29,9 +30,12 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const { signOut } = useAuth();
   const { profile, setIsOnboarded, updateProfile } = useStudent();
   const useBangla = profile.medium === 'bangla';
   
@@ -41,7 +45,8 @@ export const Profile: React.FC = () => {
   const [editLevel, setEditLevel] = useState(profile.level);
   const [editMedium, setEditMedium] = useState(profile.medium);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOut();
     setIsOnboarded(false);
     updateProfile({
       name: '',
@@ -54,6 +59,7 @@ export const Profile: React.FC = () => {
       dailyProgress: 0,
       badges: [],
     });
+    toast({ title: 'Signed out', description: 'You have been logged out successfully.' });
     navigate('/');
   };
 
@@ -64,6 +70,7 @@ export const Profile: React.FC = () => {
       medium: editMedium,
     });
     setEditProfileOpen(false);
+    toast({ title: 'Profile updated', description: 'Your changes have been saved.' });
   };
 
   return (

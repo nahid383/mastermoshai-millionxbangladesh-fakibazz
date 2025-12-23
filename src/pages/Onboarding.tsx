@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
+import { useAuth } from '@/hooks/useAuth';
 import { cn } from '@/lib/utils';
-import { ChevronRight, BookOpen, GraduationCap, Globe } from 'lucide-react';
+import { ChevronRight, BookOpen, GraduationCap, Globe, LogIn } from 'lucide-react';
 
 type Step = 'welcome' | 'name' | 'level' | 'medium';
 
 export const Onboarding: React.FC = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { updateProfile, setIsOnboarded } = useStudent();
   const [step, setStep] = useState<Step>('welcome');
   const [name, setName] = useState('');
   const [level, setLevel] = useState<'ssc' | 'hsc'>('ssc');
   const [medium, setMedium] = useState<'bangla' | 'english'>('english');
+
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!user && step !== 'welcome') {
+      navigate('/auth');
+    }
+  }, [user, step, navigate]);
 
   const handleComplete = () => {
     updateProfile({ name, level, medium });
@@ -49,12 +58,22 @@ export const Onboarding: React.FC = () => {
               <Button
                 variant="hero"
                 size="xl"
-                onClick={() => setStep('name')}
+                onClick={() => user ? setStep('name') : navigate('/auth')}
                 className="w-full"
               >
-                Get Started
+                {user ? 'Get Started' : 'Sign In to Start'}
                 <ChevronRight className="w-5 h-5" />
               </Button>
+              
+              {!user && (
+                <p className="text-sm text-muted-foreground mt-4">
+                  Don't have an account?{' '}
+                  <Link to="/auth" className="text-primary hover:underline">
+                    Create one
+                  </Link>
+                </p>
+              )}
+              
               <p className="text-xs text-muted-foreground mt-6">
                 🇧🇩 Made by Team Fakibazz
               </p>
