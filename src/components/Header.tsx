@@ -26,10 +26,10 @@ export const Header: React.FC = () => {
             onClick={() => navigate('/dashboard')}
             className="flex items-center gap-2 font-bold text-lg hover:opacity-80 transition-opacity"
           >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground">
-              📚
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground text-sm">
+              🎓
             </div>
-            <span className="gradient-text hidden sm:block">শিক্ষাসঙ্গী</span>
+            <span className="gradient-text hidden sm:block">Master-Moshai</span>
           </button>
 
           {/* Stats */}
