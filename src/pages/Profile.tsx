@@ -166,9 +166,9 @@ export const Profile: React.FC = () => {
 
         {/* App Info */}
         <div className="text-center mt-8 text-xs text-muted-foreground">
-          <p>শিক্ষাসঙ্গী v1.0</p>
-          <p className="mt-1">Made with ❤️ for Bangladeshi students</p>
-          <p className="mt-1">MillionX Bangladesh Hackathon 2024</p>
+          <p className="font-medium">Master-Moshai v1.0</p>
+          <p className="mt-1">Made with ❤️ by Team Fakibazz</p>
+          <p className="mt-1">MillionX Bangladesh AI Buildathon 2024</p>
         </div>
       </main>
     </div>
