@@ -14,7 +14,60 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          badges: Json | null
+          correct_answers: number | null
+          created_at: string
+          daily_progress: number | null
+          id: string
+          level: string | null
+          medium: string | null
+          name: string | null
+          questions_answered: number | null
+          streak: number | null
+          strong_topics: string[] | null
+          total_points: number | null
+          updated_at: string
+          user_id: string
+          weak_topics: string[] | null
+        }
+        Insert: {
+          badges?: Json | null
+          correct_answers?: number | null
+          created_at?: string
+          daily_progress?: number | null
+          id?: string
+          level?: string | null
+          medium?: string | null
+          name?: string | null
+          questions_answered?: number | null
+          streak?: number | null
+          strong_topics?: string[] | null
+          total_points?: number | null
+          updated_at?: string
+          user_id: string
+          weak_topics?: string[] | null
+        }
+        Update: {
+          badges?: Json | null
+          correct_answers?: number | null
+          created_at?: string
+          daily_progress?: number | null
+          id?: string
+          level?: string | null
+          medium?: string | null
+          name?: string | null
+          questions_answered?: number | null
+          streak?: number | null
+          strong_topics?: string[] | null
+          total_points?: number | null
+          updated_at?: string
+          user_id?: string
+          weak_topics?: string[] | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
