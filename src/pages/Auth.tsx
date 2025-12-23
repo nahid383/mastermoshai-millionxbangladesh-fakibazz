@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Mail, Phone, Lock, User, ArrowLeft, Loader2 } from 'lucide-react';
+import { Mail, Phone, Lock, User, ArrowLeft, Loader2, GraduationCap, MapPin, School } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { z } from 'zod';
 
@@ -29,17 +29,22 @@ export const Auth: React.FC = () => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [otp, setOtp] = useState('');
+  
+  // Additional signup fields
+  const [educationLevel, setEducationLevel] = useState<'ssc' | 'hsc' | 'admission'>('ssc');
+  const [institution, setInstitution] = useState('');
+  const [location, setLocation] = useState('');
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
-        navigate('/dashboard');
+        navigate('/');
       }
     });
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        navigate('/dashboard');
+        navigate('/');
       }
     });
 
@@ -63,6 +68,15 @@ export const Auth: React.FC = () => {
       }
     }
 
+    if (!isLogin && !name.trim()) {
+      toast({
+        title: 'Validation Error',
+        description: 'Please enter your name',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -78,8 +92,13 @@ export const Auth: React.FC = () => {
           email,
           password,
           options: {
-            emailRedirectTo: `${window.location.origin}/dashboard`,
-            data: { name },
+            emailRedirectTo: `${window.location.origin}/`,
+            data: { 
+              name,
+              education_level: educationLevel,
+              institution,
+              location,
+            },
           },
         });
         if (error) throw error;
@@ -195,7 +214,7 @@ export const Auth: React.FC = () => {
         </div>
 
         {/* Auth Card */}
-        <div className="glass-card rounded-2xl p-6 animate-scale-in">
+        <div className="glass-card rounded-2xl p-6 animate-scale-in max-h-[70vh] overflow-y-auto">
           {/* Auth Method Tabs */}
           <Tabs value={authMethod} onValueChange={(v) => setAuthMethod(v as 'email' | 'phone')} className="mb-6">
             <TabsList className="grid w-full grid-cols-2">
@@ -213,25 +232,91 @@ export const Auth: React.FC = () => {
             <TabsContent value="email">
               <form onSubmit={handleEmailAuth} className="space-y-4">
                 {!isLogin && (
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Name</Label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input
-                        id="name"
-                        type="text"
-                        placeholder="Your name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="pl-10"
-                        required
-                      />
+                  <>
+                    {/* Name */}
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Full Name *</Label>
+                      <div className="relative">
+                        <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="name"
+                          type="text"
+                          placeholder="আপনার নাম / Your name"
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="pl-10"
+                          required
+                        />
+                      </div>
                     </div>
-                  </div>
+
+                    {/* Education Level */}
+                    <div className="space-y-2">
+                      <Label>Education Level *</Label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { value: 'ssc', label: 'SSC', icon: '📚' },
+                          { value: 'hsc', label: 'HSC', icon: '🎓' },
+                          { value: 'admission', label: 'Admission', icon: '🏆' },
+                        ].map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => setEducationLevel(option.value as 'ssc' | 'hsc' | 'admission')}
+                            className={cn(
+                              'p-3 rounded-xl border-2 text-center transition-all',
+                              educationLevel === option.value
+                                ? 'border-primary bg-primary/10'
+                                : 'border-border hover:border-primary/50'
+                            )}
+                          >
+                            <span className="text-lg">{option.icon}</span>
+                            <p className="text-xs font-medium mt-1">{option.label}</p>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Institution */}
+                    <div className="space-y-2">
+                      <Label htmlFor="institution">
+                        {educationLevel === 'admission' ? 'Target University' : 'School/College Name'}
+                      </Label>
+                      <div className="relative">
+                        <School className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="institution"
+                          type="text"
+                          placeholder={educationLevel === 'admission' ? 'e.g., Dhaka University' : 'e.g., Dhaka College'}
+                          value={institution}
+                          onChange={(e) => setInstitution(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Location */}
+                    <div className="space-y-2">
+                      <Label htmlFor="location">Location</Label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                          id="location"
+                          type="text"
+                          placeholder="e.g., Dhaka, Chittagong, Sylhet"
+                          value={location}
+                          onChange={(e) => setLocation(e.target.value)}
+                          className="pl-10"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="border-t border-border pt-4" />
+                  </>
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">Email *</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
@@ -247,7 +332,7 @@ export const Auth: React.FC = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Password *</Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                     <Input
@@ -261,6 +346,9 @@ export const Auth: React.FC = () => {
                       minLength={6}
                     />
                   </div>
+                  {!isLogin && (
+                    <p className="text-xs text-muted-foreground">At least 6 characters</p>
+                  )}
                 </div>
 
                 <Button type="submit" className="w-full" disabled={loading}>
@@ -372,7 +460,7 @@ export const Auth: React.FC = () => {
 
         {/* Footer */}
         <p className="text-center text-xs text-muted-foreground mt-6">
-          By continuing, you agree to Master-Moshai's Terms of Service
+          By continuing, you agree to Team Fakibazz's Terms of Service
         </p>
       </div>
     </div>
