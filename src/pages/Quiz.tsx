@@ -114,6 +114,7 @@ export const Quiz: React.FC = () => {
       <main className="container max-w-4xl mx-auto px-4 py-8">
         {!isComplete ? (
           <QuizCard
+            key={`question-${currentIndex}`}
             question={questions[currentIndex]}
             useBangla={useBangla}
             onAnswer={handleAnswer}
