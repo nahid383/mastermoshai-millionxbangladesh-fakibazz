@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { useAuth } from '@/hooks/useAuth';
 import { badges as allBadges } from '@/lib/data';
-import { 
-  User, 
-  GraduationCap, 
-  Globe, 
-  Flame, 
+import {
+  User,
+  GraduationCap,
+  Globe,
+  Flame,
   Zap,
   Trophy,
   Settings,
@@ -18,12 +18,13 @@ import {
   Moon,
   Sun,
   Check,
-  Users
+  Users,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
@@ -31,19 +32,39 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
+import { useTheme } from 'next-themes';
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { signOut } = useAuth();
+  const { setTheme, resolvedTheme } = useTheme();
   const { profile, setIsOnboarded, updateProfile } = useStudent();
   const useBangla = profile.medium === 'bangla';
-  
+
+  const isDark = resolvedTheme === 'dark';
+
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [editProfileOpen, setEditProfileOpen] = useState(false);
   const [editName, setEditName] = useState(profile.name);
   const [editLevel, setEditLevel] = useState(profile.level);
   const [editMedium, setEditMedium] = useState(profile.medium);
+
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
+    const saved = localStorage.getItem('notificationsEnabled');
+    return saved ? saved === 'true' : true;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('notificationsEnabled', notificationsEnabled.toString());
+  }, [notificationsEnabled]);
+
+  useEffect(() => {
+    if (!editProfileOpen) return;
+    setEditName(profile.name);
+    setEditLevel(profile.level);
+    setEditMedium(profile.medium);
+  }, [editProfileOpen, profile.name, profile.level, profile.medium]);
 
   const handleLogout = async () => {
     await signOut();
@@ -227,17 +248,24 @@ export const Profile: React.FC = () => {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Settings</DialogTitle>
+              <DialogDescription className="sr-only">
+                Change theme and notification preferences.
+              </DialogDescription>
             </DialogHeader>
             <div className="space-y-6 py-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <Sun className="w-5 h-5 text-muted-foreground" />
+                  {isDark ? (
+                    <Moon className="w-5 h-5 text-muted-foreground" />
+                  ) : (
+                    <Sun className="w-5 h-5 text-muted-foreground" />
+                  )}
                   <div>
                     <p className="font-medium text-foreground">Dark Mode</p>
                     <p className="text-xs text-muted-foreground">Toggle dark/light theme</p>
                   </div>
                 </div>
-                <Switch />
+                <Switch checked={isDark} onCheckedChange={(checked) => setTheme(checked ? 'dark' : 'light')} />
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -247,7 +275,7 @@ export const Profile: React.FC = () => {
                     <p className="text-xs text-muted-foreground">Daily reminder alerts</p>
                   </div>
                 </div>
-                <Switch defaultChecked />
+                <Switch checked={notificationsEnabled} onCheckedChange={setNotificationsEnabled} />
               </div>
             </div>
           </DialogContent>
@@ -258,6 +286,7 @@ export const Profile: React.FC = () => {
           <DialogContent className="sm:max-w-md">
             <DialogHeader>
               <DialogTitle>Edit Profile</DialogTitle>
+              <DialogDescription className="sr-only">Update your name and preferences.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
