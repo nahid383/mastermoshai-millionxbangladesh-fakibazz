@@ -4,6 +4,7 @@ import { Header } from '@/components/Header';
 import { ProgressRing } from '@/components/ProgressRing';
 import { SubjectCard } from '@/components/SubjectCard';
 import { StatsCard } from '@/components/StatsCard';
+import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { subjects } from '@/lib/data';
@@ -24,6 +25,7 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
+      <PWAInstallBanner />
       
       <main className="container max-w-4xl mx-auto px-4 py-6">
         {/* Greeting */}
