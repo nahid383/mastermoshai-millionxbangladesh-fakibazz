@@ -14,6 +14,7 @@ import { Progress } from "./pages/Progress";
 import { Profile } from "./pages/Profile";
 import { Team } from "./pages/Team";
 import { Auth } from "./pages/Auth";
+import { Install } from "./pages/Install";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -93,6 +94,7 @@ const AppRoutes = () => {
       <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="/team" element={<Team />} />
+      <Route path="/install" element={<Install />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
