@@ -35,10 +35,10 @@ export const Onboarding: React.FC = () => {
           {step === 'welcome' && (
             <div className="text-center animate-fade-in">
               <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-5xl shadow-glow animate-float">
-                📚
+                🎓
               </div>
               <h1 className="text-3xl font-bold mb-3">
-                <span className="gradient-text">শিক্ষাসঙ্গী</span>
+                <span className="gradient-text">Master-Moshai</span>
               </h1>
               <p className="text-lg text-foreground/80 mb-2">
                 Your AI Learning Companion
@@ -56,7 +56,7 @@ export const Onboarding: React.FC = () => {
                 <ChevronRight className="w-5 h-5" />
               </Button>
               <p className="text-xs text-muted-foreground mt-6">
-                🇧🇩 Made for Bangladeshi students
+                🇧🇩 Made by Team Fakibazz
               </p>
             </div>
           )}
