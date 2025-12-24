@@ -23,16 +23,26 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // Check if already installed
-    const installed = window.matchMedia('(display-mode: standalone)').matches;
-    setIsInstalled(installed);
+    // Check if running in standalone mode
+    const checkInstalled = () => window.matchMedia('(display-mode: standalone)').matches;
+    setIsInstalled(checkInstalled());
 
-    if (installed) return;
+    // Listen for display mode changes (install/uninstall)
+    const mediaQuery = window.matchMedia('(display-mode: standalone)');
+    const handleDisplayModeChange = (e: MediaQueryListEvent) => {
+      setIsInstalled(e.matches);
+      if (!e.matches) {
+        // App was uninstalled, reset state
+        setDeferredPrompt(null);
+      }
+    };
+    mediaQuery.addEventListener('change', handleDisplayModeChange);
 
     // Listen for install prompt (Android/Chrome)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
+      setIsInstalled(false); // If we get this event, app is not installed
       
       // Show banner if not dismissed this session
       const wasDismissed = sessionStorage.getItem('pwa-banner-dismissed-session');
@@ -46,13 +56,14 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // Show banner after a short delay for iOS/other browsers
     const timer = setTimeout(() => {
       const wasDismissed = sessionStorage.getItem('pwa-banner-dismissed-session');
-      if (!window.matchMedia('(display-mode: standalone)').matches && !wasDismissed) {
+      if (!checkInstalled() && !wasDismissed) {
         setShowBanner(true);
       }
     }, 500);
 
     return () => {
       clearTimeout(timer);
+      mediaQuery.removeEventListener('change', handleDisplayModeChange);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
