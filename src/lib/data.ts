@@ -345,6 +345,7 @@ export const subjects: Subject[] = [...sscSubjects, ...hscSubjects];
 
 // Sample Notes for Learning Section
 export const sampleNotes: Note[] = [
+  // SSC Notes
   {
     id: 'note-1',
     topicId: 'cell',
@@ -462,6 +463,491 @@ For every action, there is an equal and opposite reaction.
 - Momentum: p = mv`,
     xpReward: 30,
     readTime: 6,
+  },
+  {
+    id: 'note-4',
+    topicId: 'organic',
+    subjectId: 'chemistry',
+    title: 'Introduction to Organic Chemistry',
+    titleBn: 'জৈব রসায়নের পরিচিতি',
+    content: `# Organic Chemistry
+
+Organic chemistry is the study of carbon compounds.
+
+## Why Carbon?
+- Can form 4 bonds
+- Can form chains and rings
+- Creates diverse molecules
+
+## Basic Functional Groups:
+- **Alkanes**: Single bonds only (CH₄)
+- **Alkenes**: Double bonds (C₂H₄)
+- **Alkynes**: Triple bonds (C₂H₂)
+- **Alcohols**: -OH group
+- **Aldehydes**: -CHO group`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-5',
+    topicId: 'grammar',
+    subjectId: 'english',
+    title: 'Parts of Speech',
+    titleBn: 'পদ প্রকরণ',
+    content: `# Parts of Speech
+
+## 8 Parts of Speech:
+1. **Noun**: Names (dog, city, happiness)
+2. **Pronoun**: Replaces nouns (he, she, it)
+3. **Verb**: Action or state (run, is, think)
+4. **Adjective**: Describes nouns (big, beautiful)
+5. **Adverb**: Describes verbs (quickly, very)
+6. **Preposition**: Shows relationships (in, on, at)
+7. **Conjunction**: Connects words (and, but, or)
+8. **Interjection**: Expresses emotion (wow, oh!)`,
+    xpReward: 20,
+    readTime: 4,
+  },
+  {
+    id: 'note-6',
+    topicId: 'sahitya',
+    subjectId: 'bangla',
+    title: 'বাংলা সাহিত্যের যুগ বিভাগ',
+    titleBn: 'বাংলা সাহিত্যের যুগ বিভাগ',
+    content: `# বাংলা সাহিত্যের যুগ বিভাগ
+
+## প্রাচীন যুগ (৯৫০-১২০০)
+- চর্যাপদ
+- বৌদ্ধ সাহিত্য
+
+## মধ্যযুগ (১২০০-১৮০০)
+- মঙ্গলকাব্য
+- বৈষ্ণব পদাবলী
+- রোমান্টিক প্রণয়কাব্য
+
+## আধুনিক যুগ (১৮০০-বর্তমান)
+- রবীন্দ্রনাথ ঠাকুর
+- কাজী নজরুল ইসলাম
+- জীবনানন্দ দাশ`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  // HSC Notes - Physics 1st Paper
+  {
+    id: 'note-hsc-phy1-1',
+    topicId: 'vectors',
+    subjectId: 'physics-1',
+    title: 'Vectors and Scalars',
+    titleBn: 'ভেক্টর ও স্কেলার',
+    content: `# Vectors and Scalars
+
+## Scalar Quantities
+- Only magnitude, no direction
+- Examples: mass, time, temperature, speed
+
+## Vector Quantities
+- Both magnitude and direction
+- Examples: displacement, velocity, force, acceleration
+
+## Vector Operations:
+- **Addition**: Triangle/Parallelogram law
+- **Subtraction**: Add negative vector
+- **Dot Product**: A·B = |A||B|cosθ
+- **Cross Product**: A×B = |A||B|sinθ n̂`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-hsc-phy1-2',
+    topicId: 'dynamics',
+    subjectId: 'physics-1',
+    title: 'Dynamics and Motion',
+    titleBn: 'গতিবিদ্যা',
+    content: `# Dynamics
+
+## Key Concepts:
+- **Inertia**: Resistance to change in motion
+- **Momentum**: p = mv
+- **Impulse**: J = FΔt = Δp
+
+## Conservation Laws:
+- Conservation of Momentum
+- Conservation of Energy
+
+## Friction:
+- Static friction: fs ≤ μsN
+- Kinetic friction: fk = μkN`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Physics 2nd Paper
+  {
+    id: 'note-hsc-phy2-1',
+    topicId: 'electricity-hsc',
+    subjectId: 'physics-2',
+    title: 'Electric Current and Circuits',
+    titleBn: 'তড়িৎ প্রবাহ ও বর্তনী',
+    content: `# Electric Current
+
+## Ohm's Law
+V = IR
+
+## Kirchhoff's Laws:
+1. **Junction Rule**: ΣI = 0
+2. **Loop Rule**: ΣV = 0
+
+## Resistors:
+- Series: R_total = R1 + R2 + R3
+- Parallel: 1/R_total = 1/R1 + 1/R2 + 1/R3`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-phy2-2',
+    topicId: 'modern-physics',
+    subjectId: 'physics-2',
+    title: 'Modern Physics',
+    titleBn: 'আধুনিক পদার্থবিজ্ঞান',
+    content: `# Modern Physics
+
+## Photoelectric Effect
+E = hf - φ
+
+## de Broglie Wavelength
+λ = h/p = h/mv
+
+## Bohr's Atomic Model
+- Electrons in discrete orbits
+- Energy levels: En = -13.6/n² eV`,
+    xpReward: 35,
+    readTime: 7,
+  },
+  // HSC Notes - Chemistry 1st Paper
+  {
+    id: 'note-hsc-chem1-1',
+    topicId: 'atomic-structure',
+    subjectId: 'chemistry-1',
+    title: 'Atomic Structure',
+    titleBn: 'পরমাণুর গঠন',
+    content: `# Atomic Structure
+
+## Subatomic Particles:
+- **Proton**: +1 charge, in nucleus
+- **Neutron**: 0 charge, in nucleus
+- **Electron**: -1 charge, in orbitals
+
+## Quantum Numbers:
+1. Principal (n): Energy level
+2. Azimuthal (l): Orbital shape
+3. Magnetic (m): Orbital orientation
+4. Spin (s): Electron spin`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-hsc-chem1-2',
+    topicId: 'chemical-bonding',
+    subjectId: 'chemistry-1',
+    title: 'Chemical Bonding',
+    titleBn: 'রাসায়নিক বন্ধন',
+    content: `# Chemical Bonding
+
+## Types of Bonds:
+1. **Ionic**: Transfer of electrons
+2. **Covalent**: Sharing of electrons
+3. **Metallic**: Sea of electrons
+
+## Hybridization:
+- sp: Linear (180°)
+- sp²: Trigonal planar (120°)
+- sp³: Tetrahedral (109.5°)`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Chemistry 2nd Paper
+  {
+    id: 'note-hsc-chem2-1',
+    topicId: 'organic-hsc',
+    subjectId: 'chemistry-2',
+    title: 'Organic Reactions',
+    titleBn: 'জৈব বিক্রিয়া',
+    content: `# Organic Reactions
+
+## Reaction Types:
+1. **Substitution**: One atom replaces another
+2. **Addition**: Atoms added to double bond
+3. **Elimination**: Atoms removed, double bond forms
+4. **Oxidation/Reduction**: Electron transfer
+
+## Named Reactions:
+- Wurtz reaction
+- Friedel-Crafts reaction
+- Aldol condensation`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Biology 1st Paper
+  {
+    id: 'note-hsc-bio1-1',
+    topicId: 'cell-hsc',
+    subjectId: 'biology-1',
+    title: 'Cell Division',
+    titleBn: 'কোষ বিভাজন',
+    content: `# Cell Division
+
+## Mitosis
+- Produces 2 identical cells
+- Phases: Prophase, Metaphase, Anaphase, Telophase
+- For growth and repair
+
+## Meiosis
+- Produces 4 haploid cells
+- Two divisions: Meiosis I and II
+- For gamete production
+- Crossing over occurs`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-bio1-2',
+    topicId: 'plant-physiology',
+    subjectId: 'biology-1',
+    title: 'Photosynthesis',
+    titleBn: 'সালোকসংশ্লেষণ',
+    content: `# Photosynthesis
+
+## Equation:
+6CO₂ + 6H₂O → C₆H₁₂O₆ + 6O₂
+
+## Light Reactions:
+- Occur in thylakoids
+- Produce ATP and NADPH
+
+## Dark Reactions (Calvin Cycle):
+- Occur in stroma
+- Fix CO₂ into glucose`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Biology 2nd Paper
+  {
+    id: 'note-hsc-bio2-1',
+    topicId: 'genetics-hsc',
+    subjectId: 'biology-2',
+    title: 'Mendelian Genetics',
+    titleBn: 'মেন্ডেলীয় বংশগতি',
+    content: `# Mendelian Genetics
+
+## Mendel's Laws:
+1. **Law of Segregation**: Alleles separate during gamete formation
+2. **Law of Independent Assortment**: Genes for different traits assort independently
+
+## Key Terms:
+- Genotype: Genetic makeup (AA, Aa, aa)
+- Phenotype: Physical expression
+- Dominant vs Recessive`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-bio2-2',
+    topicId: 'human-physiology-hsc',
+    subjectId: 'biology-2',
+    title: 'Nervous System',
+    titleBn: 'স্নায়ুতন্ত্র',
+    content: `# Nervous System
+
+## Divisions:
+1. **Central Nervous System**: Brain + Spinal cord
+2. **Peripheral Nervous System**: Nerves
+
+## Neuron Structure:
+- Dendrites: Receive signals
+- Cell body: Contains nucleus
+- Axon: Transmits signals
+
+## Synapse:
+- Gap between neurons
+- Neurotransmitters cross the gap`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Higher Math 1st Paper
+  {
+    id: 'note-hsc-math1-1',
+    topicId: 'matrices',
+    subjectId: 'higher-math-1',
+    title: 'Matrices and Determinants',
+    titleBn: 'ম্যাট্রিক্স ও নির্ণায়ক',
+    content: `# Matrices
+
+## Types:
+- Row matrix, Column matrix
+- Square matrix, Identity matrix
+- Symmetric, Skew-symmetric
+
+## Operations:
+- Addition: A + B
+- Multiplication: A × B
+- Transpose: Aᵀ
+- Inverse: A⁻¹
+
+## Determinant:
+For 2×2 matrix: |A| = ad - bc`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-math1-2',
+    topicId: 'complex-numbers',
+    subjectId: 'higher-math-1',
+    title: 'Complex Numbers',
+    titleBn: 'জটিল সংখ্যা',
+    content: `# Complex Numbers
+
+## Form: z = a + bi
+Where i = √(-1)
+
+## Operations:
+- Addition: (a+bi) + (c+di) = (a+c) + (b+d)i
+- Multiplication: (a+bi)(c+di) = (ac-bd) + (ad+bc)i
+
+## Polar Form:
+z = r(cosθ + isinθ) = re^(iθ)`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - Higher Math 2nd Paper
+  {
+    id: 'note-hsc-math2-1',
+    topicId: 'calculus',
+    subjectId: 'higher-math-2',
+    title: 'Differentiation',
+    titleBn: 'অন্তরীকরণ',
+    content: `# Differentiation
+
+## Basic Rules:
+- Power rule: d/dx(xⁿ) = nxⁿ⁻¹
+- Product rule: (uv)' = u'v + uv'
+- Quotient rule: (u/v)' = (u'v - uv')/v²
+- Chain rule: dy/dx = dy/du × du/dx
+
+## Applications:
+- Finding slopes
+- Maximum/Minimum values
+- Rate of change`,
+    xpReward: 35,
+    readTime: 7,
+  },
+  {
+    id: 'note-hsc-math2-2',
+    topicId: 'integration',
+    subjectId: 'higher-math-2',
+    title: 'Integration',
+    titleBn: 'সমাকলন',
+    content: `# Integration
+
+## Basic Rules:
+- ∫xⁿ dx = xⁿ⁺¹/(n+1) + C
+- ∫eˣ dx = eˣ + C
+- ∫1/x dx = ln|x| + C
+
+## Methods:
+- Substitution
+- Integration by parts
+- Partial fractions
+
+## Applications:
+- Area under curves
+- Volume of revolution`,
+    xpReward: 35,
+    readTime: 7,
+  },
+  // HSC Notes - ICT
+  {
+    id: 'note-hsc-ict-1',
+    topicId: 'number-system',
+    subjectId: 'ict',
+    title: 'Number Systems',
+    titleBn: 'সংখ্যা পদ্ধতি',
+    content: `# Number Systems
+
+## Types:
+1. **Binary (Base 2)**: 0, 1
+2. **Octal (Base 8)**: 0-7
+3. **Decimal (Base 10)**: 0-9
+4. **Hexadecimal (Base 16)**: 0-9, A-F
+
+## Conversions:
+- Binary to Decimal: Multiply by powers of 2
+- Decimal to Binary: Divide by 2, collect remainders`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-hsc-ict-2',
+    topicId: 'programming',
+    subjectId: 'ict',
+    title: 'Programming Basics',
+    titleBn: 'প্রোগ্রামিং বেসিক',
+    content: `# Programming Basics
+
+## Key Concepts:
+- Variables: Store data
+- Data types: int, float, string, boolean
+- Operators: +, -, *, /, %
+
+## Control Structures:
+- if-else: Decision making
+- for loop: Known iterations
+- while loop: Unknown iterations
+
+## Functions:
+- Reusable code blocks
+- Parameters and return values`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  // HSC Notes - English
+  {
+    id: 'note-hsc-eng-1',
+    topicId: 'grammar-hsc',
+    subjectId: 'english-hsc',
+    title: 'Advanced Grammar',
+    titleBn: 'উন্নত ব্যাকরণ',
+    content: `# Advanced Grammar
+
+## Sentence Transformation:
+- Active to Passive voice
+- Direct to Indirect speech
+- Affirmative to Negative
+
+## Complex Sentences:
+- Noun clauses
+- Adjective clauses
+- Adverb clauses`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  // HSC Notes - Bangla
+  {
+    id: 'note-hsc-bng-1',
+    topicId: 'sahitya-hsc',
+    subjectId: 'bangla-hsc',
+    title: 'বাংলা সাহিত্যের ইতিহাস',
+    titleBn: 'বাংলা সাহিত্যের ইতিহাস',
+    content: `# বাংলা সাহিত্যের ইতিহাস
+
+## আধুনিক যুগের প্রধান সাহিত্যিক:
+- রবীন্দ্রনাথ ঠাকুর: গীতাঞ্জলি, গোরা
+- কাজী নজরুল ইসলাম: বিদ্রোহী, অগ্নিবীণা
+- জীবনানন্দ দাশ: বনলতা সেন
+- মানিক বন্দ্যোপাধ্যায়: পদ্মা নদীর মাঝি
+
+## সাহিত্যের বিভিন্ন রূপ:
+- কবিতা, গল্প, উপন্যাস, নাটক`,
+    xpReward: 25,
+    readTime: 5,
   },
 ];
 
