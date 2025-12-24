@@ -2,11 +2,16 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, CheckCircle, ArrowLeft, Share, ExternalLink } from 'lucide-react';
+import { Download, Smartphone, CheckCircle, ArrowLeft, Share, ExternalLink, Copy, Link } from 'lucide-react';
 import { usePWA } from '@/context/PWAContext';
+import { useToast } from '@/hooks/use-toast';
+
+// Direct app install link (published URL)
+const APP_URL = 'https://9a8aa4c7-a5fb-450a-bee2-0aa98d5ae7bc.lovableproject.com';
 
 export const Install: React.FC = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const { deferredPrompt, triggerInstall } = usePWA();
 
   const isRunningStandalone =
@@ -24,6 +29,15 @@ export const Install: React.FC = () => {
       return true;
     }
   })();
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(APP_URL);
+      toast({ title: 'Link copied!', description: 'Open this link in Chrome or Edge to install.' });
+    } catch {
+      toast({ title: 'Copy failed', description: APP_URL, variant: 'destructive' });
+    }
+  };
 
   const handleOpenInBrowser = () => {
     window.open(window.location.href, '_blank', 'noopener,noreferrer');
@@ -49,6 +63,27 @@ export const Install: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Direct Install Link - Always visible */}
+          <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 space-y-3">
+            <div className="flex items-center gap-2 text-primary font-medium">
+              <Link className="w-4 h-4" />
+              <span>Direct Install Link</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Open this link in <strong>Chrome</strong> or <strong>Edge</strong> browser, then tap "Install" from the menu.
+            </p>
+            <div className="flex gap-2">
+              <Button onClick={handleCopyLink} variant="outline" className="flex-1">
+                <Copy className="w-4 h-4 mr-2" />
+                Copy Link
+              </Button>
+              <Button onClick={() => window.open(APP_URL, '_blank')} className="flex-1">
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Open Link
+              </Button>
+            </div>
+          </div>
+
           {isRunningStandalone ? (
             <div className="text-center space-y-4">
               <div className="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -57,15 +92,9 @@ export const Install: React.FC = () => {
               <p className="text-muted-foreground">
                 App is already installed! Open it from your home screen.
               </p>
-              <div className="space-y-2">
-                <Button onClick={() => navigate('/dashboard')} className="w-full">
-                  Go to Dashboard
-                </Button>
-                <Button variant="outline" onClick={handleOpenInBrowser} className="w-full">
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Open in Browser
-                </Button>
-              </div>
+              <Button onClick={() => navigate('/dashboard')} className="w-full">
+                Go to Dashboard
+              </Button>
             </div>
           ) : isIOS ? (
             <div className="space-y-4">
@@ -121,23 +150,9 @@ export const Install: React.FC = () => {
             </div>
           ) : (
             <div className="text-center space-y-4">
-              {isEmbedded ? (
-                <>
-                  <p className="text-muted-foreground text-sm">
-                    You're viewing the app inside the preview. Android Chrome won't show the install prompt here.
-                    Open it in a normal browser tab first.
-                  </p>
-                  <Button onClick={handleOpenInBrowser} className="w-full" size="lg">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Open in Browser
-                  </Button>
-                </>
-              ) : (
-                <p className="text-muted-foreground text-sm">
-                  If you don't see an Install button, open the browser menu (⋮) and choose
-                  "Install app" or "Add to Home screen".
-                </p>
-              )}
+              <p className="text-muted-foreground text-sm">
+                Use the link above to open the app in your browser, then install from the browser menu (⋮ → Install app).
+              </p>
               <Button variant="outline" onClick={() => navigate(-1)} className="w-full">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Go Back
