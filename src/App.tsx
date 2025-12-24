@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { StudentProvider, useStudent } from "./context/StudentContext";
+import { PWAProvider } from "./context/PWAContext";
 import { useAuth } from "./hooks/useAuth";
 import { Onboarding } from "./pages/Onboarding";
 import { Dashboard } from "./pages/Dashboard";
@@ -103,11 +104,13 @@ const App = () => (
     <ThemeProvider>
       <TooltipProvider>
         <StudentProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <AppContent />
-          </BrowserRouter>
+          <PWAProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <AppContent />
+            </BrowserRouter>
+          </PWAProvider>
         </StudentProvider>
       </TooltipProvider>
     </ThemeProvider>

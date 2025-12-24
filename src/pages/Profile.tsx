@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
+import { usePWA } from '@/context/PWAContext';
 import { useAuth } from '@/hooks/useAuth';
 import { badges as allBadges } from '@/lib/data';
 import {
@@ -22,6 +23,7 @@ import {
   School,
   Calendar,
   Target,
+  Download,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -37,6 +39,55 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from 'next-themes';
 import { Separator } from '@/components/ui/separator';
+
+const InstallAppButton: React.FC = () => {
+  const navigate = useNavigate();
+  const { deferredPrompt, triggerInstall, isInstalled, setShowBanner } = usePWA();
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      const success = await triggerInstall();
+      if (!success) {
+        // User declined, show banner again
+        setShowBanner(true);
+      }
+    } else {
+      // iOS or no prompt available - go to install page
+      navigate('/install');
+    }
+  };
+
+  if (isInstalled) {
+    return (
+      <div className="flex items-center justify-between opacity-50">
+        <div className="flex items-center gap-3">
+          <Download className="w-5 h-5 text-muted-foreground" />
+          <div>
+            <p className="font-medium text-foreground">App Installed</p>
+            <p className="text-xs text-muted-foreground">Already added to home screen</p>
+          </div>
+        </div>
+        <Check className="w-5 h-5 text-primary" />
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={handleInstallClick}
+      className="w-full flex items-center justify-between hover:bg-muted/50 -mx-2 px-2 py-2 rounded-lg transition-colors"
+    >
+      <div className="flex items-center gap-3">
+        <Download className="w-5 h-5 text-primary" />
+        <div className="text-left">
+          <p className="font-medium text-foreground">Install App</p>
+          <p className="text-xs text-muted-foreground">Add to home screen for quick access</p>
+        </div>
+      </div>
+      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+    </button>
+  );
+};
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -286,6 +337,7 @@ export const Profile: React.FC = () => {
                 </div>
                 <Switch checked={notificationsEnabled} onCheckedChange={setNotificationsEnabled} />
               </div>
+              <InstallAppButton />
             </div>
           </DialogContent>
         </Dialog>
