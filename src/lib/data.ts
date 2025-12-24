@@ -62,6 +62,12 @@ export interface StudentProfile {
   dailyProgress: number;
   badges: Badge[];
   readNotes?: string[]; // IDs of notes the user has read
+  // Admission fields
+  institution?: string;
+  admissionYear?: string;
+  targetUniversity?: string;
+  targetDepartment?: string;
+  examDate?: string;
 }
 
 export interface Badge {

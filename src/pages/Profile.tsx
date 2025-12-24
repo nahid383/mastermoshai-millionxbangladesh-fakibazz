@@ -19,6 +19,9 @@ import {
   Sun,
   Check,
   Users,
+  School,
+  Calendar,
+  Target,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -33,6 +36,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from 'next-themes';
+import { Separator } from '@/components/ui/separator';
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -49,6 +53,13 @@ export const Profile: React.FC = () => {
   const [editName, setEditName] = useState(profile.name);
   const [editLevel, setEditLevel] = useState(profile.level);
   const [editMedium, setEditMedium] = useState(profile.medium);
+  
+  // Admission fields
+  const [editInstitution, setEditInstitution] = useState(profile.institution || '');
+  const [editAdmissionYear, setEditAdmissionYear] = useState(profile.admissionYear || '');
+  const [editTargetUniversity, setEditTargetUniversity] = useState(profile.targetUniversity || '');
+  const [editTargetDepartment, setEditTargetDepartment] = useState(profile.targetDepartment || '');
+  const [editExamDate, setEditExamDate] = useState(profile.examDate || '');
 
   const [notificationsEnabled, setNotificationsEnabled] = useState(() => {
     const saved = localStorage.getItem('notificationsEnabled');
@@ -64,7 +75,12 @@ export const Profile: React.FC = () => {
     setEditName(profile.name);
     setEditLevel(profile.level);
     setEditMedium(profile.medium);
-  }, [editProfileOpen, profile.name, profile.level, profile.medium]);
+    setEditInstitution(profile.institution || '');
+    setEditAdmissionYear(profile.admissionYear || '');
+    setEditTargetUniversity(profile.targetUniversity || '');
+    setEditTargetDepartment(profile.targetDepartment || '');
+    setEditExamDate(profile.examDate || '');
+  }, [editProfileOpen, profile]);
 
   const handleLogout = async () => {
     await signOut();
@@ -89,6 +105,11 @@ export const Profile: React.FC = () => {
       name: editName,
       level: editLevel,
       medium: editMedium,
+      institution: editInstitution,
+      admissionYear: editAdmissionYear,
+      targetUniversity: editTargetUniversity,
+      targetDepartment: editTargetDepartment,
+      examDate: editExamDate,
     });
     setEditProfileOpen(false);
     toast({ title: 'Profile updated', description: 'Your changes have been saved.' });
@@ -283,24 +304,24 @@ export const Profile: React.FC = () => {
 
         {/* Edit Profile Dialog */}
         <Dialog open={editProfileOpen} onOpenChange={setEditProfileOpen}>
-          <DialogContent className="sm:max-w-md">
+          <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Edit Profile</DialogTitle>
+              <DialogTitle>{useBangla ? 'প্রোফাইল সম্পাদনা' : 'Edit Profile'}</DialogTitle>
               <DialogDescription className="sr-only">Update your name and preferences.</DialogDescription>
             </DialogHeader>
             <div className="space-y-4 py-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name</Label>
+                <Label htmlFor="name">{useBangla ? 'নাম' : 'Name'}</Label>
                 <Input 
                   id="name" 
                   value={editName} 
                   onChange={(e) => setEditName(e.target.value)}
-                  placeholder="Enter your name"
+                  placeholder={useBangla ? 'আপনার নাম লিখুন' : 'Enter your name'}
                 />
               </div>
               
               <div className="space-y-2">
-                <Label>Level</Label>
+                <Label>{useBangla ? 'স্তর' : 'Level'}</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {['ssc', 'hsc'].map((level) => (
                     <button
@@ -321,7 +342,7 @@ export const Profile: React.FC = () => {
               </div>
 
               <div className="space-y-2">
-                <Label>Medium</Label>
+                <Label>{useBangla ? 'মাধ্যম' : 'Medium'}</Label>
                 <div className="grid grid-cols-2 gap-2">
                   {[
                     { value: 'english', label: 'English' },
@@ -344,8 +365,68 @@ export const Profile: React.FC = () => {
                 </div>
               </div>
 
+              <Separator className="my-4" />
+              
+              {/* Admission Section */}
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 text-primary">
+                  <School className="w-5 h-5" />
+                  <h3 className="font-semibold">{useBangla ? 'ভর্তি তথ্য' : 'Admission Info'}</h3>
+                </div>
+                
+                <div className="space-y-2">
+                  <Label htmlFor="institution">{useBangla ? 'প্রতিষ্ঠানের নাম' : 'Institution Name'}</Label>
+                  <Input 
+                    id="institution" 
+                    value={editInstitution} 
+                    onChange={(e) => setEditInstitution(e.target.value)}
+                    placeholder={useBangla ? 'স্কুল/কলেজের নাম' : 'School/College name'}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="admissionYear">{useBangla ? 'ভর্তির বছর' : 'Admission Year'}</Label>
+                  <Input 
+                    id="admissionYear" 
+                    value={editAdmissionYear} 
+                    onChange={(e) => setEditAdmissionYear(e.target.value)}
+                    placeholder={useBangla ? 'যেমন: 2024' : 'e.g., 2024'}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="targetUniversity">{useBangla ? 'লক্ষ্য বিশ্ববিদ্যালয়' : 'Target University'}</Label>
+                  <Input 
+                    id="targetUniversity" 
+                    value={editTargetUniversity} 
+                    onChange={(e) => setEditTargetUniversity(e.target.value)}
+                    placeholder={useBangla ? 'যেমন: ঢাকা বিশ্ববিদ্যালয়' : 'e.g., Dhaka University'}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="targetDepartment">{useBangla ? 'লক্ষ্য বিভাগ' : 'Target Department'}</Label>
+                  <Input 
+                    id="targetDepartment" 
+                    value={editTargetDepartment} 
+                    onChange={(e) => setEditTargetDepartment(e.target.value)}
+                    placeholder={useBangla ? 'যেমন: কম্পিউটার সায়েন্স' : 'e.g., Computer Science'}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="examDate">{useBangla ? 'পরীক্ষার তারিখ' : 'Exam Date'}</Label>
+                  <Input 
+                    id="examDate" 
+                    type="date"
+                    value={editExamDate} 
+                    onChange={(e) => setEditExamDate(e.target.value)}
+                  />
+                </div>
+              </div>
+
               <Button onClick={handleSaveProfile} className="w-full mt-4">
-                Save Changes
+                {useBangla ? 'পরিবর্তন সংরক্ষণ করুন' : 'Save Changes'}
               </Button>
             </div>
           </DialogContent>
