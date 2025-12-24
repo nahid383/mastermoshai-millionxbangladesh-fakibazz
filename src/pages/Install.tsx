@@ -149,10 +149,24 @@ export const Install: React.FC = () => {
               </Button>
             </div>
           ) : (
-            <div className="text-center space-y-4">
-              <p className="text-muted-foreground text-sm">
-                Use the link above to open the app in your browser, then install from the browser menu (⋮ → Install app).
-              </p>
+            <div className="space-y-4">
+              <div className="bg-muted rounded-lg p-4 space-y-3">
+                <p className="font-medium text-sm">To install on Android/Desktop:</p>
+                <ol className="text-sm text-muted-foreground space-y-2">
+                  <li className="flex items-start gap-2">
+                    <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs shrink-0">1</span>
+                    <span>Use the <strong>"Copy Link"</strong> or <strong>"Open Link"</strong> button above</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs shrink-0">2</span>
+                    <span>Open in <strong>Chrome</strong> or <strong>Edge</strong> browser</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs shrink-0">3</span>
+                    <span>Tap the menu (⋮) and select <strong>"Install app"</strong></span>
+                  </li>
+                </ol>
+              </div>
               <Button variant="outline" onClick={() => navigate(-1)} className="w-full">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Go Back
