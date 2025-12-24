@@ -23,7 +23,7 @@ export const PWAInstallBanner: React.FC = () => {
       return;
     }
 
-    // Listen for install prompt
+    // Listen for install prompt (Android/Chrome)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
@@ -32,17 +32,16 @@ export const PWAInstallBanner: React.FC = () => {
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
-    // Show banner for iOS users after a delay
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-    if (isIOS) {
-      const timer = setTimeout(() => setShowBanner(true), 2000);
-      return () => {
-        clearTimeout(timer);
-        window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-      };
-    }
+    // Show banner after a short delay for all users who haven't installed
+    // This ensures the banner shows on iOS, desktop, and other browsers
+    const timer = setTimeout(() => {
+      if (!window.matchMedia('(display-mode: standalone)').matches) {
+        setShowBanner(true);
+      }
+    }, 1500);
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
