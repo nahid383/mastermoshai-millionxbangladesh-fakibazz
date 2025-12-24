@@ -21,71 +21,65 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const AppContent = () => {
   const { user, loading } = useAuth();
   const { isOnboarded } = useStudent();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-      </div>
-    );
-  }
-  
-  if (!user) {
-    return <Navigate to="/auth" replace />;
-  }
-  
-  if (!isOnboarded) {
-    return <Navigate to="/" replace />;
-  }
-  
-  return <>{children}</>;
-};
 
-const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, loading } = useAuth();
-  const { isOnboarded } = useStudent();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-      </div>
-    );
-  }
-  
-  if (user && isOnboarded) {
-    return <Navigate to="/dashboard" replace />;
-  }
-  
-  return <>{children}</>;
-};
+  const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        </div>
+      );
+    }
+    
+    if (!user) {
+      return <Navigate to="/auth" replace />;
+    }
+    
+    if (!isOnboarded) {
+      return <Navigate to="/" replace />;
+    }
+    
+    return <>{children}</>;
+  };
 
-const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, loading } = useAuth();
-  const { isOnboarded } = useStudent();
-  
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
-      </div>
-    );
-  }
-  
-  if (user) {
-    if (isOnboarded) {
+  const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        </div>
+      );
+    }
+    
+    if (user && isOnboarded) {
       return <Navigate to="/dashboard" replace />;
     }
-    return <Navigate to="/" replace />;
-  }
-  
-  return <>{children}</>;
-};
+    
+    return <>{children}</>;
+  };
 
-const AppRoutes = () => {
+  const AuthRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    if (loading) {
+      return (
+        <div className="min-h-screen bg-background flex items-center justify-center">
+          <div className="w-12 h-12 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        </div>
+      );
+    }
+    
+    if (user) {
+      if (isOnboarded) {
+        return <Navigate to="/dashboard" replace />;
+      }
+      return <Navigate to="/" replace />;
+    }
+    
+    return <>{children}</>;
+  };
+
   return (
     <Routes>
       <Route path="/" element={<PublicRoute><Onboarding /></PublicRoute>} />
@@ -112,7 +106,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <AppRoutes />
+            <AppContent />
           </BrowserRouter>
         </StudentProvider>
       </TooltipProvider>
