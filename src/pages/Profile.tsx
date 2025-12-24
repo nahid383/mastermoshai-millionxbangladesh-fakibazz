@@ -51,7 +51,6 @@ const InstallAppButton: React.FC = () => {
     if (deferredPrompt) {
       const success = await triggerInstall();
       if (!success) {
-        // User declined, show banner again
         setShowBanner(true);
       }
     } else {
@@ -59,22 +58,6 @@ const InstallAppButton: React.FC = () => {
       navigate('/install');
     }
   };
-
-  // Only show "installed" if actively running as standalone app
-  if (isRunningStandalone) {
-    return (
-      <div className="flex items-center justify-between opacity-50">
-        <div className="flex items-center gap-3">
-          <Download className="w-5 h-5 text-muted-foreground" />
-          <div>
-            <p className="font-medium text-foreground">App Installed</p>
-            <p className="text-xs text-muted-foreground">You're using the installed app</p>
-          </div>
-        </div>
-        <Check className="w-5 h-5 text-primary" />
-      </div>
-    );
-  }
 
   return (
     <button
@@ -84,8 +67,14 @@ const InstallAppButton: React.FC = () => {
       <div className="flex items-center gap-3">
         <Download className="w-5 h-5 text-primary" />
         <div className="text-left">
-          <p className="font-medium text-foreground">Install App</p>
-          <p className="text-xs text-muted-foreground">Add to home screen for quick access</p>
+          <p className="font-medium text-foreground">
+            {isRunningStandalone ? 'Reinstall App' : 'Install App'}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {isRunningStandalone 
+              ? 'View installation instructions' 
+              : 'Add to home screen for quick access'}
+          </p>
         </div>
       </div>
       <ChevronRight className="w-5 h-5 text-muted-foreground" />
