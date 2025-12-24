@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { StudentProvider, useStudent } from "./context/StudentContext";
 import { useAuth } from "./hooks/useAuth";
-import { PWAInstallBanner } from "./components/PWAInstallBanner";
 import { Onboarding } from "./pages/Onboarding";
 import { Dashboard } from "./pages/Dashboard";
 import { Subjects } from "./pages/Subjects";
@@ -107,7 +106,6 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <PWAInstallBanner />
             <AppContent />
           </BrowserRouter>
         </StudentProvider>
