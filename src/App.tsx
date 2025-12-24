@@ -23,7 +23,8 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const AppContent = () => {
+// Separate component that uses useStudent - must be inside StudentProvider
+const AppRoutes = () => {
   const { user, loading } = useAuth();
   const { isOnboarded } = useStudent();
 
@@ -105,15 +106,15 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
       <TooltipProvider>
-        <StudentProvider>
-          <PWAProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <AppContent />
-            </BrowserRouter>
-          </PWAProvider>
-        </StudentProvider>
+        <BrowserRouter>
+          <StudentProvider>
+            <PWAProvider>
+              <Toaster />
+              <Sonner />
+              <AppRoutes />
+            </PWAProvider>
+          </StudentProvider>
+        </BrowserRouter>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
