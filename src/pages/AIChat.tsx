@@ -33,7 +33,7 @@ export const AIChat: React.FC = () => {
       role: 'assistant',
       content: useBangla 
         ? 'আসসালামু আলাইকুম! আমি মাস্টার মশাই, আপনার AI শিক্ষা সঙ্গী। SSC, HSC বা ভর্তি পরীক্ষা সম্পর্কে যেকোনো প্রশ্ন করুন! 📚'
-        : 'Hello! I\'m Master Moshai, your AI learning companion. Ask me anything about SSC, HSC, or admission exams! 📚'
+        : 'Assalamu Alaikum! I\'m Master Moshai, your AI learning companion. Ask me anything about SSC, HSC, or admission exams! 📚'
     }]);
   }, [useBangla]);
 
