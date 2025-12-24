@@ -140,7 +140,11 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
           name: data.name ?? prev.name,
           level: coerceLevel(data.level ?? prev.level),
           medium: coerceMedium(data.medium ?? prev.medium),
-          institution: data.institution ?? prev.institution,
+          institution: (data as any).institution ?? prev.institution,
+          admissionYear: (data as any).admission_year ?? prev.admissionYear,
+          targetUniversity: (data as any).target_university ?? prev.targetUniversity,
+          targetDepartment: (data as any).target_department ?? prev.targetDepartment,
+          examDate: (data as any).exam_date ?? prev.examDate,
           streak: data.streak ?? 0,
           totalPoints: data.total_points ?? 0,
           questionsAnswered: data.questions_answered ?? 0,
@@ -184,6 +188,10 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
         strong_topics: profile.strongTopics,
         badges: serializeBadgesForDb(profile.badges),
         institution: profile.institution || (typeof meta?.institution === 'string' ? meta.institution : null),
+        admission_year: profile.admissionYear || null,
+        target_university: profile.targetUniversity || null,
+        target_department: profile.targetDepartment || null,
+        exam_date: profile.examDate || null,
         location: typeof meta?.location === 'string' ? meta.location : null,
       };
 
