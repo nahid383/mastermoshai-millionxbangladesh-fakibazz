@@ -8,7 +8,7 @@ import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { subjects } from '@/lib/data';
-import { Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen } from 'lucide-react';
+import { Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -117,6 +117,27 @@ export const Dashboard: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* AI Chat Card */}
+        <div className="glass-card rounded-2xl p-5 mb-6 animate-slide-up bg-gradient-to-br from-primary/10 to-accent/10" style={{ animationDelay: '250ms' }}>
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+              <Bot className="w-7 h-7 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground">
+                {useBangla ? 'মাস্টার মশাই AI' : 'Master Moshai AI'}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {useBangla ? 'যেকোনো প্রশ্নের উত্তর পান' : 'Ask any study question'}
+              </p>
+            </div>
+            <Button variant="hero" size="sm" onClick={() => navigate('/ai-chat')}>
+              <Sparkles className="w-4 h-4" />
+              {useBangla ? 'জিজ্ঞাসা করুন' : 'Ask AI'}
+            </Button>
+          </div>
+        </div>
 
         {/* Subjects */}
         <div className="mb-6">

@@ -1,11 +1,13 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QuizCard } from '@/components/QuizCard';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { subjects, sampleQuestions } from '@/lib/data';
-import { ArrowLeft, Trophy, RotateCcw, Home, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Trophy, RotateCcw, Home, CheckCircle2, Bot, Loader2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
 
 export const Quiz: React.FC = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
@@ -16,6 +18,8 @@ export const Quiz: React.FC = () => {
   const [score, setScore] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [answers, setAnswers] = useState<boolean[]>([]);
+  const [aiFeedback, setAiFeedback] = useState('');
+  const [loadingFeedback, setLoadingFeedback] = useState(false);
   
   const subject = subjects.find(s => s.id === subjectId);
   const useBangla = profile.medium === 'bangla';
@@ -24,10 +28,109 @@ export const Quiz: React.FC = () => {
     const subjectQuestions = sampleQuestions.filter(q => q.subjectId === subjectId);
     // If no subject-specific questions, show sample from all
     if (subjectQuestions.length === 0) {
-      return sampleQuestions.slice(0, 5);
+      return sampleQuestions.slice(0, 10);
     }
-    return subjectQuestions.slice(0, 5);
+    return subjectQuestions.slice(0, 10);
   }, [subjectId]);
+
+  // Get AI feedback when quiz completes
+  useEffect(() => {
+    if (isComplete && !aiFeedback && !loadingFeedback) {
+      fetchAIFeedback();
+    }
+  }, [isComplete]);
+
+  const fetchAIFeedback = async () => {
+    setLoadingFeedback(true);
+    try {
+      // Determine weak and strong topics based on answers
+      const topicResults: Record<string, { correct: number; total: number }> = {};
+      questions.forEach((q, i) => {
+        if (!topicResults[q.topicId]) {
+          topicResults[q.topicId] = { correct: 0, total: 0 };
+        }
+        topicResults[q.topicId].total++;
+        if (answers[i]) {
+          topicResults[q.topicId].correct++;
+        }
+      });
+
+      const weakTopics = Object.entries(topicResults)
+        .filter(([_, r]) => r.correct / r.total < 0.5)
+        .map(([topic]) => topic);
+      
+      const strongTopics = Object.entries(topicResults)
+        .filter(([_, r]) => r.correct / r.total >= 0.8)
+        .map(([topic]) => topic);
+
+      const response = await fetch(CHAT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+        },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: useBangla ? 'আমার কুইজের ফলাফল দেখে পরামর্শ দাও' : 'Give me feedback on my quiz results' }],
+          type: 'quiz-feedback',
+          quizResults: {
+            subject: subject?.name || subjectId,
+            score: answers.filter(Boolean).length,
+            total: questions.length,
+            weakTopics,
+            strongTopics,
+          }
+        }),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error('Failed to get AI feedback');
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let textBuffer = '';
+      let feedbackText = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        textBuffer += decoder.decode(value, { stream: true });
+
+        let newlineIndex: number;
+        while ((newlineIndex = textBuffer.indexOf('\n')) !== -1) {
+          let line = textBuffer.slice(0, newlineIndex);
+          textBuffer = textBuffer.slice(newlineIndex + 1);
+
+          if (line.endsWith('\r')) line = line.slice(0, -1);
+          if (line.startsWith(':') || line.trim() === '') continue;
+          if (!line.startsWith('data: ')) continue;
+
+          const jsonStr = line.slice(6).trim();
+          if (jsonStr === '[DONE]') break;
+
+          try {
+            const parsed = JSON.parse(jsonStr);
+            const content = parsed.choices?.[0]?.delta?.content as string | undefined;
+            if (content) {
+              feedbackText += content;
+              setAiFeedback(feedbackText);
+            }
+          } catch {
+            textBuffer = line + '\n' + textBuffer;
+            break;
+          }
+        }
+      }
+    } catch (error) {
+      console.error('AI feedback error:', error);
+      setAiFeedback(useBangla 
+        ? 'দুঃখিত, AI পরামর্শ লোড করতে সমস্যা হয়েছে।' 
+        : 'Sorry, could not load AI feedback.');
+    } finally {
+      setLoadingFeedback(false);
+    }
+  };
 
   const handleAnswer = (correct: boolean) => {
     const question = questions[currentIndex];
@@ -59,6 +162,7 @@ export const Quiz: React.FC = () => {
     setScore(0);
     setIsComplete(false);
     setAnswers([]);
+    setAiFeedback('');
   };
 
   if (!subject) {
@@ -148,7 +252,7 @@ export const Quiz: React.FC = () => {
             </p>
 
             {/* Score circle */}
-            <div className="glass-card rounded-2xl p-6 mb-8">
+            <div className="glass-card rounded-2xl p-6 mb-6">
               <div className="flex items-center justify-around">
                 <div className="text-center">
                   <p className="text-4xl font-bold gradient-text">{percentage}%</p>
@@ -163,7 +267,7 @@ export const Quiz: React.FC = () => {
             </div>
 
             {/* Answer summary */}
-            <div className="flex justify-center gap-2 mb-8">
+            <div className="flex justify-center gap-2 mb-6">
               {answers.map((correct, i) => (
                 <div
                   key={i}
@@ -175,6 +279,32 @@ export const Quiz: React.FC = () => {
                   {i + 1}
                 </div>
               ))}
+            </div>
+
+            {/* AI Feedback */}
+            <div className="glass-card rounded-2xl p-5 mb-6 text-left bg-gradient-to-br from-primary/5 to-accent/5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                  <Bot className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-foreground">
+                    {useBangla ? 'মাস্টার মশাই এর পরামর্শ' : 'Master Moshai\'s Advice'}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">AI-powered feedback</p>
+                </div>
+              </div>
+              
+              {loadingFeedback ? (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <span className="text-sm">{useBangla ? 'বিশ্লেষণ করা হচ্ছে...' : 'Analyzing your performance...'}</span>
+                </div>
+              ) : (
+                <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">
+                  {aiFeedback}
+                </p>
+              )}
             </div>
 
             {/* Actions */}
@@ -196,6 +326,16 @@ export const Quiz: React.FC = () => {
                 Dashboard
               </Button>
             </div>
+
+            {/* Ask AI More */}
+            <Button
+              variant="ghost"
+              className="w-full mt-4"
+              onClick={() => navigate('/ai-chat')}
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
+              {useBangla ? 'AI এর সাথে আরও আলোচনা করুন' : 'Discuss more with AI'}
+            </Button>
           </div>
         )}
       </main>

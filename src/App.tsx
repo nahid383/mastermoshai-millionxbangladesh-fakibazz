@@ -18,6 +18,7 @@ import { Auth } from "./pages/Auth";
 import { Install } from "./pages/Install";
 import { Learn } from "./pages/Learn";
 import { NoteReader } from "./pages/NoteReader";
+import { AIChat } from "./pages/AIChat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -92,6 +93,7 @@ const AppContent = () => {
       <Route path="/learn/:noteId" element={<ProtectedRoute><NoteReader /></ProtectedRoute>} />
       <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/ai-chat" element={<ProtectedRoute><AIChat /></ProtectedRoute>} />
       <Route path="/team" element={<Team />} />
       <Route path="/install" element={<Install />} />
       <Route path="*" element={<NotFound />} />
