@@ -293,7 +293,7 @@ export const Profile: React.FC = () => {
         <div className="text-center mt-8 text-xs text-muted-foreground">
           <p className="font-medium">Master-Moshai v1.0</p>
           <p className="mt-1">Made with ❤️ by Team Fakibazz</p>
-          <p className="mt-1">MillionX Bangladesh AI Buildathon 2024</p>
+          <p className="mt-1">MillionX Bangladesh AI Buildathon 2026</p>
         </div>
 
         {/* Settings Dialog */}
@@ -423,7 +423,7 @@ export const Profile: React.FC = () => {
                     id="admissionYear" 
                     value={editAdmissionYear} 
                     onChange={(e) => setEditAdmissionYear(e.target.value)}
-                    placeholder={useBangla ? 'যেমন: 2024' : 'e.g., 2024'}
+                    placeholder={useBangla ? 'যেমন: 2026' : 'e.g., 2026'}
                   />
                 </div>
 
