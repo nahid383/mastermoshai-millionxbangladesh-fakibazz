@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
@@ -16,7 +16,6 @@ export const NoteReader: React.FC = () => {
   const { profile, addPoints, updateProfile, recordAnswer, earnBadge } = useStudent();
   
   const [state, setState] = useState<ReadingState>('reading');
-  const [readProgress, setReadProgress] = useState(0);
   const [quizIndex, setQuizIndex] = useState(0);
   const [quizScore, setQuizScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -25,29 +24,13 @@ export const NoteReader: React.FC = () => {
   const note = sampleNotes.find(n => n.id === noteId);
   const useBangla = profile.medium === 'bangla';
   
-  // Get questions for the surprise test (from the note's topic)
+  // Get questions for the surprise test (from the note's topic) - at least 10 questions
   const quizQuestions = note 
-    ? sampleQuestions.filter(q => q.topicId === note.topicId).slice(0, 3)
+    ? sampleQuestions.filter(q => q.topicId === note.topicId).slice(0, 10)
     : [];
 
   const isNoteRead = profile.readNotes?.includes(noteId ?? '') ?? false;
 
-  // Simulate reading progress
-  useEffect(() => {
-    if (state !== 'reading' || !note) return;
-    
-    const interval = setInterval(() => {
-      setReadProgress(prev => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          return 100;
-        }
-        return prev + 2;
-      });
-    }, (note.readTime * 60 * 1000) / 50); // Complete in readTime minutes
-
-    return () => clearInterval(interval);
-  }, [state, note]);
 
   if (!note) {
     return (
@@ -172,15 +155,6 @@ export const NoteReader: React.FC = () => {
             </div>
           </div>
           
-          {/* Reading progress bar */}
-          {state === 'reading' && (
-            <div className="h-1 bg-muted -mx-4">
-              <div 
-                className="h-full bg-primary transition-all duration-300"
-                style={{ width: `${readProgress}%` }}
-              />
-            </div>
-          )}
         </div>
       </header>
 
@@ -194,25 +168,28 @@ export const NoteReader: React.FC = () => {
               </div>
             </div>
 
-            {/* Finish button */}
-            <div className="mt-8 pt-6 border-t border-border">
+            {/* Action buttons */}
+            <div className="mt-8 pt-6 border-t border-border space-y-3">
+              {quizQuestions.length > 0 && (
+                <Button
+                  variant="hero"
+                  size="lg"
+                  onClick={() => setState('quiz-prompt')}
+                  className="w-full"
+                >
+                  <Sparkles className="w-5 h-5 mr-2" />
+                  {useBangla ? 'কুইজ শুরু করুন' : 'Start Quiz'}
+                </Button>
+              )}
               <Button
-                variant="hero"
+                variant={quizQuestions.length > 0 ? "outline" : "hero"}
                 size="lg"
                 onClick={handleFinishReading}
                 className="w-full"
-                disabled={readProgress < 50}
               >
                 <CheckCircle className="w-5 h-5 mr-2" />
-                {readProgress < 50 
-                  ? (useBangla ? 'পড়া চলছে...' : 'Reading...') 
-                  : (useBangla ? 'পড়া শেষ করুন' : 'Finish Reading')}
+                {useBangla ? 'পড়া শেষ করুন' : 'Finish Reading'}
               </Button>
-              {readProgress < 50 && (
-                <p className="text-center text-xs text-muted-foreground mt-2">
-                  {useBangla ? 'নোটটি সম্পূর্ণ পড়ুন' : 'Read at least 50% to continue'}
-                </p>
-              )}
             </div>
           </div>
         )}
