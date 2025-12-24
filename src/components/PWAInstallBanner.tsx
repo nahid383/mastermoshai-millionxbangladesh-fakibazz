@@ -15,9 +15,9 @@ export const PWAInstallBanner: React.FC = () => {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    // Check if already installed or dismissed
+    // Check if already installed
     const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
-    const wasDismissed = localStorage.getItem('pwa-banner-dismissed');
+    const wasDismissed = sessionStorage.getItem('pwa-banner-dismissed-session');
     
     if (isInstalled || wasDismissed) {
       return;
@@ -33,12 +33,11 @@ export const PWAInstallBanner: React.FC = () => {
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
 
     // Show banner after a short delay for all users who haven't installed
-    // This ensures the banner shows on iOS, desktop, and other browsers
     const timer = setTimeout(() => {
       if (!window.matchMedia('(display-mode: standalone)').matches) {
         setShowBanner(true);
       }
-    }, 1500);
+    }, 500);
 
     return () => {
       clearTimeout(timer);
@@ -63,7 +62,7 @@ export const PWAInstallBanner: React.FC = () => {
   const handleDismiss = () => {
     setDismissed(true);
     setShowBanner(false);
-    localStorage.setItem('pwa-banner-dismissed', 'true');
+    sessionStorage.setItem('pwa-banner-dismissed-session', 'true');
   };
 
   if (!showBanner || dismissed) {
