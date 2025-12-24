@@ -16,10 +16,12 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          admission_year: string | null
           badges: Json | null
           correct_answers: number | null
           created_at: string
           daily_progress: number | null
+          exam_date: string | null
           id: string
           institution: string | null
           level: string | null
@@ -29,16 +31,20 @@ export type Database = {
           questions_answered: number | null
           streak: number | null
           strong_topics: string[] | null
+          target_department: string | null
+          target_university: string | null
           total_points: number | null
           updated_at: string
           user_id: string
           weak_topics: string[] | null
         }
         Insert: {
+          admission_year?: string | null
           badges?: Json | null
           correct_answers?: number | null
           created_at?: string
           daily_progress?: number | null
+          exam_date?: string | null
           id?: string
           institution?: string | null
           level?: string | null
@@ -48,16 +54,20 @@ export type Database = {
           questions_answered?: number | null
           streak?: number | null
           strong_topics?: string[] | null
+          target_department?: string | null
+          target_university?: string | null
           total_points?: number | null
           updated_at?: string
           user_id: string
           weak_topics?: string[] | null
         }
         Update: {
+          admission_year?: string | null
           badges?: Json | null
           correct_answers?: number | null
           created_at?: string
           daily_progress?: number | null
+          exam_date?: string | null
           id?: string
           institution?: string | null
           level?: string | null
@@ -67,6 +77,8 @@ export type Database = {
           questions_answered?: number | null
           streak?: number | null
           strong_topics?: string[] | null
+          target_department?: string | null
+          target_university?: string | null
           total_points?: number | null
           updated_at?: string
           user_id?: string
