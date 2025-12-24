@@ -43,7 +43,7 @@ export const Profile: React.FC = () => {
   const { toast } = useToast();
   const { signOut } = useAuth();
   const { setTheme, resolvedTheme } = useTheme();
-  const { profile, setIsOnboarded, updateProfile } = useStudent();
+  const { profile, updateProfile } = useStudent();
   const useBangla = profile.medium === 'bangla';
 
   const isDark = resolvedTheme === 'dark';
@@ -84,20 +84,8 @@ export const Profile: React.FC = () => {
 
   const handleLogout = async () => {
     await signOut();
-    setIsOnboarded(false);
-    updateProfile({
-      name: '',
-      streak: 0,
-      totalPoints: 0,
-      questionsAnswered: 0,
-      correctAnswers: 0,
-      weakTopics: [],
-      strongTopics: [],
-      dailyProgress: 0,
-      badges: [],
-    });
     toast({ title: 'Signed out', description: 'You have been logged out successfully.' });
-    navigate('/');
+    navigate('/auth');
   };
 
   const handleSaveProfile = () => {
@@ -234,8 +222,8 @@ export const Profile: React.FC = () => {
               <LogOut className="w-5 h-5 text-destructive" />
             </div>
             <div className="flex-1 text-left">
-              <p className="font-medium text-destructive">Reset Progress</p>
-              <p className="text-xs text-muted-foreground">Start fresh with a new profile</p>
+              <p className="font-medium text-destructive">Sign Out</p>
+              <p className="text-xs text-muted-foreground">Log out without losing your profile</p>
             </div>
             <ChevronRight className="w-5 h-5 text-muted-foreground" />
           </button>

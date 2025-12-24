@@ -129,12 +129,18 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
       }
 
       if (data) {
+        const nameFromDb = typeof data.name === 'string' ? data.name.trim() : '';
+        if (nameFromDb) {
+          setIsOnboarded(true);
+        }
+
         setProfile((prev) => ({
           ...prev,
           id: data.id ?? prev.id,
           name: data.name ?? prev.name,
           level: coerceLevel(data.level ?? prev.level),
           medium: coerceMedium(data.medium ?? prev.medium),
+          institution: data.institution ?? prev.institution,
           streak: data.streak ?? 0,
           totalPoints: data.total_points ?? 0,
           questionsAnswered: data.questions_answered ?? 0,
@@ -177,7 +183,7 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
         weak_topics: profile.weakTopics,
         strong_topics: profile.strongTopics,
         badges: serializeBadgesForDb(profile.badges),
-        institution: typeof meta?.institution === 'string' ? meta.institution : null,
+        institution: profile.institution || (typeof meta?.institution === 'string' ? meta.institution : null),
         location: typeof meta?.location === 'string' ? meta.location : null,
       };
 
