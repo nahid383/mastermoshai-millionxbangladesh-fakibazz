@@ -23,14 +23,19 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [showBanner, setShowBanner] = useState(false);
 
   useEffect(() => {
-    // Check if running in standalone mode
-    const checkInstalled = () => window.matchMedia('(display-mode: standalone)').matches;
+    // Check if running in standalone mode (Android/desktop) or iOS standalone
+    const checkInstalled = () => {
+      const isStandaloneDisplay = window.matchMedia?.('(display-mode: standalone)')?.matches ?? false;
+      const isIosStandalone = (navigator as any).standalone === true;
+      return isStandaloneDisplay || isIosStandalone;
+    };
+
     setIsInstalled(checkInstalled());
 
     // Listen for display mode changes (install/uninstall)
     const mediaQuery = window.matchMedia('(display-mode: standalone)');
     const handleDisplayModeChange = (e: MediaQueryListEvent) => {
-      setIsInstalled(e.matches);
+      setIsInstalled(e.matches || (navigator as any).standalone === true);
       if (!e.matches) {
         // App was uninstalled, reset state
         setDeferredPrompt(null);
@@ -38,12 +43,20 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     };
     mediaQuery.addEventListener('change', handleDisplayModeChange);
 
+    // Fired when the install actually completes
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setShowBanner(false);
+      setDeferredPrompt(null);
+    };
+    window.addEventListener('appinstalled', handleAppInstalled);
+
     // Listen for install prompt (Android/Chrome)
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       setIsInstalled(false); // If we get this event, app is not installed
-      
+
       // Show banner if not dismissed this session
       const wasDismissed = sessionStorage.getItem('pwa-banner-dismissed-session');
       if (!wasDismissed) {
@@ -64,6 +77,7 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     return () => {
       clearTimeout(timer);
       mediaQuery.removeEventListener('change', handleDisplayModeChange);
+      window.removeEventListener('appinstalled', handleAppInstalled);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
     };
   }, []);
@@ -73,8 +87,9 @@ export const PWAProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       await deferredPrompt.prompt();
       const { outcome } = await deferredPrompt.userChoice;
       if (outcome === 'accepted') {
-        setIsInstalled(true);
+        // Don't mark installed yet — wait for the real `appinstalled` / display-mode change.
         setShowBanner(false);
+        setDeferredPrompt(null);
         return true;
       }
       return false;
