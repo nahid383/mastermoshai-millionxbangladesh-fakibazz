@@ -15,6 +15,10 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
+      // Enable service worker + install prompt while using the Lovable preview (dev mode)
+      devOptions: {
+        enabled: true,
+      },
       includeAssets: ["favicon.ico", "robots.txt", "team/*"],
       manifest: {
         name: "Master-Moshai - AI Learning Companion",

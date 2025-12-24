@@ -2,15 +2,28 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Download, Smartphone, CheckCircle, ArrowLeft, Share } from 'lucide-react';
+import { Download, Smartphone, CheckCircle, ArrowLeft, Share, ExternalLink } from 'lucide-react';
 import { usePWA } from '@/context/PWAContext';
 
 export const Install: React.FC = () => {
   const navigate = useNavigate();
   const { deferredPrompt, triggerInstall, isInstalled } = usePWA();
-  
+
   // Check if iOS
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+  // Install prompts do NOT work when the app is embedded (e.g. inside the Lovable preview iframe)
+  const isEmbedded = (() => {
+    try {
+      return window.self !== window.top;
+    } catch {
+      return true;
+    }
+  })();
+
+  const handleOpenInBrowser = () => {
+    window.open(window.location.href, '_blank', 'noopener,noreferrer');
+  };
 
   const handleInstall = async () => {
     const success = await triggerInstall();
@@ -40,9 +53,15 @@ export const Install: React.FC = () => {
               <p className="text-muted-foreground">
                 App is already installed! Open it from your home screen.
               </p>
-              <Button onClick={() => navigate('/dashboard')} className="w-full">
-                Go to Dashboard
-              </Button>
+              <div className="space-y-2">
+                <Button onClick={() => navigate('/dashboard')} className="w-full">
+                  Go to Dashboard
+                </Button>
+                <Button variant="outline" onClick={handleOpenInBrowser} className="w-full">
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Open in Browser
+                </Button>
+              </div>
             </div>
           ) : isIOS ? (
             <div className="space-y-4">
@@ -98,9 +117,23 @@ export const Install: React.FC = () => {
             </div>
           ) : (
             <div className="text-center space-y-4">
-              <p className="text-muted-foreground text-sm">
-                To install, use Chrome or Edge browser on Android, or Safari on iOS.
-              </p>
+              {isEmbedded ? (
+                <>
+                  <p className="text-muted-foreground text-sm">
+                    You're viewing the app inside the preview. Android Chrome won't show the install prompt here.
+                    Open it in a normal browser tab first.
+                  </p>
+                  <Button onClick={handleOpenInBrowser} className="w-full" size="lg">
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Open in Browser
+                  </Button>
+                </>
+              ) : (
+                <p className="text-muted-foreground text-sm">
+                  If you don't see an Install button, open the browser menu (⋮) and choose
+                  "Install app" or "Add to Home screen".
+                </p>
+              )}
               <Button variant="outline" onClick={() => navigate(-1)} className="w-full">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Go Back
