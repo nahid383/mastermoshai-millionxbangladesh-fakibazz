@@ -1,71 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Download, X, Smartphone } from 'lucide-react';
-
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
-}
+import { usePWA } from '@/context/PWAContext';
 
 export const PWAInstallBanner: React.FC = () => {
   const navigate = useNavigate();
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [showBanner, setShowBanner] = useState(false);
-  const [dismissed, setDismissed] = useState(false);
-
-  useEffect(() => {
-    // Check if already installed
-    const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
-    const wasDismissed = sessionStorage.getItem('pwa-banner-dismissed-session');
-    
-    if (isInstalled || wasDismissed) {
-      return;
-    }
-
-    // Listen for install prompt (Android/Chrome)
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setShowBanner(true);
-    };
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-
-    // Show banner after a short delay for all users who haven't installed
-    const timer = setTimeout(() => {
-      if (!window.matchMedia('(display-mode: standalone)').matches) {
-        setShowBanner(true);
-      }
-    }, 500);
-
-    return () => {
-      clearTimeout(timer);
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
-    };
-  }, []);
+  const { deferredPrompt, triggerInstall, showBanner, dismissBanner, isInstalled } = usePWA();
 
   const handleInstall = async () => {
     if (deferredPrompt) {
-      await deferredPrompt.prompt();
-      const { outcome } = await deferredPrompt.userChoice;
-      if (outcome === 'accepted') {
-        setShowBanner(false);
-      }
-      setDeferredPrompt(null);
+      await triggerInstall();
     } else {
       // iOS - navigate to install page for instructions
       navigate('/install');
     }
   };
 
-  const handleDismiss = () => {
-    setDismissed(true);
-    setShowBanner(false);
-    sessionStorage.setItem('pwa-banner-dismissed-session', 'true');
-  };
-
-  if (!showBanner || dismissed) {
+  if (!showBanner || isInstalled) {
     return null;
   }
 
@@ -73,7 +25,7 @@ export const PWAInstallBanner: React.FC = () => {
     <div className="fixed bottom-4 left-4 right-4 z-50 animate-slide-up md:left-auto md:right-4 md:max-w-sm">
       <div className="bg-card border border-border rounded-2xl p-4 shadow-lg">
         <button
-          onClick={handleDismiss}
+          onClick={dismissBanner}
           className="absolute top-2 right-2 p-1 rounded-full hover:bg-muted transition-colors"
           aria-label="Dismiss"
         >
