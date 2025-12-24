@@ -42,7 +42,10 @@ import { Separator } from '@/components/ui/separator';
 
 const InstallAppButton: React.FC = () => {
   const navigate = useNavigate();
-  const { deferredPrompt, triggerInstall, isInstalled, setShowBanner } = usePWA();
+  const { deferredPrompt, triggerInstall, setShowBanner } = usePWA();
+
+  // Check if currently running in standalone mode (opened from home screen)
+  const isRunningStandalone = window.matchMedia('(display-mode: standalone)').matches;
 
   const handleInstallClick = async () => {
     if (deferredPrompt) {
@@ -57,14 +60,15 @@ const InstallAppButton: React.FC = () => {
     }
   };
 
-  if (isInstalled) {
+  // Only show "installed" if actively running as standalone app
+  if (isRunningStandalone) {
     return (
       <div className="flex items-center justify-between opacity-50">
         <div className="flex items-center gap-3">
           <Download className="w-5 h-5 text-muted-foreground" />
           <div>
             <p className="font-medium text-foreground">App Installed</p>
-            <p className="text-xs text-muted-foreground">Already added to home screen</p>
+            <p className="text-xs text-muted-foreground">You're using the installed app</p>
           </div>
         </div>
         <Check className="w-5 h-5 text-primary" />
