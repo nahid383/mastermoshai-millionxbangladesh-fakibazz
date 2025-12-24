@@ -7,7 +7,11 @@ import { usePWA } from '@/context/PWAContext';
 
 export const Install: React.FC = () => {
   const navigate = useNavigate();
-  const { deferredPrompt, triggerInstall, isInstalled } = usePWA();
+  const { deferredPrompt, triggerInstall } = usePWA();
+
+  const isRunningStandalone =
+    (window.matchMedia?.('(display-mode: standalone)')?.matches ?? false) ||
+    (navigator as any).standalone === true;
 
   // Check if iOS
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
@@ -45,7 +49,7 @@ export const Install: React.FC = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {isInstalled ? (
+          {isRunningStandalone ? (
             <div className="text-center space-y-4">
               <div className="mx-auto w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center">
                 <CheckCircle className="w-8 h-8 text-green-500" />
