@@ -7,6 +7,8 @@ export interface Subject {
   icon: string;
   color: string;
   topics: Topic[];
+  level?: 'ssc' | 'hsc' | 'both';
+  part?: 1 | 2;
 }
 
 export interface Topic {
@@ -15,6 +17,19 @@ export interface Topic {
   nameBn: string;
   difficulty: 'easy' | 'medium' | 'hard';
   bloomLevel: 'remember' | 'understand' | 'apply' | 'analyze' | 'evaluate' | 'create';
+  hasNotes?: boolean;
+}
+
+export interface Note {
+  id: string;
+  topicId: string;
+  subjectId: string;
+  title: string;
+  titleBn?: string;
+  content: string;
+  contentBn?: string;
+  xpReward: number;
+  readTime: number; // in minutes
 }
 
 export interface Question {
@@ -46,6 +61,7 @@ export interface StudentProfile {
   dailyGoal: number;
   dailyProgress: number;
   badges: Badge[];
+  readNotes?: string[]; // IDs of notes the user has read
 }
 
 export interface Badge {
@@ -56,18 +72,20 @@ export interface Badge {
   earnedAt?: Date;
 }
 
-export const subjects: Subject[] = [
+// SSC Subjects
+export const sscSubjects: Subject[] = [
   {
     id: 'math',
     name: 'Mathematics',
     nameBn: 'গণিত',
     icon: '📐',
     color: 'from-blue-500 to-indigo-600',
+    level: 'ssc',
     topics: [
-      { id: 'algebra', name: 'Algebra', nameBn: 'বীজগণিত', difficulty: 'medium', bloomLevel: 'apply' },
-      { id: 'geometry', name: 'Geometry', nameBn: 'জ্যামিতি', difficulty: 'medium', bloomLevel: 'understand' },
-      { id: 'trigonometry', name: 'Trigonometry', nameBn: 'ত্রিকোণমিতি', difficulty: 'hard', bloomLevel: 'apply' },
-      { id: 'statistics', name: 'Statistics', nameBn: 'পরিসংখ্যান', difficulty: 'easy', bloomLevel: 'analyze' },
+      { id: 'algebra', name: 'Algebra', nameBn: 'বীজগণিত', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'geometry', name: 'Geometry', nameBn: 'জ্যামিতি', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'trigonometry', name: 'Trigonometry', nameBn: 'ত্রিকোণমিতি', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'statistics', name: 'Statistics', nameBn: 'পরিসংখ্যান', difficulty: 'easy', bloomLevel: 'analyze', hasNotes: true },
     ],
   },
   {
@@ -76,11 +94,12 @@ export const subjects: Subject[] = [
     nameBn: 'পদার্থবিজ্ঞান',
     icon: '⚛️',
     color: 'from-purple-500 to-pink-600',
+    level: 'ssc',
     topics: [
-      { id: 'mechanics', name: 'Mechanics', nameBn: 'বলবিদ্যা', difficulty: 'medium', bloomLevel: 'apply' },
-      { id: 'electricity', name: 'Electricity', nameBn: 'বিদ্যুৎ', difficulty: 'hard', bloomLevel: 'analyze' },
-      { id: 'optics', name: 'Optics', nameBn: 'আলোকবিজ্ঞান', difficulty: 'medium', bloomLevel: 'understand' },
-      { id: 'waves', name: 'Waves', nameBn: 'তরঙ্গ', difficulty: 'medium', bloomLevel: 'understand' },
+      { id: 'mechanics', name: 'Mechanics', nameBn: 'বলবিদ্যা', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'electricity', name: 'Electricity', nameBn: 'বিদ্যুৎ', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'optics', name: 'Optics', nameBn: 'আলোকবিজ্ঞান', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'waves', name: 'Waves', nameBn: 'তরঙ্গ', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
     ],
   },
   {
@@ -89,11 +108,12 @@ export const subjects: Subject[] = [
     nameBn: 'রসায়ন',
     icon: '🧪',
     color: 'from-green-500 to-teal-600',
+    level: 'ssc',
     topics: [
-      { id: 'organic', name: 'Organic Chemistry', nameBn: 'জৈব রসায়ন', difficulty: 'hard', bloomLevel: 'apply' },
-      { id: 'inorganic', name: 'Inorganic Chemistry', nameBn: 'অজৈব রসায়ন', difficulty: 'medium', bloomLevel: 'remember' },
-      { id: 'periodic', name: 'Periodic Table', nameBn: 'পর্যায় সারণী', difficulty: 'easy', bloomLevel: 'remember' },
-      { id: 'reactions', name: 'Chemical Reactions', nameBn: 'রাসায়নিক বিক্রিয়া', difficulty: 'medium', bloomLevel: 'understand' },
+      { id: 'organic', name: 'Organic Chemistry', nameBn: 'জৈব রসায়ন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'inorganic', name: 'Inorganic Chemistry', nameBn: 'অজৈব রসায়ন', difficulty: 'medium', bloomLevel: 'remember', hasNotes: true },
+      { id: 'periodic', name: 'Periodic Table', nameBn: 'পর্যায় সারণী', difficulty: 'easy', bloomLevel: 'remember', hasNotes: true },
+      { id: 'reactions', name: 'Chemical Reactions', nameBn: 'রাসায়নিক বিক্রিয়া', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
     ],
   },
   {
@@ -102,11 +122,12 @@ export const subjects: Subject[] = [
     nameBn: 'জীববিজ্ঞান',
     icon: '🧬',
     color: 'from-emerald-500 to-green-600',
+    level: 'ssc',
     topics: [
-      { id: 'cell', name: 'Cell Biology', nameBn: 'কোষবিদ্যা', difficulty: 'medium', bloomLevel: 'understand' },
-      { id: 'genetics', name: 'Genetics', nameBn: 'বংশগতি', difficulty: 'hard', bloomLevel: 'analyze' },
-      { id: 'ecology', name: 'Ecology', nameBn: 'বাস্তুবিদ্যা', difficulty: 'easy', bloomLevel: 'understand' },
-      { id: 'human', name: 'Human Physiology', nameBn: 'মানব শারীরবিদ্যা', difficulty: 'medium', bloomLevel: 'apply' },
+      { id: 'cell', name: 'Cell Biology', nameBn: 'কোষবিদ্যা', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'genetics', name: 'Genetics', nameBn: 'বংশগতি', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'ecology', name: 'Ecology', nameBn: 'বাস্তুবিদ্যা', difficulty: 'easy', bloomLevel: 'understand', hasNotes: true },
+      { id: 'human', name: 'Human Physiology', nameBn: 'মানব শারীরবিদ্যা', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
     ],
   },
   {
@@ -115,11 +136,12 @@ export const subjects: Subject[] = [
     nameBn: 'ইংরেজি',
     icon: '📚',
     color: 'from-orange-500 to-red-600',
+    level: 'ssc',
     topics: [
-      { id: 'grammar', name: 'Grammar', nameBn: 'ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply' },
-      { id: 'vocabulary', name: 'Vocabulary', nameBn: 'শব্দভাণ্ডার', difficulty: 'easy', bloomLevel: 'remember' },
-      { id: 'comprehension', name: 'Reading Comprehension', nameBn: 'পাঠ বোধগম্যতা', difficulty: 'medium', bloomLevel: 'analyze' },
-      { id: 'writing', name: 'Writing Skills', nameBn: 'লেখার দক্ষতা', difficulty: 'hard', bloomLevel: 'create' },
+      { id: 'grammar', name: 'Grammar', nameBn: 'ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'vocabulary', name: 'Vocabulary', nameBn: 'শব্দভাণ্ডার', difficulty: 'easy', bloomLevel: 'remember', hasNotes: true },
+      { id: 'comprehension', name: 'Reading Comprehension', nameBn: 'পাঠ বোধগম্যতা', difficulty: 'medium', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'writing', name: 'Writing Skills', nameBn: 'লেখার দক্ষতা', difficulty: 'hard', bloomLevel: 'create', hasNotes: true },
     ],
   },
   {
@@ -128,16 +150,323 @@ export const subjects: Subject[] = [
     nameBn: 'বাংলা',
     icon: '🇧🇩',
     color: 'from-red-500 to-rose-600',
+    level: 'ssc',
     topics: [
-      { id: 'sahitya', name: 'Literature', nameBn: 'সাহিত্য', difficulty: 'medium', bloomLevel: 'analyze' },
-      { id: 'byakaran', name: 'Grammar', nameBn: 'ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply' },
-      { id: 'rochona', name: 'Essay Writing', nameBn: 'রচনা', difficulty: 'hard', bloomLevel: 'create' },
-      { id: 'kobita', name: 'Poetry', nameBn: 'কবিতা', difficulty: 'medium', bloomLevel: 'evaluate' },
+      { id: 'sahitya', name: 'Literature', nameBn: 'সাহিত্য', difficulty: 'medium', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'byakaran', name: 'Grammar', nameBn: 'ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'rochona', name: 'Essay Writing', nameBn: 'রচনা', difficulty: 'hard', bloomLevel: 'create', hasNotes: true },
+      { id: 'kobita', name: 'Poetry', nameBn: 'কবিতা', difficulty: 'medium', bloomLevel: 'evaluate', hasNotes: true },
     ],
   },
 ];
 
+// HSC Subjects with Part 1 and Part 2
+export const hscSubjects: Subject[] = [
+  // Physics Part 1
+  {
+    id: 'physics-1',
+    name: 'Physics 1st Paper',
+    nameBn: 'পদার্থবিজ্ঞান ১ম পত্র',
+    icon: '⚛️',
+    color: 'from-purple-500 to-pink-600',
+    level: 'hsc',
+    part: 1,
+    topics: [
+      { id: 'vectors', name: 'Vectors', nameBn: 'ভেক্টর', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'dynamics', name: 'Dynamics', nameBn: 'গতিবিদ্যা', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'work-energy', name: 'Work & Energy', nameBn: 'কাজ ও শক্তি', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'rotation', name: 'Rotational Motion', nameBn: 'ঘূর্ণন গতি', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'gravitation', name: 'Gravitation', nameBn: 'মহাকর্ষ', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+    ],
+  },
+  // Physics Part 2
+  {
+    id: 'physics-2',
+    name: 'Physics 2nd Paper',
+    nameBn: 'পদার্থবিজ্ঞান ২য় পত্র',
+    icon: '🔬',
+    color: 'from-violet-500 to-purple-600',
+    level: 'hsc',
+    part: 2,
+    topics: [
+      { id: 'electricity-hsc', name: 'Electricity', nameBn: 'তড়িৎ', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'magnetism', name: 'Magnetism', nameBn: 'চুম্বকত্ব', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'modern-physics', name: 'Modern Physics', nameBn: 'আধুনিক পদার্থবিজ্ঞান', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'semiconductor', name: 'Semiconductor', nameBn: 'অর্ধপরিবাহী', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'atomic-physics', name: 'Atomic Physics', nameBn: 'পারমাণবিক পদার্থবিজ্ঞান', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+    ],
+  },
+  // Chemistry Part 1
+  {
+    id: 'chemistry-1',
+    name: 'Chemistry 1st Paper',
+    nameBn: 'রসায়ন ১ম পত্র',
+    icon: '🧪',
+    color: 'from-green-500 to-teal-600',
+    level: 'hsc',
+    part: 1,
+    topics: [
+      { id: 'atomic-structure', name: 'Atomic Structure', nameBn: 'পরমাণুর গঠন', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'periodic-properties', name: 'Periodic Properties', nameBn: 'পর্যায়বৃত্ত ধর্ম', difficulty: 'medium', bloomLevel: 'remember', hasNotes: true },
+      { id: 'chemical-bonding', name: 'Chemical Bonding', nameBn: 'রাসায়নিক বন্ধন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'states-matter', name: 'States of Matter', nameBn: 'পদার্থের অবস্থা', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+    ],
+  },
+  // Chemistry Part 2
+  {
+    id: 'chemistry-2',
+    name: 'Chemistry 2nd Paper',
+    nameBn: 'রসায়ন ২য় পত্র',
+    icon: '⚗️',
+    color: 'from-teal-500 to-cyan-600',
+    level: 'hsc',
+    part: 2,
+    topics: [
+      { id: 'organic-hsc', name: 'Organic Chemistry', nameBn: 'জৈব রসায়ন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'hydrocarbons', name: 'Hydrocarbons', nameBn: 'হাইড্রোকার্বন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'polymers', name: 'Polymers', nameBn: 'পলিমার', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'env-chemistry', name: 'Environmental Chemistry', nameBn: 'পরিবেশ রসায়ন', difficulty: 'easy', bloomLevel: 'understand', hasNotes: true },
+    ],
+  },
+  // Biology Part 1
+  {
+    id: 'biology-1',
+    name: 'Biology 1st Paper',
+    nameBn: 'জীববিজ্ঞান ১ম পত্র',
+    icon: '🧬',
+    color: 'from-emerald-500 to-green-600',
+    level: 'hsc',
+    part: 1,
+    topics: [
+      { id: 'cell-hsc', name: 'Cell & Cell Division', nameBn: 'কোষ ও কোষ বিভাজন', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'cell-chemistry', name: 'Cell Chemistry', nameBn: 'কোষ রসায়ন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'plant-physiology', name: 'Plant Physiology', nameBn: 'উদ্ভিদ শারীরবিদ্যা', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'plant-taxonomy', name: 'Plant Taxonomy', nameBn: 'উদ্ভিদ শ্রেণীবিন্যাস', difficulty: 'medium', bloomLevel: 'remember', hasNotes: true },
+    ],
+  },
+  // Biology Part 2
+  {
+    id: 'biology-2',
+    name: 'Biology 2nd Paper',
+    nameBn: 'জীববিজ্ঞান ২য় পত্র',
+    icon: '🦠',
+    color: 'from-lime-500 to-green-600',
+    level: 'hsc',
+    part: 2,
+    topics: [
+      { id: 'animal-physiology', name: 'Animal Physiology', nameBn: 'প্রাণী শারীরবিদ্যা', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'genetics-hsc', name: 'Genetics & Evolution', nameBn: 'বংশগতি ও বিবর্তন', difficulty: 'hard', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'animal-diversity', name: 'Animal Diversity', nameBn: 'প্রাণী বৈচিত্র্য', difficulty: 'medium', bloomLevel: 'remember', hasNotes: true },
+      { id: 'human-physiology-hsc', name: 'Human Physiology', nameBn: 'মানব শারীরবিদ্যা', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+    ],
+  },
+  // Higher Mathematics Part 1
+  {
+    id: 'higher-math-1',
+    name: 'Higher Math 1st Paper',
+    nameBn: 'উচ্চতর গণিত ১ম পত্র',
+    icon: '📊',
+    color: 'from-blue-500 to-indigo-600',
+    level: 'hsc',
+    part: 1,
+    topics: [
+      { id: 'matrices', name: 'Matrices & Determinants', nameBn: 'ম্যাট্রিক্স ও নির্ণায়ক', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'complex-numbers', name: 'Complex Numbers', nameBn: 'জটিল সংখ্যা', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'polynomials', name: 'Polynomials', nameBn: 'বহুপদী', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'trigonometry-hsc', name: 'Trigonometry', nameBn: 'ত্রিকোণমিতি', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+    ],
+  },
+  // Higher Mathematics Part 2
+  {
+    id: 'higher-math-2',
+    name: 'Higher Math 2nd Paper',
+    nameBn: 'উচ্চতর গণিত ২য় পত্র',
+    icon: '📈',
+    color: 'from-indigo-500 to-blue-600',
+    level: 'hsc',
+    part: 2,
+    topics: [
+      { id: 'calculus', name: 'Calculus', nameBn: 'ক্যালকুলাস', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'integration', name: 'Integration', nameBn: 'সমাকলন', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'coordinate-geometry', name: 'Coordinate Geometry', nameBn: 'স্থানাঙ্ক জ্যামিতি', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'probability-stats', name: 'Probability & Statistics', nameBn: 'সম্ভাবনা ও পরিসংখ্যান', difficulty: 'medium', bloomLevel: 'analyze', hasNotes: true },
+    ],
+  },
+  // Common HSC subjects
+  {
+    id: 'english-hsc',
+    name: 'English',
+    nameBn: 'ইংরেজি',
+    icon: '📚',
+    color: 'from-orange-500 to-red-600',
+    level: 'hsc',
+    topics: [
+      { id: 'grammar-hsc', name: 'Advanced Grammar', nameBn: 'উন্নত ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'essay-hsc', name: 'Essay Writing', nameBn: 'প্রবন্ধ রচনা', difficulty: 'hard', bloomLevel: 'create', hasNotes: true },
+      { id: 'literature-hsc', name: 'Literature', nameBn: 'সাহিত্য', difficulty: 'medium', bloomLevel: 'analyze', hasNotes: true },
+    ],
+  },
+  {
+    id: 'bangla-hsc',
+    name: 'Bangla',
+    nameBn: 'বাংলা',
+    icon: '🇧🇩',
+    color: 'from-red-500 to-rose-600',
+    level: 'hsc',
+    topics: [
+      { id: 'sahitya-hsc', name: 'Literature', nameBn: 'সাহিত্য', difficulty: 'medium', bloomLevel: 'analyze', hasNotes: true },
+      { id: 'byakaran-hsc', name: 'Grammar', nameBn: 'ব্যাকরণ', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'rochona-hsc', name: 'Essay Writing', nameBn: 'রচনা', difficulty: 'hard', bloomLevel: 'create', hasNotes: true },
+    ],
+  },
+  {
+    id: 'ict',
+    name: 'ICT',
+    nameBn: 'তথ্য ও যোগাযোগ প্রযুক্তি',
+    icon: '💻',
+    color: 'from-cyan-500 to-blue-600',
+    level: 'hsc',
+    topics: [
+      { id: 'number-system', name: 'Number System', nameBn: 'সংখ্যা পদ্ধতি', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+      { id: 'programming', name: 'Programming', nameBn: 'প্রোগ্রামিং', difficulty: 'hard', bloomLevel: 'apply', hasNotes: true },
+      { id: 'database', name: 'Database', nameBn: 'ডেটাবেস', difficulty: 'medium', bloomLevel: 'understand', hasNotes: true },
+      { id: 'web', name: 'Web Design', nameBn: 'ওয়েব ডিজাইন', difficulty: 'medium', bloomLevel: 'apply', hasNotes: true },
+    ],
+  },
+];
+
+// Helper to get subjects based on level
+export const getSubjectsByLevel = (level: 'ssc' | 'hsc'): Subject[] => {
+  return level === 'ssc' ? sscSubjects : hscSubjects;
+};
+
+// All subjects combined (for backward compatibility)
+export const subjects: Subject[] = [...sscSubjects, ...hscSubjects];
+
+// Sample Notes for Learning Section
+export const sampleNotes: Note[] = [
+  {
+    id: 'note-1',
+    topicId: 'cell',
+    subjectId: 'biology',
+    title: 'Introduction to Cells',
+    titleBn: 'কোষের পরিচিতি',
+    content: `# The Cell - Basic Unit of Life
+
+A cell is the smallest structural and functional unit of all living organisms. There are two main types of cells:
+
+## 1. Prokaryotic Cells
+- No membrane-bound nucleus
+- Found in bacteria and archaea
+- Simple internal structure
+
+## 2. Eukaryotic Cells
+- Membrane-bound nucleus
+- Found in plants, animals, fungi
+- Complex internal structure with organelles
+
+### Key Organelles:
+- **Nucleus**: Contains DNA, controls cell activities
+- **Mitochondria**: Powerhouse of the cell, produces ATP
+- **Ribosomes**: Protein synthesis
+- **Endoplasmic Reticulum**: Transport system
+- **Golgi Body**: Packaging and shipping`,
+    contentBn: `# কোষ - জীবনের মৌলিক একক
+
+কোষ হল সমস্ত জীবের ক্ষুদ্রতম গঠনগত ও কার্যকরী একক। দুই প্রধান ধরনের কোষ আছে:
+
+## ১. প্রোক্যারিওটিক কোষ
+- ঝিল্লি-আবদ্ধ নিউক্লিয়াস নেই
+- ব্যাকটেরিয়া ও আর্কিয়ায় পাওয়া যায়
+- সরল অভ্যন্তরীণ গঠন
+
+## ২. ইউক্যারিওটিক কোষ
+- ঝিল্লি-আবদ্ধ নিউক্লিয়াস আছে
+- উদ্ভিদ, প্রাণী, ছত্রাকে পাওয়া যায়
+- জটিল অভ্যন্তরীণ গঠন
+
+### প্রধান অঙ্গাণু:
+- **নিউক্লিয়াস**: DNA ধারণ করে, কোষের কার্যক্রম নিয়ন্ত্রণ করে
+- **মাইটোকন্ড্রিয়া**: কোষের পাওয়ারহাউস, ATP উৎপাদন করে
+- **রাইবোসোম**: প্রোটিন সংশ্লেষণ
+- **এন্ডোপ্লাজমিক রেটিকুলাম**: পরিবহন ব্যবস্থা
+- **গলগি বডি**: প্যাকেজিং ও পরিবহন`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-2',
+    topicId: 'algebra',
+    subjectId: 'math',
+    title: 'Solving Linear Equations',
+    titleBn: 'সরলরৈখিক সমীকরণ সমাধান',
+    content: `# Linear Equations
+
+A linear equation is an equation where the highest power of the variable is 1.
+
+## General Form
+ax + b = c
+
+## Steps to Solve:
+1. **Isolate the variable term**: Move all terms with x to one side
+2. **Combine like terms**: Simplify both sides
+3. **Solve for x**: Divide both sides by the coefficient of x
+
+### Example:
+Solve: 2x + 5 = 15
+
+**Step 1**: Subtract 5 from both sides
+2x + 5 - 5 = 15 - 5
+2x = 10
+
+**Step 2**: Divide both sides by 2
+2x/2 = 10/2
+x = 5
+
+### Practice Tips:
+- Always check your answer by substituting back
+- Keep the equation balanced - what you do to one side, do to the other`,
+    xpReward: 20,
+    readTime: 4,
+  },
+  {
+    id: 'note-3',
+    topicId: 'mechanics',
+    subjectId: 'physics',
+    title: 'Newton\'s Laws of Motion',
+    titleBn: 'নিউটনের গতি সূত্র',
+    content: `# Newton's Laws of Motion
+
+## First Law (Law of Inertia)
+An object at rest stays at rest, and an object in motion stays in motion with the same speed and direction, unless acted upon by an unbalanced force.
+
+## Second Law (F = ma)
+The acceleration of an object depends on:
+- The net force acting on the object
+- The mass of the object
+
+**Formula**: F = m × a
+- F = Force (Newtons)
+- m = Mass (kg)
+- a = Acceleration (m/s²)
+
+## Third Law (Action-Reaction)
+For every action, there is an equal and opposite reaction.
+
+### Examples:
+- Walking: You push ground backward, ground pushes you forward
+- Rocket: Exhaust gases push down, rocket goes up
+
+### Key Formulas:
+- Weight: W = mg (g = 9.8 m/s²)
+- Momentum: p = mv`,
+    xpReward: 30,
+    readTime: 6,
+  },
+];
+
 export const sampleQuestions: Question[] = [
+  // Math Questions
   {
     id: 'q1',
     subjectId: 'math',
@@ -166,59 +495,6 @@ export const sampleQuestions: Question[] = [
     points: 15,
   },
   {
-    id: 'q3',
-    subjectId: 'physics',
-    topicId: 'mechanics',
-    question: 'A car travels 100 km in 2 hours. What is its average speed?',
-    questionBn: 'একটি গাড়ি 2 ঘন্টায় 100 কিমি যায়। এর গড় গতি কত?',
-    options: ['25 km/h', '50 km/h', '75 km/h', '200 km/h'],
-    optionsBn: ['২৫ কিমি/ঘণ্টা', '৫০ কিমি/ঘণ্টা', '৭৫ কিমি/ঘণ্টা', '২০০ কিমি/ঘণ্টা'],
-    correctAnswer: 1,
-    explanation: 'Average speed = Total distance / Total time = 100 km / 2 hours = 50 km/h',
-    explanationBn: 'গড় গতি = মোট দূরত্ব / মোট সময় = 100 কিমি / 2 ঘন্টা = 50 কিমি/ঘণ্টা',
-    difficulty: 'easy',
-    points: 10,
-  },
-  {
-    id: 'q4',
-    subjectId: 'chemistry',
-    topicId: 'periodic',
-    question: 'What is the atomic number of Carbon?',
-    questionBn: 'কার্বনের পারমাণবিক সংখ্যা কত?',
-    options: ['4', '6', '8', '12'],
-    optionsBn: ['৪', '৬', '৮', '১২'],
-    correctAnswer: 1,
-    explanation: 'Carbon has 6 protons in its nucleus, so its atomic number is 6.',
-    explanationBn: 'কার্বনের নিউক্লিয়াসে 6টি প্রোটন আছে, তাই এর পারমাণবিক সংখ্যা 6।',
-    difficulty: 'easy',
-    points: 10,
-  },
-  {
-    id: 'q5',
-    subjectId: 'biology',
-    topicId: 'cell',
-    question: 'Which organelle is known as the "powerhouse of the cell"?',
-    questionBn: 'কোন অঙ্গাণুকে "কোষের পাওয়ারহাউস" বলা হয়?',
-    options: ['Nucleus', 'Mitochondria', 'Ribosome', 'Golgi Body'],
-    optionsBn: ['নিউক্লিয়াস', 'মাইটোকন্ড্রিয়া', 'রাইবোসোম', 'গলগি বডি'],
-    correctAnswer: 1,
-    explanation: 'Mitochondria produce ATP through cellular respiration, providing energy for the cell.',
-    explanationBn: 'মাইটোকন্ড্রিয়া কোষীয় শ্বসনের মাধ্যমে ATP উৎপাদন করে, কোষকে শক্তি সরবরাহ করে।',
-    difficulty: 'easy',
-    points: 10,
-  },
-  {
-    id: 'q6',
-    subjectId: 'english',
-    topicId: 'grammar',
-    question: 'Choose the correct form: "She ___ to school every day."',
-    options: ['go', 'goes', 'going', 'gone'],
-    correctAnswer: 1,
-    explanation: 'With third person singular subjects (she/he/it), we use "goes" in simple present tense.',
-    difficulty: 'easy',
-    points: 10,
-  },
-  {
     id: 'q7',
     subjectId: 'math',
     topicId: 'geometry',
@@ -229,6 +505,49 @@ export const sampleQuestions: Question[] = [
     correctAnswer: 2,
     explanation: 'Area of rectangle = length × width = 8 × 5 = 40 cm²',
     explanationBn: 'আয়তক্ষেত্রের ক্ষেত্রফল = দৈর্ঘ্য × প্রস্থ = 8 × 5 = 40 সেমি²',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-math-3',
+    subjectId: 'math',
+    topicId: 'trigonometry',
+    question: 'What is the value of sin(30°)?',
+    questionBn: 'sin(30°) এর মান কত?',
+    options: ['1/2', '√3/2', '1', '0'],
+    optionsBn: ['১/২', '√৩/২', '১', '০'],
+    correctAnswer: 0,
+    explanation: 'sin(30°) = 1/2. This is one of the standard angles.',
+    explanationBn: 'sin(30°) = ১/২। এটি একটি আদর্শ কোণ।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-math-4',
+    subjectId: 'math',
+    topicId: 'statistics',
+    question: 'What is the mean of 5, 10, 15, 20, 25?',
+    questionBn: '৫, ১০, ১৫, ২০, ২৫ এর গড় কত?',
+    options: ['10', '15', '20', '25'],
+    optionsBn: ['১০', '১৫', '২০', '২৫'],
+    correctAnswer: 1,
+    explanation: 'Mean = (5+10+15+20+25)/5 = 75/5 = 15',
+    explanationBn: 'গড় = (৫+১০+১৫+২০+২৫)/৫ = ৭৫/৫ = ১৫',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // Physics Questions
+  {
+    id: 'q3',
+    subjectId: 'physics',
+    topicId: 'mechanics',
+    question: 'A car travels 100 km in 2 hours. What is its average speed?',
+    questionBn: 'একটি গাড়ি 2 ঘন্টায় 100 কিমি যায়। এর গড় গতি কত?',
+    options: ['25 km/h', '50 km/h', '75 km/h', '200 km/h'],
+    optionsBn: ['২৫ কিমি/ঘণ্টা', '৫০ কিমি/ঘণ্টা', '৭৫ কিমি/ঘণ্টা', '২০০ কিমি/ঘণ্টা'],
+    correctAnswer: 1,
+    explanation: 'Average speed = Total distance / Total time = 100 km / 2 hours = 50 km/h',
+    explanationBn: 'গড় গতি = মোট দূরত্ব / মোট সময় = 100 কিমি / 2 ঘন্টা = 50 কিমি/ঘণ্টা',
     difficulty: 'easy',
     points: 10,
   },
@@ -246,6 +565,633 @@ export const sampleQuestions: Question[] = [
     difficulty: 'easy',
     points: 10,
   },
+  {
+    id: 'q-physics-3',
+    subjectId: 'physics',
+    topicId: 'mechanics',
+    question: 'What is Newton\'s Second Law of Motion?',
+    questionBn: 'নিউটনের দ্বিতীয় গতিসূত্র কী?',
+    options: ['F = ma', 'F = mv', 'E = mc²', 'P = mv'],
+    correctAnswer: 0,
+    explanation: 'Newton\'s Second Law states that Force = mass × acceleration (F = ma)',
+    explanationBn: 'নিউটনের দ্বিতীয় গতিসূত্র বলে বল = ভর × ত্বরণ (F = ma)',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-physics-4',
+    subjectId: 'physics',
+    topicId: 'optics',
+    question: 'What is the speed of light in vacuum?',
+    questionBn: 'শূন্য মাধ্যমে আলোর গতি কত?',
+    options: ['3 × 10⁶ m/s', '3 × 10⁸ m/s', '3 × 10¹⁰ m/s', '3 × 10⁴ m/s'],
+    correctAnswer: 1,
+    explanation: 'The speed of light in vacuum is approximately 3 × 10⁸ m/s.',
+    explanationBn: 'শূন্য মাধ্যমে আলোর গতি প্রায় 3 × 10⁸ m/s।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-physics-5',
+    subjectId: 'physics',
+    topicId: 'waves',
+    question: 'What type of wave is sound?',
+    questionBn: 'শব্দ কোন ধরনের তরঙ্গ?',
+    options: ['Transverse', 'Longitudinal', 'Electromagnetic', 'Surface'],
+    optionsBn: ['অনুপ্রস্থ', 'অনুদৈর্ঘ্য', 'তাড়িতচুম্বকীয়', 'পৃষ্ঠ'],
+    correctAnswer: 1,
+    explanation: 'Sound is a longitudinal wave where particles vibrate parallel to the direction of wave propagation.',
+    explanationBn: 'শব্দ একটি অনুদৈর্ঘ্য তরঙ্গ যেখানে কণাগুলি তরঙ্গ প্রসারণের দিকে সমান্তরালে কম্পিত হয়।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  // Chemistry Questions
+  {
+    id: 'q4',
+    subjectId: 'chemistry',
+    topicId: 'periodic',
+    question: 'What is the atomic number of Carbon?',
+    questionBn: 'কার্বনের পারমাণবিক সংখ্যা কত?',
+    options: ['4', '6', '8', '12'],
+    optionsBn: ['৪', '৬', '৮', '১২'],
+    correctAnswer: 1,
+    explanation: 'Carbon has 6 protons in its nucleus, so its atomic number is 6.',
+    explanationBn: 'কার্বনের নিউক্লিয়াসে 6টি প্রোটন আছে, তাই এর পারমাণবিক সংখ্যা 6।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-2',
+    subjectId: 'chemistry',
+    topicId: 'organic',
+    question: 'What is the functional group in alcohols?',
+    questionBn: 'অ্যালকোহলে কোন কার্যকরী গ্রুপ থাকে?',
+    options: ['-COOH', '-OH', '-CHO', '-NH₂'],
+    correctAnswer: 1,
+    explanation: 'Alcohols contain the hydroxyl (-OH) functional group.',
+    explanationBn: 'অ্যালকোহলে হাইড্রক্সিল (-OH) কার্যকরী গ্রুপ থাকে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-3',
+    subjectId: 'chemistry',
+    topicId: 'inorganic',
+    question: 'What is the chemical symbol for Gold?',
+    questionBn: 'সোনার রাসায়নিক প্রতীক কী?',
+    options: ['Ag', 'Au', 'Fe', 'Cu'],
+    correctAnswer: 1,
+    explanation: 'Au is the chemical symbol for Gold, derived from Latin "Aurum".',
+    explanationBn: 'Au সোনার রাসায়নিক প্রতীক, ল্যাটিন "Aurum" থেকে এসেছে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-4',
+    subjectId: 'chemistry',
+    topicId: 'reactions',
+    question: 'What type of reaction is: 2H₂ + O₂ → 2H₂O?',
+    questionBn: '2H₂ + O₂ → 2H₂O কোন ধরনের বিক্রিয়া?',
+    options: ['Decomposition', 'Combination', 'Displacement', 'Neutralization'],
+    optionsBn: ['বিয়োজন', 'সংযোজন', 'প্রতিস্থাপন', 'প্রশমন'],
+    correctAnswer: 1,
+    explanation: 'This is a combination (synthesis) reaction where two substances combine to form one.',
+    explanationBn: 'এটি একটি সংযোজন বিক্রিয়া যেখানে দুটি পদার্থ মিলে একটি তৈরি হয়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-5',
+    subjectId: 'chemistry',
+    topicId: 'periodic',
+    question: 'How many elements are in the first period of the periodic table?',
+    questionBn: 'পর্যায় সারণির প্রথম পর্যায়ে কতটি মৌল আছে?',
+    options: ['2', '8', '18', '32'],
+    optionsBn: ['২', '৮', '১৮', '৩২'],
+    correctAnswer: 0,
+    explanation: 'The first period has only 2 elements: Hydrogen (H) and Helium (He).',
+    explanationBn: 'প্রথম পর্যায়ে মাত্র ২টি মৌল আছে: হাইড্রোজেন (H) এবং হিলিয়াম (He)।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // Biology Questions - Fixed: Added more questions
+  {
+    id: 'q5',
+    subjectId: 'biology',
+    topicId: 'cell',
+    question: 'Which organelle is known as the "powerhouse of the cell"?',
+    questionBn: 'কোন অঙ্গাণুকে "কোষের পাওয়ারহাউস" বলা হয়?',
+    options: ['Nucleus', 'Mitochondria', 'Ribosome', 'Golgi Body'],
+    optionsBn: ['নিউক্লিয়াস', 'মাইটোকন্ড্রিয়া', 'রাইবোসোম', 'গলগি বডি'],
+    correctAnswer: 1,
+    explanation: 'Mitochondria produce ATP through cellular respiration, providing energy for the cell.',
+    explanationBn: 'মাইটোকন্ড্রিয়া কোষীয় শ্বসনের মাধ্যমে ATP উৎপাদন করে, কোষকে শক্তি সরবরাহ করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-2',
+    subjectId: 'biology',
+    topicId: 'cell',
+    question: 'What is the function of the nucleus?',
+    questionBn: 'নিউক্লিয়াসের কাজ কী?',
+    options: ['Energy production', 'Protein synthesis', 'Control center containing DNA', 'Waste removal'],
+    optionsBn: ['শক্তি উৎপাদন', 'প্রোটিন সংশ্লেষণ', 'DNA ধারণকারী নিয়ন্ত্রণ কেন্দ্র', 'বর্জ্য অপসারণ'],
+    correctAnswer: 2,
+    explanation: 'The nucleus is the control center of the cell, containing genetic material (DNA) that controls cell activities.',
+    explanationBn: 'নিউক্লিয়াস কোষের নিয়ন্ত্রণ কেন্দ্র, যেখানে জেনেটিক পদার্থ (DNA) থাকে যা কোষের কার্যক্রম নিয়ন্ত্রণ করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-3',
+    subjectId: 'biology',
+    topicId: 'genetics',
+    question: 'What is the full form of DNA?',
+    questionBn: 'DNA এর পূর্ণ রূপ কী?',
+    options: ['Deoxyribonucleic Acid', 'Diribonucleic Acid', 'Deoxyribose Acid', 'Dinucleic Acid'],
+    correctAnswer: 0,
+    explanation: 'DNA stands for Deoxyribonucleic Acid, which carries genetic information.',
+    explanationBn: 'DNA এর পূর্ণ রূপ ডিঅক্সিরাইবোনিউক্লিক এসিড, যা জেনেটিক তথ্য বহন করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-4',
+    subjectId: 'biology',
+    topicId: 'genetics',
+    question: 'Who is known as the "Father of Genetics"?',
+    questionBn: '"বংশগতির জনক" কে?',
+    options: ['Charles Darwin', 'Gregor Mendel', 'Louis Pasteur', 'Robert Hooke'],
+    optionsBn: ['চার্লস ডারউইন', 'গ্রেগর মেন্ডেল', 'লুই পাস্তুর', 'রবার্ট হুক'],
+    correctAnswer: 1,
+    explanation: 'Gregor Mendel is known as the Father of Genetics for his work on pea plant inheritance.',
+    explanationBn: 'গ্রেগর মেন্ডেল মটরশুঁটি গাছের বংশগতি নিয়ে গবেষণার জন্য বংশগতির জনক হিসেবে পরিচিত।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-5',
+    subjectId: 'biology',
+    topicId: 'ecology',
+    question: 'What is the primary source of energy in most ecosystems?',
+    questionBn: 'বেশিরভাগ বাস্তুতন্ত্রে প্রাথমিক শক্তির উৎস কী?',
+    options: ['Water', 'Soil', 'Sun', 'Wind'],
+    optionsBn: ['পানি', 'মাটি', 'সূর্য', 'বায়ু'],
+    correctAnswer: 2,
+    explanation: 'The sun is the primary source of energy in most ecosystems, used by plants for photosynthesis.',
+    explanationBn: 'সূর্য বেশিরভাগ বাস্তুতন্ত্রে প্রাথমিক শক্তির উৎস, যা উদ্ভিদ সালোকসংশ্লেষণের জন্য ব্যবহার করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-6',
+    subjectId: 'biology',
+    topicId: 'human',
+    question: 'What is the largest organ in the human body?',
+    questionBn: 'মানবদেহের সবচেয়ে বড় অঙ্গ কোনটি?',
+    options: ['Liver', 'Heart', 'Skin', 'Brain'],
+    optionsBn: ['যকৃত', 'হৃদপিণ্ড', 'ত্বক', 'মস্তিষ্ক'],
+    correctAnswer: 2,
+    explanation: 'The skin is the largest organ in the human body, covering about 2 square meters.',
+    explanationBn: 'ত্বক মানবদেহের সবচেয়ে বড় অঙ্গ, যা প্রায় ২ বর্গমিটার আচ্ছাদিত করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-7',
+    subjectId: 'biology',
+    topicId: 'cell',
+    question: 'Which organelle is responsible for protein synthesis?',
+    questionBn: 'কোন অঙ্গাণু প্রোটিন সংশ্লেষণের জন্য দায়ী?',
+    options: ['Mitochondria', 'Ribosome', 'Lysosome', 'Vacuole'],
+    optionsBn: ['মাইটোকন্ড্রিয়া', 'রাইবোসোম', 'লাইসোসোম', 'গহ্বর'],
+    correctAnswer: 1,
+    explanation: 'Ribosomes are responsible for protein synthesis in cells.',
+    explanationBn: 'রাইবোসোম কোষে প্রোটিন সংশ্লেষণের জন্য দায়ী।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-8',
+    subjectId: 'biology',
+    topicId: 'human',
+    question: 'How many chambers does the human heart have?',
+    questionBn: 'মানুষের হৃদপিণ্ডে কতটি প্রকোষ্ঠ আছে?',
+    options: ['2', '3', '4', '5'],
+    optionsBn: ['২', '৩', '৪', '৫'],
+    correctAnswer: 2,
+    explanation: 'The human heart has 4 chambers: 2 atria (upper) and 2 ventricles (lower).',
+    explanationBn: 'মানুষের হৃদপিণ্ডে ৪টি প্রকোষ্ঠ আছে: ২টি অলিন্দ (উপরে) এবং ২টি নিলয় (নিচে)।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // English Questions
+  {
+    id: 'q6',
+    subjectId: 'english',
+    topicId: 'grammar',
+    question: 'Choose the correct form: "She ___ to school every day."',
+    options: ['go', 'goes', 'going', 'gone'],
+    correctAnswer: 1,
+    explanation: 'With third person singular subjects (she/he/it), we use "goes" in simple present tense.',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-eng-2',
+    subjectId: 'english',
+    topicId: 'vocabulary',
+    question: 'What is the synonym of "happy"?',
+    options: ['Sad', 'Joyful', 'Angry', 'Tired'],
+    correctAnswer: 1,
+    explanation: '"Joyful" is a synonym of "happy" meaning feeling or showing great pleasure.',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-eng-3',
+    subjectId: 'english',
+    topicId: 'grammar',
+    question: 'Which is the correct passive voice of "She writes a letter"?',
+    options: ['A letter is written by her', 'A letter was written by her', 'A letter will be written by her', 'A letter has been written by her'],
+    correctAnswer: 0,
+    explanation: 'In simple present tense, passive voice uses "is/am/are + past participle".',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-eng-4',
+    subjectId: 'english',
+    topicId: 'vocabulary',
+    question: 'What is the antonym of "ancient"?',
+    options: ['Old', 'Modern', 'Historic', 'Traditional'],
+    correctAnswer: 1,
+    explanation: '"Modern" is the antonym of "ancient", meaning belonging to the present time.',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-eng-5',
+    subjectId: 'english',
+    topicId: 'comprehension',
+    question: 'What is the main purpose of a thesis statement?',
+    options: ['To summarize the conclusion', 'To present the main argument', 'To list sources', 'To provide background'],
+    correctAnswer: 1,
+    explanation: 'A thesis statement presents the main argument or point of an essay.',
+    difficulty: 'medium',
+    points: 15,
+  },
+  // HSC Physics 1st Paper
+  {
+    id: 'q-hsc-phy1-1',
+    subjectId: 'physics-1',
+    topicId: 'vectors',
+    question: 'What is the magnitude of a unit vector?',
+    questionBn: 'একক ভেক্টরের মান কত?',
+    options: ['0', '1', '2', 'Infinity'],
+    optionsBn: ['০', '১', '২', 'অসীম'],
+    correctAnswer: 1,
+    explanation: 'A unit vector has a magnitude of exactly 1.',
+    explanationBn: 'একক ভেক্টরের মান ঠিক ১।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy1-2',
+    subjectId: 'physics-1',
+    topicId: 'dynamics',
+    question: 'What is the unit of momentum?',
+    questionBn: 'ভরবেগের একক কী?',
+    options: ['kg·m/s²', 'kg·m/s', 'N/s', 'J/s'],
+    correctAnswer: 1,
+    explanation: 'Momentum = mass × velocity, so its unit is kg·m/s.',
+    explanationBn: 'ভরবেগ = ভর × বেগ, তাই এর একক kg·m/s।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy1-3',
+    subjectId: 'physics-1',
+    topicId: 'work-energy',
+    question: 'What is the SI unit of work?',
+    questionBn: 'কাজের SI একক কী?',
+    options: ['Watt', 'Newton', 'Joule', 'Pascal'],
+    optionsBn: ['ওয়াট', 'নিউটন', 'জুল', 'প্যাসকেল'],
+    correctAnswer: 2,
+    explanation: 'The SI unit of work is Joule (J). 1 J = 1 N·m',
+    explanationBn: 'কাজের SI একক জুল (J)। ১ J = ১ N·m',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy1-4',
+    subjectId: 'physics-1',
+    topicId: 'gravitation',
+    question: 'What is the value of gravitational constant G?',
+    questionBn: 'মহাকর্ষ ধ্রুবক G এর মান কত?',
+    options: ['6.67 × 10⁻¹¹ N·m²/kg²', '9.8 m/s²', '3 × 10⁸ m/s', '1.6 × 10⁻¹⁹ C'],
+    correctAnswer: 0,
+    explanation: 'G = 6.67 × 10⁻¹¹ N·m²/kg² is the universal gravitational constant.',
+    explanationBn: 'G = 6.67 × 10⁻¹¹ N·m²/kg² সার্বজনীন মহাকর্ষ ধ্রুবক।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-phy1-5',
+    subjectId: 'physics-1',
+    topicId: 'rotation',
+    question: 'What is the SI unit of angular velocity?',
+    questionBn: 'কৌণিক বেগের SI একক কী?',
+    options: ['m/s', 'rad/s', 'Hz', 'rpm'],
+    correctAnswer: 1,
+    explanation: 'Angular velocity is measured in radians per second (rad/s).',
+    explanationBn: 'কৌণিক বেগ রেডিয়ান/সেকেন্ড (rad/s) এ পরিমাপ করা হয়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // HSC Physics 2nd Paper
+  {
+    id: 'q-hsc-phy2-1',
+    subjectId: 'physics-2',
+    topicId: 'electricity-hsc',
+    question: "What is Ohm's Law?",
+    questionBn: 'ওহমের সূত্র কী?',
+    options: ['V = IR', 'P = IV', 'E = mc²', 'F = ma'],
+    correctAnswer: 0,
+    explanation: "Ohm's Law states V = IR, where V is voltage, I is current, and R is resistance.",
+    explanationBn: 'ওহমের সূত্র বলে V = IR, যেখানে V ভোল্টেজ, I বিদ্যুৎ প্রবাহ, R রোধ।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy2-2',
+    subjectId: 'physics-2',
+    topicId: 'magnetism',
+    question: 'What is the SI unit of magnetic flux?',
+    questionBn: 'চৌম্বক ফ্লাক্সের SI একক কী?',
+    options: ['Tesla', 'Weber', 'Henry', 'Ampere'],
+    optionsBn: ['টেসলা', 'ওয়েবার', 'হেনরি', 'অ্যাম্পিয়ার'],
+    correctAnswer: 1,
+    explanation: 'The SI unit of magnetic flux is Weber (Wb). 1 Wb = 1 T·m²',
+    explanationBn: 'চৌম্বক ফ্লাক্সের SI একক ওয়েবার (Wb)। ১ Wb = ১ T·m²',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy2-3',
+    subjectId: 'physics-2',
+    topicId: 'modern-physics',
+    question: 'What is the charge of an electron?',
+    questionBn: 'ইলেকট্রনের চার্জ কত?',
+    options: ['+1.6 × 10⁻¹⁹ C', '-1.6 × 10⁻¹⁹ C', '0 C', '9.1 × 10⁻³¹ C'],
+    correctAnswer: 1,
+    explanation: 'An electron has a charge of -1.6 × 10⁻¹⁹ Coulombs.',
+    explanationBn: 'ইলেকট্রনের চার্জ -1.6 × 10⁻¹⁹ কুলম্ব।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-phy2-4',
+    subjectId: 'physics-2',
+    topicId: 'semiconductor',
+    question: 'What type of semiconductor is Silicon at room temperature?',
+    questionBn: 'সাধারণ তাপমাত্রায় সিলিকন কোন ধরনের অর্ধপরিবাহী?',
+    options: ['P-type', 'N-type', 'Intrinsic', 'Extrinsic'],
+    optionsBn: ['P-টাইপ', 'N-টাইপ', 'অন্তর্জাত', 'বহির্জাত'],
+    correctAnswer: 2,
+    explanation: 'Pure Silicon at room temperature is an intrinsic semiconductor.',
+    explanationBn: 'বিশুদ্ধ সিলিকন সাধারণ তাপমাত্রায় অন্তর্জাত অর্ধপরিবাহী।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-phy2-5',
+    subjectId: 'physics-2',
+    topicId: 'atomic-physics',
+    question: "Who proposed the atomic model with electron orbits?",
+    questionBn: 'ইলেকট্রন কক্ষপথ সহ পারমাণবিক মডেল কে প্রস্তাব করেন?',
+    options: ['Dalton', 'Thomson', 'Rutherford', 'Bohr'],
+    optionsBn: ['ডাল্টন', 'থমসন', 'রাদারফোর্ড', 'বোর'],
+    correctAnswer: 3,
+    explanation: 'Niels Bohr proposed the atomic model with electrons in discrete orbits.',
+    explanationBn: 'নিলস বোর বিচ্ছিন্ন কক্ষপথে ইলেকট্রন সহ পারমাণবিক মডেল প্রস্তাব করেন।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // HSC Chemistry 1st Paper
+  {
+    id: 'q-hsc-chem1-1',
+    subjectId: 'chemistry-1',
+    topicId: 'atomic-structure',
+    question: 'What is the maximum number of electrons in the first shell?',
+    questionBn: 'প্রথম শেলে সর্বাধিক কতটি ইলেকট্রন থাকতে পারে?',
+    options: ['2', '8', '18', '32'],
+    optionsBn: ['২', '৮', '১৮', '৩২'],
+    correctAnswer: 0,
+    explanation: 'The first shell (n=1) can hold a maximum of 2 electrons.',
+    explanationBn: 'প্রথম শেলে (n=১) সর্বাধিক ২টি ইলেকট্রন থাকতে পারে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-chem1-2',
+    subjectId: 'chemistry-1',
+    topicId: 'chemical-bonding',
+    question: 'What type of bond is formed between Na and Cl in NaCl?',
+    questionBn: 'NaCl-এ Na ও Cl এর মধ্যে কোন ধরনের বন্ধন গঠিত হয়?',
+    options: ['Covalent', 'Ionic', 'Metallic', 'Hydrogen'],
+    optionsBn: ['সমযোজী', 'আয়নিক', 'ধাতব', 'হাইড্রোজেন'],
+    correctAnswer: 1,
+    explanation: 'NaCl has ionic bond formed by transfer of electron from Na to Cl.',
+    explanationBn: 'NaCl-এ Na থেকে Cl-এ ইলেকট্রন স্থানান্তরের মাধ্যমে আয়নিক বন্ধন গঠিত হয়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-chem1-3',
+    subjectId: 'chemistry-1',
+    topicId: 'states-matter',
+    question: 'At what temperature does water boil at standard pressure?',
+    questionBn: 'প্রমাণ চাপে পানি কত তাপমাত্রায় ফুটে?',
+    options: ['0°C', '100°C', '212°C', '373°C'],
+    optionsBn: ['০°C', '১০০°C', '২১২°C', '৩৭৩°C'],
+    correctAnswer: 1,
+    explanation: 'Water boils at 100°C (212°F or 373 K) at standard atmospheric pressure.',
+    explanationBn: 'প্রমাণ বায়ুমণ্ডলীয় চাপে পানি ১০০°C (২১২°F বা ৩৭৩ K) এ ফুটে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-chem1-4',
+    subjectId: 'chemistry-1',
+    topicId: 'periodic-properties',
+    question: 'Which group elements are called halogens?',
+    questionBn: 'কোন গ্রুপের মৌলগুলিকে হ্যালোজেন বলা হয়?',
+    options: ['Group 1', 'Group 2', 'Group 17', 'Group 18'],
+    optionsBn: ['গ্রুপ ১', 'গ্রুপ ২', 'গ্রুপ ১৭', 'গ্রুপ ১৮'],
+    correctAnswer: 2,
+    explanation: 'Group 17 elements (F, Cl, Br, I, At) are called halogens.',
+    explanationBn: 'গ্রুপ ১৭ এর মৌলগুলি (F, Cl, Br, I, At) হ্যালোজেন বলা হয়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-chem1-5',
+    subjectId: 'chemistry-1',
+    topicId: 'atomic-structure',
+    question: 'What is the mass number of an atom with 6 protons and 6 neutrons?',
+    questionBn: '৬টি প্রোটন ও ৬টি নিউট্রন বিশিষ্ট পরমাণুর ভর সংখ্যা কত?',
+    options: ['6', '12', '18', '36'],
+    optionsBn: ['৬', '১২', '১৮', '৩৬'],
+    correctAnswer: 1,
+    explanation: 'Mass number = protons + neutrons = 6 + 6 = 12 (This is Carbon-12).',
+    explanationBn: 'ভর সংখ্যা = প্রোটন + নিউট্রন = ৬ + ৬ = ১২ (এটি কার্বন-১২)।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // HSC Higher Math 1st Paper
+  {
+    id: 'q-hsc-hm1-1',
+    subjectId: 'higher-math-1',
+    topicId: 'matrices',
+    question: 'What is the determinant of a 2×2 identity matrix?',
+    questionBn: '২×২ একক ম্যাট্রিক্সের নির্ণায়ক কত?',
+    options: ['0', '1', '2', '-1'],
+    optionsBn: ['০', '১', '২', '-১'],
+    correctAnswer: 1,
+    explanation: 'The determinant of any identity matrix is 1.',
+    explanationBn: 'যেকোনো একক ম্যাট্রিক্সের নির্ণায়ক ১।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm1-2',
+    subjectId: 'higher-math-1',
+    topicId: 'complex-numbers',
+    question: 'What is the value of i²?',
+    questionBn: 'i² এর মান কত?',
+    options: ['1', '-1', 'i', '-i'],
+    optionsBn: ['১', '-১', 'i', '-i'],
+    correctAnswer: 1,
+    explanation: 'i² = -1, where i is the imaginary unit.',
+    explanationBn: 'i² = -১, যেখানে i হল কাল্পনিক একক।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm1-3',
+    subjectId: 'higher-math-1',
+    topicId: 'trigonometry-hsc',
+    question: 'What is the value of cos(0°)?',
+    questionBn: 'cos(0°) এর মান কত?',
+    options: ['0', '1', '-1', '1/2'],
+    optionsBn: ['০', '১', '-১', '১/২'],
+    correctAnswer: 1,
+    explanation: 'cos(0°) = 1',
+    explanationBn: 'cos(0°) = ১',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm1-4',
+    subjectId: 'higher-math-1',
+    topicId: 'polynomials',
+    question: 'What is the degree of the polynomial x³ + 2x² - 5x + 1?',
+    questionBn: 'x³ + 2x² - 5x + 1 বহুপদীটির ঘাত কত?',
+    options: ['1', '2', '3', '4'],
+    optionsBn: ['১', '২', '৩', '৪'],
+    correctAnswer: 2,
+    explanation: 'The degree is the highest power of x, which is 3.',
+    explanationBn: 'ঘাত হল x এর সর্বোচ্চ সূচক, যা ৩।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm1-5',
+    subjectId: 'higher-math-1',
+    topicId: 'matrices',
+    question: 'If A is a 3×2 matrix and B is a 2×4 matrix, what is the size of AB?',
+    questionBn: 'যদি A একটি 3×2 ম্যাট্রিক্স এবং B একটি 2×4 ম্যাট্রিক্স হয়, AB এর আকার কত?',
+    options: ['3×4', '2×2', '4×3', '3×2'],
+    optionsBn: ['৩×৪', '২×২', '৪×৩', '৩×২'],
+    correctAnswer: 0,
+    explanation: 'AB will be a 3×4 matrix (rows of A × columns of B).',
+    explanationBn: 'AB একটি ৩×৪ ম্যাট্রিক্স হবে (A এর সারি × B এর কলাম)।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  // HSC Higher Math 2nd Paper
+  {
+    id: 'q-hsc-hm2-1',
+    subjectId: 'higher-math-2',
+    topicId: 'calculus',
+    question: 'What is the derivative of x²?',
+    questionBn: 'x² এর অন্তরক কত?',
+    options: ['x', '2x', 'x²', '2'],
+    optionsBn: ['x', '2x', 'x²', '২'],
+    correctAnswer: 1,
+    explanation: 'd/dx(x²) = 2x using the power rule.',
+    explanationBn: 'সূচক নিয়ম ব্যবহার করে d/dx(x²) = 2x।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-2',
+    subjectId: 'higher-math-2',
+    topicId: 'integration',
+    question: 'What is ∫2x dx?',
+    questionBn: '∫2x dx = ?',
+    options: ['x + C', 'x² + C', '2x² + C', '2 + C'],
+    optionsBn: ['x + C', 'x² + C', '2x² + C', '২ + C'],
+    correctAnswer: 1,
+    explanation: '∫2x dx = x² + C',
+    explanationBn: '∫2x dx = x² + C',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-3',
+    subjectId: 'higher-math-2',
+    topicId: 'coordinate-geometry',
+    question: 'What is the distance between points (0,0) and (3,4)?',
+    questionBn: '(০,০) এবং (৩,৪) বিন্দু দুটির মধ্যে দূরত্ব কত?',
+    options: ['3', '4', '5', '7'],
+    optionsBn: ['৩', '৪', '৫', '৭'],
+    correctAnswer: 2,
+    explanation: 'Distance = √(3² + 4²) = √(9 + 16) = √25 = 5',
+    explanationBn: 'দূরত্ব = √(৩² + ৪²) = √(৯ + ১৬) = √২৫ = ৫',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-4',
+    subjectId: 'higher-math-2',
+    topicId: 'probability-stats',
+    question: 'What is the probability of getting heads when tossing a fair coin?',
+    questionBn: 'একটি সুষম মুদ্রা টস করলে হেড পাওয়ার সম্ভাবনা কত?',
+    options: ['0', '1/4', '1/2', '1'],
+    optionsBn: ['০', '১/৪', '১/২', '১'],
+    correctAnswer: 2,
+    explanation: 'P(heads) = 1/2 for a fair coin.',
+    explanationBn: 'সুষম মুদ্রার জন্য P(হেড) = ১/২।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-5',
+    subjectId: 'higher-math-2',
+    topicId: 'calculus',
+    question: 'What is the derivative of sin(x)?',
+    questionBn: 'sin(x) এর অন্তরক কত?',
+    options: ['sin(x)', 'cos(x)', '-sin(x)', '-cos(x)'],
+    optionsBn: ['sin(x)', 'cos(x)', '-sin(x)', '-cos(x)'],
+    correctAnswer: 1,
+    explanation: 'd/dx[sin(x)] = cos(x)',
+    explanationBn: 'd/dx[sin(x)] = cos(x)',
+    difficulty: 'easy',
+    points: 10,
+  },
 ];
 
 export const badges: Badge[] = [
@@ -257,6 +1203,8 @@ export const badges: Badge[] = [
   { id: 'points_100', name: 'Century', description: 'Earn 100 points', icon: '💎' },
   { id: 'points_500', name: 'Scholar', description: 'Earn 500 points', icon: '📜' },
   { id: 'points_1000', name: 'Expert', description: 'Earn 1000 points', icon: '🎓' },
+  { id: 'note_reader', name: 'Bookworm', description: 'Read 5 notes', icon: '📚' },
+  { id: 'surprise_ace', name: 'Surprise Ace', description: 'Score 100% on a surprise test', icon: '🎊' },
 ];
 
 export const defaultProfile: StudentProfile = {
@@ -273,4 +1221,5 @@ export const defaultProfile: StudentProfile = {
   dailyGoal: 10,
   dailyProgress: 0,
   badges: [],
+  readNotes: [],
 };
