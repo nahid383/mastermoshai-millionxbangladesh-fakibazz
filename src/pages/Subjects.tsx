@@ -3,12 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { SubjectCard } from '@/components/SubjectCard';
 import { useStudent } from '@/context/StudentContext';
-import { subjects } from '@/lib/data';
+import { getSubjectsByLevel } from '@/lib/data';
 
 export const Subjects: React.FC = () => {
   const navigate = useNavigate();
   const { profile } = useStudent();
   const useBangla = profile.medium === 'bangla';
+  
+  const subjects = getSubjectsByLevel(profile.level);
 
   return (
     <div className="min-h-screen bg-background">
@@ -21,8 +23,8 @@ export const Subjects: React.FC = () => {
           </h1>
           <p className="text-muted-foreground mt-1">
             {useBangla 
-              ? 'যেকোনো বিষয় বেছে নিন এবং অনুশীলন শুরু করুন' 
-              : 'Choose any subject to start practicing'}
+              ? `${profile.level.toUpperCase()} - যেকোনো বিষয় বেছে নিন` 
+              : `${profile.level.toUpperCase()} - Choose any subject to practice`}
           </p>
         </div>
 
