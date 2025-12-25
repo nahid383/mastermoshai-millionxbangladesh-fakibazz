@@ -252,7 +252,7 @@ export const Quiz: React.FC = () => {
       </header>
 
       <main className="container max-w-4xl mx-auto px-4 py-8">
-        {!isComplete ? (
+        {!isComplete && questions[currentIndex] ? (
           <QuizCard
             key={`question-${currentIndex}`}
             question={questions[currentIndex]}
@@ -261,6 +261,10 @@ export const Quiz: React.FC = () => {
             questionNumber={currentIndex + 1}
             totalQuestions={questions.length}
           />
+        ) : !isComplete ? (
+          <div className="text-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-primary mx-auto" />
+          </div>
         ) : (
           /* Results */
           <div className="max-w-md mx-auto text-center animate-scale-in">
