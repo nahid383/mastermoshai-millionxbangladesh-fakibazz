@@ -8,7 +8,7 @@ import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { subjects } from '@/lib/data';
-import { Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot } from 'lucide-react';
+import { Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot, Database } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -139,7 +139,26 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Subjects */}
+        {/* Question Bank Card */}
+        <div className="glass-card rounded-2xl p-5 mb-6 animate-slide-up" style={{ animationDelay: '275ms' }}>
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+              <Database className="w-7 h-7 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-foreground">
+                {useBangla ? 'প্রশ্ন ব্যাংক' : 'Question Bank'}
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {useBangla ? 'প্রশ্ন যোগ, সম্পাদনা ও মুছুন' : 'Add, edit & manage quiz questions'}
+              </p>
+            </div>
+            <Button variant="outline" size="sm" onClick={() => navigate('/question-bank')}>
+              <Database className="w-4 h-4" />
+              {useBangla ? 'ম্যানেজ' : 'Manage'}
+            </Button>
+          </div>
+        </div>
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-foreground mb-4">
             {useBangla ? 'বিষয়সমূহ' : 'Subjects'}
