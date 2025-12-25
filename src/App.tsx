@@ -19,6 +19,7 @@ import { Install } from "@/pages/Install";
 import { Learn } from "@/pages/Learn";
 import { NoteReader } from "@/pages/NoteReader";
 import { AIChat } from "@/pages/AIChat";
+import { QuestionBank } from "@/pages/QuestionBank";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -154,6 +155,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <AIChat />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/question-bank"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <QuestionBank />
           </ProtectedRoute>
         }
       />

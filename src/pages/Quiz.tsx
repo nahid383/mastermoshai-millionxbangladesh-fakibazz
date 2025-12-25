@@ -3,7 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { QuizCard } from '@/components/QuizCard';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
-import { subjects, sampleQuestions } from '@/lib/data';
+import { subjects, Question } from '@/lib/data';
+import { useSubjectQuestions } from '@/hooks/useQuestions';
 import { ArrowLeft, Trophy, RotateCcw, Home, CheckCircle2, Bot, Loader2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -13,6 +14,7 @@ export const Quiz: React.FC = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
   const { profile, addPoints, recordAnswer, earnBadge } = useStudent();
+  const { data: dbQuestions = [], isLoading: questionsLoading } = useSubjectQuestions(subjectId);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -24,14 +26,23 @@ export const Quiz: React.FC = () => {
   const subject = subjects.find(s => s.id === subjectId);
   const useBangla = profile.medium === 'bangla';
   
-  const questions = useMemo(() => {
-    const subjectQuestions = sampleQuestions.filter(q => q.subjectId === subjectId);
-    // If no subject-specific questions, show sample from all
-    if (subjectQuestions.length === 0) {
-      return sampleQuestions.slice(0, 10);
-    }
-    return subjectQuestions.slice(0, 10);
-  }, [subjectId]);
+  // Transform database questions to the format QuizCard expects
+  const questions: Question[] = useMemo(() => {
+    return dbQuestions.slice(0, 10).map(q => ({
+      id: q.id,
+      subjectId: q.subject_id,
+      topicId: q.topic || 'general',
+      question: q.question,
+      questionBn: q.question_bangla || undefined,
+      options: Array.isArray(q.options) ? q.options : [],
+      optionsBn: undefined,
+      correctAnswer: q.correct_answer,
+      explanation: q.explanation || '',
+      explanationBn: q.explanation_bangla || undefined,
+      difficulty: (q.difficulty as 'easy' | 'medium' | 'hard') || 'medium',
+      points: q.difficulty === 'hard' ? 15 : q.difficulty === 'medium' ? 10 : 5,
+    }));
+  }, [dbQuestions]);
 
   // Get AI feedback when quiz completes
   useEffect(() => {
@@ -172,6 +183,31 @@ export const Quiz: React.FC = () => {
           <h1 className="text-2xl font-bold mb-4">Subject not found</h1>
           <Button onClick={() => navigate('/subjects')}>
             Back to Subjects
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (questionsLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading questions...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">No questions available</h1>
+          <p className="text-muted-foreground mb-4">Add questions via the Question Bank</p>
+          <Button onClick={() => navigate('/question-bank')}>
+            Go to Question Bank
           </Button>
         </div>
       </div>

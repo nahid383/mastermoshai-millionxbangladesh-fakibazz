@@ -86,6 +86,51 @@ export type Database = {
         }
         Relationships: []
       }
+      questions: {
+        Row: {
+          correct_answer: number
+          created_at: string
+          difficulty: string | null
+          explanation: string | null
+          explanation_bangla: string | null
+          id: string
+          options: Json
+          question: string
+          question_bangla: string | null
+          subject_id: string
+          topic: string | null
+          updated_at: string
+        }
+        Insert: {
+          correct_answer: number
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          explanation_bangla?: string | null
+          id?: string
+          options?: Json
+          question: string
+          question_bangla?: string | null
+          subject_id: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Update: {
+          correct_answer?: number
+          created_at?: string
+          difficulty?: string | null
+          explanation?: string | null
+          explanation_bangla?: string | null
+          id?: string
+          options?: Json
+          question?: string
+          question_bangla?: string | null
+          subject_id?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
