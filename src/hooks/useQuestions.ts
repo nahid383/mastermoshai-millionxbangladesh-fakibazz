@@ -29,43 +29,86 @@ export interface QuestionInput {
   difficulty?: string;
 }
 
-// Fetch questions for a subject
-export function useSubjectQuestions(subjectId: string | undefined) {
+// Fetch questions for a subject with optional difficulty filter
+export function useSubjectQuestions(subjectId: string | undefined, difficulty?: string) {
   return useQuery({
-    queryKey: ['questions', subjectId],
+    queryKey: ['questions', subjectId, difficulty],
     queryFn: async () => {
       if (!subjectId) return [];
       
-      const { data, error } = await supabase
+      let query = supabase
         .from('questions')
         .select('*')
-        .eq('subject_id', subjectId)
-        .order('created_at', { ascending: false });
+        .eq('subject_id', subjectId);
+      
+      if (difficulty && difficulty !== 'all') {
+        query = query.eq('difficulty', difficulty);
+      }
+      
+      const { data, error } = await query.order('created_at', { ascending: false });
       
       if (error) throw error;
       
       // If no questions in DB, fall back to sample questions
       if (!data || data.length === 0) {
-        const fallback = sampleQuestions
-          .filter(q => q.subjectId === subjectId)
-          .map(q => ({
-            id: q.id,
-            subject_id: q.subjectId,
-            question: q.question,
-            question_bangla: q.questionBn || null,
-            options: q.options,
-            correct_answer: q.correctAnswer,
-            explanation: q.explanation,
-            explanation_bangla: q.explanationBn || null,
-            topic: q.topicId,
-            difficulty: q.difficulty,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          }));
-        return fallback;
+        let fallback = sampleQuestions
+          .filter(q => q.subjectId === subjectId);
+        
+        if (difficulty && difficulty !== 'all') {
+          fallback = fallback.filter(q => q.difficulty === difficulty);
+        }
+        
+        return fallback.map(q => ({
+          id: q.id,
+          subject_id: q.subjectId,
+          question: q.question,
+          question_bangla: q.questionBn || null,
+          options: q.options,
+          correct_answer: q.correctAnswer,
+          explanation: q.explanation,
+          explanation_bangla: q.explanationBn || null,
+          topic: q.topicId,
+          difficulty: q.difficulty,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        }));
       }
       
       return data as DatabaseQuestion[];
+    },
+    enabled: !!subjectId,
+  });
+}
+
+// Fetch question counts by difficulty for a subject
+export function useQuestionCounts(subjectId: string | undefined) {
+  return useQuery({
+    queryKey: ['question-counts', subjectId],
+    queryFn: async () => {
+      if (!subjectId) return { easy: 0, medium: 0, hard: 0, total: 0 };
+
+      const { data, error } = await supabase
+        .from('questions')
+        .select('difficulty')
+        .eq('subject_id', subjectId);
+
+      if (error) throw error;
+
+      const counts = {
+        easy: 0,
+        medium: 0,
+        hard: 0,
+        total: data?.length || 0,
+      };
+
+      data?.forEach((q) => {
+        const diff = q.difficulty || 'medium';
+        if (diff === 'easy') counts.easy++;
+        else if (diff === 'hard') counts.hard++;
+        else counts.medium++;
+      });
+
+      return counts;
     },
     enabled: !!subjectId,
   });

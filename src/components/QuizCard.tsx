@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Question } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, XCircle, Lightbulb, Volume2 } from 'lucide-react';
+import { QuizTimer } from './QuizTimer';
 
 interface QuizCardProps {
   question: Question;
@@ -10,6 +11,9 @@ interface QuizCardProps {
   onAnswer: (correct: boolean) => void;
   questionNumber: number;
   totalQuestions: number;
+  timerEnabled?: boolean;
+  timerSeconds?: number;
+  onTimeUp?: () => void;
 }
 
 export const QuizCard: React.FC<QuizCardProps> = ({
@@ -18,14 +22,48 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   onAnswer,
   questionNumber,
   totalQuestions,
+  timerEnabled = false,
+  timerSeconds = 30,
+  onTimeUp,
 }) => {
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [showExplanation, setShowExplanation] = useState(false);
   const [hasAnswered, setHasAnswered] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(timerSeconds);
+  const [isTimerRunning, setIsTimerRunning] = useState(timerEnabled);
 
   const questionText = useBangla && question.questionBn ? question.questionBn : question.question;
   const options = useBangla && question.optionsBn ? question.optionsBn : question.options;
   const explanation = useBangla && question.explanationBn ? question.explanationBn : question.explanation;
+
+  // Timer logic
+  useEffect(() => {
+    if (!timerEnabled || hasAnswered || timeLeft <= 0) {
+      setIsTimerRunning(false);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          setIsTimerRunning(false);
+          // Time's up - auto-select wrong answer
+          handleTimeUp();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timerEnabled, hasAnswered, timeLeft]);
+
+  const handleTimeUp = () => {
+    if (hasAnswered) return;
+    setHasAnswered(true);
+    setShowExplanation(true);
+    onTimeUp?.();
+  };
 
   const handleOptionClick = (index: number) => {
     if (hasAnswered) return;
@@ -33,6 +71,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
     setSelectedAnswer(index);
     setHasAnswered(true);
     setShowExplanation(true);
+    setIsTimerRunning(false);
   };
 
   const handleContinue = () => {
@@ -42,6 +81,7 @@ export const QuizCard: React.FC<QuizCardProps> = ({
   };
 
   const isCorrect = selectedAnswer === question.correctAnswer;
+  const timerPercentage = (timeLeft / timerSeconds) * 100;
 
   return (
     <div className="w-full max-w-2xl mx-auto animate-scale-in">
@@ -51,9 +91,14 @@ export const QuizCard: React.FC<QuizCardProps> = ({
           <span className="text-sm font-medium text-muted-foreground">
             Question {questionNumber} of {totalQuestions}
           </span>
-          <span className="text-sm font-medium text-primary">
-            +{question.points} pts
-          </span>
+          <div className="flex items-center gap-3">
+            {timerEnabled && (
+              <QuizTimer timeLeft={timeLeft} percentage={timerPercentage} />
+            )}
+            <span className="text-sm font-medium text-primary">
+              +{question.points} pts
+            </span>
+          </div>
         </div>
         <div className="h-2 bg-muted rounded-full overflow-hidden">
           <div
