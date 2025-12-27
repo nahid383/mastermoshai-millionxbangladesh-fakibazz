@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
-import { Home, BookOpen, BarChart3, User, Flame, Zap, GraduationCap } from 'lucide-react';
+import { Home, BookOpen, BarChart3, User, Flame, Zap, GraduationCap, Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export const Header: React.FC = () => {
@@ -14,6 +14,7 @@ export const Header: React.FC = () => {
     { path: '/dashboard', icon: Home, label: 'Home' },
     { path: '/learn', icon: GraduationCap, label: 'Learn' },
     { path: '/subjects', icon: BookOpen, label: 'Quiz' },
+    { path: '/leaderboard', icon: Trophy, label: 'Rank' },
     { path: '/progress', icon: BarChart3, label: 'Progress' },
     { path: '/profile', icon: User, label: 'Profile' },
   ];

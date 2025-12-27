@@ -20,6 +20,7 @@ import { Learn } from "@/pages/Learn";
 import { NoteReader } from "@/pages/NoteReader";
 import { AIChat } from "@/pages/AIChat";
 import { QuestionBank } from "@/pages/QuestionBank";
+import { Leaderboard } from "@/pages/Leaderboard";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -163,6 +164,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <QuestionBank />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/leaderboard"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <Leaderboard />
           </ProtectedRoute>
         }
       />
