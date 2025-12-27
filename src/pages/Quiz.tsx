@@ -1,11 +1,12 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QuizCard } from '@/components/QuizCard';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
 import { subjects, Question } from '@/lib/data';
-import { useSubjectQuestions } from '@/hooks/useQuestions';
-import { ArrowLeft, Trophy, RotateCcw, Home, CheckCircle2, Bot, Loader2, Sparkles } from 'lucide-react';
+import { useSubjectQuestions, useQuestionCounts } from '@/hooks/useQuestions';
+import { DifficultySelector, Difficulty, difficultyConfig } from '@/components/DifficultySelector';
+import { ArrowLeft, Trophy, RotateCcw, Home, CheckCircle2, Bot, Loader2, Sparkles, Clock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/ai-chat`;
@@ -14,7 +15,17 @@ export const Quiz: React.FC = () => {
   const { subjectId } = useParams<{ subjectId: string }>();
   const navigate = useNavigate();
   const { profile, addPoints, recordAnswer, earnBadge } = useStudent();
-  const { data: dbQuestions = [], isLoading: questionsLoading } = useSubjectQuestions(subjectId);
+  
+  // Quiz configuration state
+  const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty | null>(null);
+  const [timerEnabled, setTimerEnabled] = useState(false);
+  const [quizStarted, setQuizStarted] = useState(false);
+  
+  const { data: questionCounts = { easy: 0, medium: 0, hard: 0, total: 0 }, isLoading: countsLoading } = useQuestionCounts(subjectId);
+  const { data: dbQuestions = [], isLoading: questionsLoading } = useSubjectQuestions(
+    quizStarted ? subjectId : undefined,
+    selectedDifficulty || undefined
+  );
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -25,6 +36,9 @@ export const Quiz: React.FC = () => {
   
   const subject = subjects.find(s => s.id === subjectId);
   const useBangla = profile.medium === 'bangla';
+  
+  // Get timer seconds based on difficulty
+  const timerSeconds = selectedDifficulty ? difficultyConfig[selectedDifficulty].timerSeconds : 30;
   
   // Transform database questions to the format QuizCard expects
   const questions: Question[] = useMemo(() => {
@@ -43,6 +57,13 @@ export const Quiz: React.FC = () => {
       points: q.difficulty === 'hard' ? 15 : q.difficulty === 'medium' ? 10 : 5,
     }));
   }, [dbQuestions]);
+
+  // Handle difficulty selection
+  const handleDifficultySelect = (difficulty: Difficulty, withTimer: boolean) => {
+    setSelectedDifficulty(difficulty);
+    setTimerEnabled(withTimer);
+    setQuizStarted(true);
+  };
 
   // Get AI feedback when quiz completes
   useEffect(() => {
@@ -143,6 +164,13 @@ export const Quiz: React.FC = () => {
     }
   };
 
+  const handleTimeUp = useCallback(() => {
+    // Time ran out - mark as incorrect
+    const question = questions[currentIndex];
+    setAnswers(prev => [...prev, false]);
+    recordAnswer(false, question.topicId);
+  }, [currentIndex, questions, recordAnswer]);
+
   const handleAnswer = (correct: boolean) => {
     const question = questions[currentIndex];
     const pointsEarned = correct ? question.points : 0;
@@ -174,6 +202,9 @@ export const Quiz: React.FC = () => {
     setIsComplete(false);
     setAnswers([]);
     setAiFeedback('');
+    setQuizStarted(false);
+    setSelectedDifficulty(null);
+    setTimerEnabled(false);
   };
 
   if (!subject) {
@@ -186,6 +217,60 @@ export const Quiz: React.FC = () => {
           </Button>
         </div>
       </div>
+    );
+  }
+
+  // Show difficulty selector before quiz starts
+  if (!quizStarted) {
+    if (countsLoading) {
+      return (
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+          <div className="text-center">
+            <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto mb-4" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <>
+        <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
+          <div className="container max-w-4xl mx-auto px-4">
+            <div className="flex items-center gap-4 h-16">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => navigate(-1)}
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </Button>
+              <div className="flex items-center gap-3">
+                <div className={cn(
+                  'w-10 h-10 rounded-xl flex items-center justify-center text-xl',
+                  'bg-gradient-to-br shadow-md',
+                  subject.color
+                )}>
+                  {subject.icon}
+                </div>
+                <div>
+                  <h1 className="font-semibold text-foreground">
+                    {useBangla ? subject.nameBn : subject.name}
+                  </h1>
+                  <p className="text-xs text-muted-foreground">
+                    Select difficulty
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <DifficultySelector
+          onSelect={handleDifficultySelect}
+          subjectName={useBangla ? subject.nameBn : subject.name}
+          questionCounts={questionCounts}
+        />
+      </>
     );
   }
 
@@ -205,10 +290,17 @@ export const Quiz: React.FC = () => {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">No questions available</h1>
-          <p className="text-muted-foreground mb-4">Add questions via the Question Bank</p>
-          <Button onClick={() => navigate('/question-bank')}>
-            Go to Question Bank
-          </Button>
+          <p className="text-muted-foreground mb-4">
+            No {selectedDifficulty !== 'all' ? selectedDifficulty : ''} questions found for this subject.
+          </p>
+          <div className="flex gap-3 justify-center">
+            <Button variant="outline" onClick={handleRestart}>
+              Try Different Difficulty
+            </Button>
+            <Button onClick={() => navigate('/question-bank')}>
+              Go to Question Bank
+            </Button>
+          </div>
         </div>
       </div>
     );
@@ -230,7 +322,7 @@ export const Quiz: React.FC = () => {
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-1">
               <div className={cn(
                 'w-10 h-10 rounded-xl flex items-center justify-center text-xl',
                 'bg-gradient-to-br shadow-md',
@@ -242,9 +334,18 @@ export const Quiz: React.FC = () => {
                 <h1 className="font-semibold text-foreground">
                   {useBangla ? subject.nameBn : subject.name}
                 </h1>
-                <p className="text-xs text-muted-foreground">
-                  {questions.length} questions
-                </p>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <span className="capitalize">{selectedDifficulty}</span>
+                  {timerEnabled && (
+                    <>
+                      <span>•</span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        Timed
+                      </span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -260,6 +361,9 @@ export const Quiz: React.FC = () => {
             onAnswer={handleAnswer}
             questionNumber={currentIndex + 1}
             totalQuestions={questions.length}
+            timerEnabled={timerEnabled}
+            timerSeconds={timerSeconds}
+            onTimeUp={handleTimeUp}
           />
         ) : !isComplete ? (
           <div className="text-center py-12">
@@ -289,6 +393,7 @@ export const Quiz: React.FC = () => {
             
             <p className="text-muted-foreground mb-6">
               You scored {correctCount} out of {questions.length} questions correctly
+              {timerEnabled && ' (Timed mode)'}
             </p>
 
             {/* Score circle */}
@@ -307,7 +412,7 @@ export const Quiz: React.FC = () => {
             </div>
 
             {/* Answer summary */}
-            <div className="flex justify-center gap-2 mb-6">
+            <div className="flex justify-center gap-2 mb-6 flex-wrap">
               {answers.map((correct, i) => (
                 <div
                   key={i}
