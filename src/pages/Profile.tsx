@@ -39,6 +39,7 @@ import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import { useTheme } from 'next-themes';
 import { Separator } from '@/components/ui/separator';
+import { AvatarUpload } from '@/components/AvatarUpload';
 
 const InstallAppButton: React.FC = () => {
   const navigate = useNavigate();
@@ -155,9 +156,12 @@ export const Profile: React.FC = () => {
         {/* Profile Header */}
         <div className="glass-card rounded-2xl p-6 mb-6 animate-fade-in">
           <div className="flex items-center gap-4">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-4xl shadow-glow">
-              👨‍🎓
-            </div>
+            <AvatarUpload
+              currentAvatarUrl={profile.avatarUrl}
+              userName={profile.name}
+              onUploadSuccess={(url) => updateProfile({ avatarUrl: url })}
+              size="lg"
+            />
             <div className="flex-1">
               <h1 className="text-xl font-bold text-foreground">{profile.name || 'Student'}</h1>
               <div className="flex items-center gap-4 mt-2">

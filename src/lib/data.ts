@@ -62,6 +62,7 @@ export interface StudentProfile {
   dailyProgress: number;
   badges: Badge[];
   readNotes?: string[]; // IDs of notes the user has read
+  avatarUrl?: string; // Profile picture URL
   // Admission fields
   institution?: string;
   admissionYear?: string;

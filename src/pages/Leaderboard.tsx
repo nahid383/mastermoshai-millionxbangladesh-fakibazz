@@ -6,6 +6,7 @@ import { Trophy, Flame, Zap, Medal, Crown, Youtube } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface LeaderboardUser {
   id: string;
@@ -14,6 +15,7 @@ interface LeaderboardUser {
   streak: number;
   correct_answers: number;
   questions_answered: number;
+  avatar_url: string | null;
 }
 
 export const Leaderboard: React.FC = () => {
@@ -22,7 +24,7 @@ export const Leaderboard: React.FC = () => {
     queryFn: async () => {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, name, total_points, streak, correct_answers, questions_answered')
+        .select('id, name, total_points, streak, correct_answers, questions_answered, avatar_url')
         .order('total_points', { ascending: false })
         .limit(50);
       
@@ -111,9 +113,16 @@ export const Leaderboard: React.FC = () => {
                     {/* Avatar & Name */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-primary-foreground font-bold">
-                          {(user.name || 'A')[0].toUpperCase()}
-                        </div>
+                        <Avatar className="w-10 h-10">
+                          <AvatarImage 
+                            src={user.avatar_url || undefined} 
+                            alt={user.name || 'User'}
+                            className="object-cover"
+                          />
+                          <AvatarFallback className="bg-gradient-to-br from-primary to-accent text-primary-foreground font-bold">
+                            {(user.name || 'A')[0].toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
                         <div className="min-w-0">
                           <p className="font-semibold text-foreground truncate">
                             {user.name || 'Anonymous'}
