@@ -17,6 +17,7 @@ export type Database = {
       profiles: {
         Row: {
           admission_year: string | null
+          avatar_url: string | null
           badges: Json | null
           correct_answers: number | null
           created_at: string
@@ -40,6 +41,7 @@ export type Database = {
         }
         Insert: {
           admission_year?: string | null
+          avatar_url?: string | null
           badges?: Json | null
           correct_answers?: number | null
           created_at?: string
@@ -63,6 +65,7 @@ export type Database = {
         }
         Update: {
           admission_year?: string | null
+          avatar_url?: string | null
           badges?: Json | null
           correct_answers?: number | null
           created_at?: string

@@ -145,6 +145,7 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
           targetUniversity: (data as any).target_university ?? prev.targetUniversity,
           targetDepartment: (data as any).target_department ?? prev.targetDepartment,
           examDate: (data as any).exam_date ?? prev.examDate,
+          avatarUrl: (data as any).avatar_url ?? prev.avatarUrl,
           streak: data.streak ?? 0,
           totalPoints: data.total_points ?? 0,
           questionsAnswered: data.questions_answered ?? 0,
@@ -193,6 +194,7 @@ export const StudentProvider: React.FC<{ children: ReactNode }> = ({ children })
         target_department: profile.targetDepartment || null,
         exam_date: profile.examDate || null,
         location: typeof meta?.location === 'string' ? meta.location : null,
+        avatar_url: profile.avatarUrl || null,
       };
 
       const { error } = await supabase
