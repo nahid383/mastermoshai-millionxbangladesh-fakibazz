@@ -956,6 +956,484 @@ z = r(cosθ + isinθ) = re^(iθ)`,
     xpReward: 25,
     readTime: 5,
   },
+  // Additional SSC Notes
+  {
+    id: 'note-7',
+    topicId: 'geometry',
+    subjectId: 'math',
+    title: 'Properties of Triangles',
+    titleBn: 'ত্রিভুজের বৈশিষ্ট্য',
+    content: `# Properties of Triangles
+
+## Types of Triangles by Sides:
+1. **Equilateral**: All sides equal
+2. **Isosceles**: Two sides equal
+3. **Scalene**: No sides equal
+
+## Types by Angles:
+1. **Acute**: All angles < 90°
+2. **Right**: One angle = 90°
+3. **Obtuse**: One angle > 90°
+
+## Important Properties:
+- Sum of angles = 180°
+- Sum of any two sides > third side
+- Area = ½ × base × height
+- Pythagoras: a² + b² = c² (right triangle)`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-8',
+    topicId: 'statistics',
+    subjectId: 'math',
+    title: 'Mean, Median, and Mode',
+    titleBn: 'গড়, মধ্যমা এবং প্রচুরক',
+    content: `# Measures of Central Tendency
+
+## Mean (Average)
+Mean = Sum of all values / Number of values
+
+## Median (Middle Value)
+- Arrange data in order
+- Middle value for odd n
+- Average of two middle values for even n
+
+## Mode (Most Frequent)
+- Value that appears most often
+- A dataset can have multiple modes
+
+## Example:
+Data: 2, 3, 4, 4, 5, 6, 7
+- Mean = 31/7 = 4.43
+- Median = 4
+- Mode = 4`,
+    xpReward: 20,
+    readTime: 4,
+  },
+  {
+    id: 'note-9',
+    topicId: 'electricity',
+    subjectId: 'physics',
+    title: 'Electric Circuits Basics',
+    titleBn: 'বৈদ্যুতিক বর্তনীর মূলনীতি',
+    content: `# Electric Circuits
+
+## Key Concepts:
+- **Current (I)**: Flow of charge, measured in Amperes
+- **Voltage (V)**: Electric potential difference, measured in Volts
+- **Resistance (R)**: Opposition to current, measured in Ohms
+
+## Ohm's Law:
+V = I × R
+
+## Series Circuit:
+- Current same everywhere
+- Voltage divides
+- R_total = R₁ + R₂ + R₃
+
+## Parallel Circuit:
+- Voltage same everywhere
+- Current divides
+- 1/R_total = 1/R₁ + 1/R₂ + 1/R₃`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-10',
+    topicId: 'optics',
+    subjectId: 'physics',
+    title: 'Reflection and Refraction',
+    titleBn: 'প্রতিফলন ও প্রতিসরণ',
+    content: `# Light: Reflection & Refraction
+
+## Reflection:
+- Light bounces off surfaces
+- Angle of incidence = Angle of reflection
+- Types: Regular (mirror) vs Diffuse (rough surface)
+
+## Refraction:
+- Light bends when passing through different media
+- Snell's Law: n₁ sin θ₁ = n₂ sin θ₂
+- Causes: Different speeds in different media
+
+## Real-life Examples:
+- Mirrors (reflection)
+- Lens in glasses (refraction)
+- Rainbow (refraction + dispersion)`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-11',
+    topicId: 'inorganic',
+    subjectId: 'chemistry',
+    title: 'Acids, Bases and Salts',
+    titleBn: 'এসিড, ক্ষার ও লবণ',
+    content: `# Acids, Bases and Salts
+
+## Acids:
+- Donate H⁺ ions
+- pH < 7
+- Examples: HCl, H₂SO₄, CH₃COOH
+
+## Bases:
+- Accept H⁺ or donate OH⁻
+- pH > 7
+- Examples: NaOH, KOH, NH₃
+
+## Salts:
+- Formed from acid-base reaction
+- Examples: NaCl, CaSO₄
+
+## pH Scale:
+0-6: Acidic
+7: Neutral
+8-14: Basic`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-12',
+    topicId: 'reactions',
+    subjectId: 'chemistry',
+    title: 'Types of Chemical Reactions',
+    titleBn: 'রাসায়নিক বিক্রিয়ার প্রকারভেদ',
+    content: `# Types of Chemical Reactions
+
+## 1. Combination (Synthesis)
+A + B → AB
+Example: 2H₂ + O₂ → 2H₂O
+
+## 2. Decomposition
+AB → A + B
+Example: 2H₂O → 2H₂ + O₂
+
+## 3. Single Displacement
+A + BC → AC + B
+Example: Zn + CuSO₄ → ZnSO₄ + Cu
+
+## 4. Double Displacement
+AB + CD → AD + CB
+Example: NaCl + AgNO₃ → NaNO₃ + AgCl
+
+## 5. Combustion
+Fuel + O₂ → CO₂ + H₂O + Energy`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-13',
+    topicId: 'genetics',
+    subjectId: 'biology',
+    title: 'DNA and RNA',
+    titleBn: 'DNA এবং RNA',
+    content: `# DNA and RNA
+
+## DNA (Deoxyribonucleic Acid)
+- Double helix structure
+- Sugar: Deoxyribose
+- Bases: A, T, G, C
+- Function: Stores genetic info
+
+## RNA (Ribonucleic Acid)
+- Single stranded
+- Sugar: Ribose
+- Bases: A, U, G, C
+- Types: mRNA, tRNA, rRNA
+
+## Central Dogma:
+DNA → RNA → Protein
+(Transcription → Translation)`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-14',
+    topicId: 'ecology',
+    subjectId: 'biology',
+    title: 'Food Chains and Food Webs',
+    titleBn: 'খাদ্য শৃঙ্খল ও খাদ্যজাল',
+    content: `# Food Chains and Food Webs
+
+## Food Chain:
+Linear pathway of energy transfer
+Example: Grass → Grasshopper → Frog → Snake → Eagle
+
+## Trophic Levels:
+1. Producers (plants)
+2. Primary consumers (herbivores)
+3. Secondary consumers (carnivores)
+4. Tertiary consumers (top predators)
+
+## Food Web:
+- Multiple interconnected food chains
+- More realistic representation
+- Shows ecosystem complexity
+
+## Energy Transfer:
+Only 10% energy passes to next level`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-15',
+    topicId: 'vocabulary',
+    subjectId: 'english',
+    title: 'Common Prefixes and Suffixes',
+    titleBn: 'সাধারণ উপসর্গ ও প্রত্যয়',
+    content: `# Prefixes and Suffixes
+
+## Common Prefixes:
+- un- (not): unhappy, undo
+- re- (again): redo, rewrite
+- pre- (before): preview, predict
+- dis- (not): disagree, disable
+- mis- (wrong): mistake, misunderstand
+
+## Common Suffixes:
+- -tion (noun): education, celebration
+- -ly (adverb): quickly, happily
+- -ful (full of): beautiful, helpful
+- -less (without): careless, hopeless
+- -able (can be): readable, enjoyable`,
+    xpReward: 20,
+    readTime: 4,
+  },
+  {
+    id: 'note-16',
+    topicId: 'byakaran',
+    subjectId: 'bangla',
+    title: 'বাংলা ব্যাকরণ: কারক',
+    titleBn: 'বাংলা ব্যাকরণ: কারক',
+    content: `# কারক
+
+## কারক কী?
+বাক্যে ক্রিয়াপদের সাথে বিশেষ্য বা সর্বনাম পদের সম্পর্ককে কারক বলে।
+
+## কারকের প্রকারভেদ:
+১. **কর্তৃকারক**: কে/কারা ক্রিয়া করে
+২. **কর্মকারক**: কাকে/কী ক্রিয়া করা হয়
+৩. **করণকারক**: কী দ্বারা/কীসের সাহায্যে
+৪. **সম্প্রদান কারক**: কাকে দেওয়া হয়
+৫. **অপাদান কারক**: কোথা থেকে
+৬. **অধিকরণ কারক**: কোথায়/কখন`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  // Additional HSC Notes
+  {
+    id: 'note-hsc-phy1-3',
+    topicId: 'work-energy',
+    subjectId: 'physics-1',
+    title: 'Work, Energy and Power',
+    titleBn: 'কাজ, শক্তি ও ক্ষমতা',
+    content: `# Work, Energy and Power
+
+## Work:
+W = F × d × cos θ
+- Unit: Joule (J)
+- Work done against gravity: W = mgh
+
+## Energy:
+- Kinetic Energy: KE = ½mv²
+- Potential Energy: PE = mgh
+- Total Mechanical Energy = KE + PE
+
+## Power:
+P = W/t = F × v
+- Unit: Watt (W)
+- 1 HP = 746 W
+
+## Conservation of Energy:
+Energy cannot be created or destroyed, only transformed.`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-phy1-4',
+    topicId: 'gravitation',
+    subjectId: 'physics-1',
+    title: 'Gravitation',
+    titleBn: 'মহাকর্ষ',
+    content: `# Gravitation
+
+## Newton's Law of Gravitation:
+F = G(m₁m₂)/r²
+
+## Gravitational Field Strength:
+g = GM/r²
+At Earth's surface: g ≈ 9.8 m/s²
+
+## Escape Velocity:
+v_e = √(2GM/R)
+For Earth: v_e ≈ 11.2 km/s
+
+## Orbital Velocity:
+v_o = √(GM/r)
+
+## Kepler's Laws:
+1. Elliptical orbits
+2. Equal areas in equal times
+3. T² ∝ r³`,
+    xpReward: 35,
+    readTime: 7,
+  },
+  {
+    id: 'note-hsc-chem2-2',
+    topicId: 'hydrocarbons',
+    subjectId: 'chemistry-2',
+    title: 'Hydrocarbons',
+    titleBn: 'হাইড্রোকার্বন',
+    content: `# Hydrocarbons
+
+## Types:
+1. **Alkanes**: CₙH₂ₙ₊₂ (single bonds)
+   - Methane, Ethane, Propane
+   
+2. **Alkenes**: CₙH₂ₙ (double bond)
+   - Ethene, Propene
+   
+3. **Alkynes**: CₙH₂ₙ₋₂ (triple bond)
+   - Ethyne (Acetylene)
+
+## IUPAC Naming:
+- meth- (1C), eth- (2C), prop- (3C), but- (4C)
+- -ane (alkane), -ene (alkene), -yne (alkyne)
+
+## Properties:
+- Nonpolar
+- Low melting/boiling points
+- Combustible`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-bio2-3',
+    topicId: 'animal-physiology',
+    subjectId: 'biology-2',
+    title: 'Circulatory System',
+    titleBn: 'রক্ত সংবহন তন্ত্র',
+    content: `# Circulatory System
+
+## Components:
+1. Heart (4 chambers)
+2. Blood vessels (arteries, veins, capillaries)
+3. Blood
+
+## Double Circulation:
+- Pulmonary: Heart → Lungs → Heart
+- Systemic: Heart → Body → Heart
+
+## Blood Components:
+- Plasma (55%)
+- RBC (carries O₂)
+- WBC (immunity)
+- Platelets (clotting)
+
+## Heart Cycle:
+- Systole: Contraction
+- Diastole: Relaxation
+- Heart rate: ~72 bpm`,
+    xpReward: 30,
+    readTime: 6,
+  },
+  {
+    id: 'note-hsc-math2-3',
+    topicId: 'coordinate-geometry',
+    subjectId: 'higher-math-2',
+    title: 'Straight Lines',
+    titleBn: 'সরলরেখা',
+    content: `# Straight Lines
+
+## Forms of Line Equation:
+1. **Slope-intercept**: y = mx + c
+2. **Point-slope**: y - y₁ = m(x - x₁)
+3. **Two-point**: (y-y₁)/(y₂-y₁) = (x-x₁)/(x₂-x₁)
+4. **Intercept**: x/a + y/b = 1
+
+## Slope:
+m = (y₂ - y₁)/(x₂ - x₁) = tan θ
+
+## Distance:
+d = |ax₁ + by₁ + c|/√(a² + b²)
+
+## Parallel Lines: m₁ = m₂
+## Perpendicular: m₁ × m₂ = -1`,
+    xpReward: 35,
+    readTime: 7,
+  },
+  {
+    id: 'note-hsc-ict-3',
+    topicId: 'database',
+    subjectId: 'ict',
+    title: 'Database Fundamentals',
+    titleBn: 'ডাটাবেস মৌলিক ধারণা',
+    content: `# Database Fundamentals
+
+## What is a Database?
+Organized collection of data
+
+## DBMS Components:
+- Tables (Relations)
+- Fields (Columns)
+- Records (Rows)
+
+## Key Types:
+- Primary Key: Unique identifier
+- Foreign Key: Links tables
+- Candidate Key: Potential primary keys
+
+## SQL Commands:
+- SELECT: Retrieve data
+- INSERT: Add data
+- UPDATE: Modify data
+- DELETE: Remove data
+
+## Normalization:
+- 1NF, 2NF, 3NF
+- Reduces redundancy`,
+    xpReward: 25,
+    readTime: 5,
+  },
+  {
+    id: 'note-hsc-ict-4',
+    topicId: 'web',
+    subjectId: 'ict',
+    title: 'HTML and CSS Basics',
+    titleBn: 'HTML এবং CSS বেসিক',
+    content: `# HTML and CSS
+
+## HTML Structure:
+\`\`\`html
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page Title</title>
+</head>
+<body>
+  <h1>Heading</h1>
+  <p>Paragraph</p>
+</body>
+</html>
+\`\`\`
+
+## Common Tags:
+- <h1>-<h6>: Headings
+- <p>: Paragraph
+- <a>: Links
+- <img>: Images
+- <div>: Container
+
+## CSS Basics:
+\`\`\`css
+selector {
+  property: value;
+}
+\`\`\``,
+    xpReward: 30,
+    readTime: 6,
+  },
 ];
 
 export const sampleQuestions: Question[] = [
@@ -2191,6 +2669,384 @@ export const sampleQuestions: Question[] = [
     explanationBn: 'বাইনারি ১১১১ = দশমিকে ১৫ = হেক্সাডেসিমেলে F।',
     difficulty: 'medium',
     points: 15,
+  },
+  // Additional SSC Questions
+  {
+    id: 'q-math-5',
+    subjectId: 'math',
+    topicId: 'algebra',
+    question: 'What is the value of (a+b)² when a=3 and b=2?',
+    questionBn: '(a+b)² এর মান কত যখন a=3 এবং b=2?',
+    options: ['20', '25', '30', '36'],
+    optionsBn: ['২০', '২৫', '৩০', '৩৬'],
+    correctAnswer: 1,
+    explanation: '(a+b)² = (3+2)² = 5² = 25',
+    explanationBn: '(a+b)² = (3+2)² = 5² = 25',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-math-6',
+    subjectId: 'math',
+    topicId: 'geometry',
+    question: 'What is the sum of interior angles of a triangle?',
+    questionBn: 'ত্রিভুজের অন্তর্বৃত্ত কোণের সমষ্টি কত?',
+    options: ['90°', '180°', '270°', '360°'],
+    optionsBn: ['৯০°', '১৮০°', '২৭০°', '৩৬০°'],
+    correctAnswer: 1,
+    explanation: 'The sum of interior angles of any triangle is always 180°.',
+    explanationBn: 'যেকোনো ত্রিভুজের অন্তর্বৃত্ত কোণের সমষ্টি সর্বদা ১৮০°।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-math-7',
+    subjectId: 'math',
+    topicId: 'trigonometry',
+    question: 'What is the value of cos(60°)?',
+    questionBn: 'cos(60°) এর মান কত?',
+    options: ['0', '1/2', '√3/2', '1'],
+    optionsBn: ['০', '১/২', '√৩/২', '১'],
+    correctAnswer: 1,
+    explanation: 'cos(60°) = 1/2. This is a standard trigonometric value.',
+    explanationBn: 'cos(60°) = ১/২। এটি একটি আদর্শ ত্রিকোণমিতিক মান।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-math-8',
+    subjectId: 'math',
+    topicId: 'statistics',
+    question: 'What is the median of 3, 7, 9, 12, 15?',
+    questionBn: '৩, ৭, ৯, ১২, ১৫ এর মধ্যমা কত?',
+    options: ['7', '9', '10', '12'],
+    optionsBn: ['৭', '৯', '১০', '১২'],
+    correctAnswer: 1,
+    explanation: 'The middle value of the ordered set is 9.',
+    explanationBn: 'সাজানো সংখ্যাগুলোর মধ্যের মান হল ৯।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-physics-6',
+    subjectId: 'physics',
+    topicId: 'mechanics',
+    question: 'What is the formula for kinetic energy?',
+    questionBn: 'গতিশক্তির সূত্র কী?',
+    options: ['mgh', '½mv²', 'mv', 'ma'],
+    correctAnswer: 1,
+    explanation: 'Kinetic energy = ½mv², where m is mass and v is velocity.',
+    explanationBn: 'গতিশক্তি = ½mv², যেখানে m ভর এবং v বেগ।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-physics-7',
+    subjectId: 'physics',
+    topicId: 'electricity',
+    question: 'What happens to current when resistance increases (voltage constant)?',
+    questionBn: 'রোধ বাড়লে বিদ্যুৎ প্রবাহের কী হয় (ভোল্টেজ স্থির থাকলে)?',
+    options: ['Increases', 'Decreases', 'Stays same', 'Becomes zero'],
+    optionsBn: ['বাড়ে', 'কমে', 'একই থাকে', 'শূন্য হয়'],
+    correctAnswer: 1,
+    explanation: 'By Ohm\'s law V=IR, if V is constant and R increases, I decreases.',
+    explanationBn: 'ওহমের সূত্র অনুযায়ী V=IR, V স্থির থাকলে R বাড়লে I কমে।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-physics-8',
+    subjectId: 'physics',
+    topicId: 'optics',
+    question: 'Which phenomenon causes a pencil to appear bent in water?',
+    questionBn: 'কোন ঘটনার কারণে পানিতে পেন্সিল বাঁকা দেখায়?',
+    options: ['Reflection', 'Refraction', 'Diffraction', 'Dispersion'],
+    optionsBn: ['প্রতিফলন', 'প্রতিসরণ', 'বিবর্তন', 'বিচ্ছুরণ'],
+    correctAnswer: 1,
+    explanation: 'Refraction of light at the water-air interface makes the pencil appear bent.',
+    explanationBn: 'পানি-বায়ু পৃষ্ঠে আলোর প্রতিসরণের কারণে পেন্সিল বাঁকা দেখায়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-6',
+    subjectId: 'chemistry',
+    topicId: 'organic',
+    question: 'What is the molecular formula of methane?',
+    questionBn: 'মিথেনের আণবিক সূত্র কী?',
+    options: ['CH₃', 'CH₄', 'C₂H₆', 'C₂H₄'],
+    correctAnswer: 1,
+    explanation: 'Methane has one carbon atom bonded to four hydrogen atoms: CH₄.',
+    explanationBn: 'মিথেনে একটি কার্বন পরমাণু চারটি হাইড্রোজেন পরমাণুর সাথে বন্ধিত: CH₄।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-chem-7',
+    subjectId: 'chemistry',
+    topicId: 'inorganic',
+    question: 'What is the pH of pure water?',
+    questionBn: 'বিশুদ্ধ পানির pH কত?',
+    options: ['0', '7', '10', '14'],
+    optionsBn: ['০', '৭', '১০', '১৪'],
+    correctAnswer: 1,
+    explanation: 'Pure water has a neutral pH of 7.',
+    explanationBn: 'বিশুদ্ধ পানির pH নিরপেক্ষ, মান ৭।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-9',
+    subjectId: 'biology',
+    topicId: 'cell',
+    question: 'Which organelle contains chlorophyll in plant cells?',
+    questionBn: 'উদ্ভিদ কোষে কোন অঙ্গাণুতে ক্লোরোফিল থাকে?',
+    options: ['Mitochondria', 'Chloroplast', 'Nucleus', 'Vacuole'],
+    optionsBn: ['মাইটোকন্ড্রিয়া', 'ক্লোরোপ্লাস্ট', 'নিউক্লিয়াস', 'গহ্বর'],
+    correctAnswer: 1,
+    explanation: 'Chloroplasts contain chlorophyll and are responsible for photosynthesis.',
+    explanationBn: 'ক্লোরোপ্লাস্টে ক্লোরোফিল থাকে এবং এটি সালোকসংশ্লেষণের জন্য দায়ী।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bio-10',
+    subjectId: 'biology',
+    topicId: 'ecology',
+    question: 'What percentage of energy is transferred between trophic levels?',
+    questionBn: 'ট্রফিক স্তরের মধ্যে কত শতাংশ শক্তি স্থানান্তরিত হয়?',
+    options: ['1%', '10%', '50%', '100%'],
+    optionsBn: ['১%', '১০%', '৫০%', '১০০%'],
+    correctAnswer: 1,
+    explanation: 'Only about 10% of energy is transferred from one trophic level to the next.',
+    explanationBn: 'এক ট্রফিক স্তর থেকে অন্য স্তরে প্রায় ১০% শক্তি স্থানান্তরিত হয়।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-bio-11',
+    subjectId: 'biology',
+    topicId: 'human',
+    question: 'Which blood type is the universal donor?',
+    questionBn: 'কোন রক্তের গ্রুপ সার্বজনীন দাতা?',
+    options: ['A', 'B', 'AB', 'O'],
+    correctAnswer: 3,
+    explanation: 'Type O negative is the universal donor as it has no antigens.',
+    explanationBn: 'O নেগেটিভ সার্বজনীন দাতা কারণ এতে কোনো অ্যান্টিজেন নেই।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-eng-6',
+    subjectId: 'english',
+    topicId: 'grammar',
+    question: 'What is the past tense of "write"?',
+    options: ['Writed', 'Wrote', 'Written', 'Writing'],
+    correctAnswer: 1,
+    explanation: '"Wrote" is the simple past tense of "write".',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-eng-7',
+    subjectId: 'english',
+    topicId: 'vocabulary',
+    question: 'What does "diligent" mean?',
+    options: ['Lazy', 'Hardworking', 'Careless', 'Slow'],
+    correctAnswer: 1,
+    explanation: 'Diligent means showing care and effort in work or duties.',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-bng-1',
+    subjectId: 'bangla',
+    topicId: 'byakaran',
+    question: '"সন্ধি" শব্দের অর্থ কী?',
+    questionBn: '"সন্ধি" শব্দের অর্থ কী?',
+    options: ['বিচ্ছেদ', 'মিলন', 'বিভাজন', 'পৃথক'],
+    correctAnswer: 1,
+    explanation: 'সন্ধি শব্দের অর্থ মিলন। দুটি ধ্বনির মিলনকে সন্ধি বলে।',
+    explanationBn: 'সন্ধি শব্দের অর্থ মিলন। দুটি ধ্বনির মিলনকে সন্ধি বলে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-bng-2',
+    subjectId: 'bangla',
+    topicId: 'sahitya',
+    question: '"গীতাঞ্জলি" কার রচনা?',
+    questionBn: '"গীতাঞ্জলি" কার রচনা?',
+    options: ['কাজী নজরুল ইসলাম', 'রবীন্দ্রনাথ ঠাকুর', 'জীবনানন্দ দাশ', 'মাইকেল মধুসূদন দত্ত'],
+    correctAnswer: 1,
+    explanation: '"গীতাঞ্জলি" রবীন্দ্রনাথ ঠাকুরের কবিতা সংকলন যার জন্য তিনি নোবেল পুরস্কার পান।',
+    explanationBn: '"গীতাঞ্জলি" রবীন্দ্রনাথ ঠাকুরের কবিতা সংকলন যার জন্য তিনি নোবেল পুরস্কার পান।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  // Additional HSC Questions
+  {
+    id: 'q-hsc-phy1-6',
+    subjectId: 'physics-1',
+    topicId: 'vectors',
+    question: 'What is the dot product of two perpendicular vectors?',
+    questionBn: 'দুটি লম্ব ভেক্টরের বিন্দু গুণফল কত?',
+    options: ['0', '1', 'Maximum', 'Infinity'],
+    optionsBn: ['০', '১', 'সর্বোচ্চ', 'অসীম'],
+    correctAnswer: 0,
+    explanation: 'A·B = |A||B|cosθ. For perpendicular vectors θ=90°, so cos90°=0.',
+    explanationBn: 'A·B = |A||B|cosθ। লম্ব ভেক্টরের জন্য θ=90°, তাই cos90°=0।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-phy1-7',
+    subjectId: 'physics-1',
+    topicId: 'work-energy',
+    question: 'What is the relationship between work and kinetic energy?',
+    questionBn: 'কাজ ও গতিশক্তির মধ্যে সম্পর্ক কী?',
+    options: ['Work = Change in PE', 'Work = Change in KE', 'Work = Mass × Velocity', 'Work = Force'],
+    correctAnswer: 1,
+    explanation: 'Work-Energy Theorem: Net work done = Change in kinetic energy.',
+    explanationBn: 'কার্য-শক্তি উপপাদ্য: নিট কাজ = গতিশক্তির পরিবর্তন।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-phy2-6',
+    subjectId: 'physics-2',
+    topicId: 'electricity-hsc',
+    question: 'What is the power dissipated in a resistor?',
+    questionBn: 'রোধে বিলুপ্ত ক্ষমতা কত?',
+    options: ['P = V/R', 'P = IR', 'P = I²R', 'P = R/V'],
+    correctAnswer: 2,
+    explanation: 'Power in a resistor P = I²R = V²/R = VI.',
+    explanationBn: 'রোধে ক্ষমতা P = I²R = V²/R = VI।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-chem1-6',
+    subjectId: 'chemistry-1',
+    topicId: 'chemical-bonding',
+    question: 'What is the hybridization of carbon in methane?',
+    questionBn: 'মিথেনে কার্বনের হাইব্রিডাইজেশন কী?',
+    options: ['sp', 'sp²', 'sp³', 'sp³d'],
+    correctAnswer: 2,
+    explanation: 'Carbon in methane has sp³ hybridization with tetrahedral geometry.',
+    explanationBn: 'মিথেনে কার্বনের sp³ হাইব্রিডাইজেশন এবং চতুস্তলীয় গঠন।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-chem2-3',
+    subjectId: 'chemistry-2',
+    topicId: 'hydrocarbons',
+    question: 'What is the general formula of alkenes?',
+    questionBn: 'অ্যালকিনের সাধারণ সূত্র কী?',
+    options: ['CₙH₂ₙ₊₂', 'CₙH₂ₙ', 'CₙH₂ₙ₋₂', 'CₙHₙ'],
+    correctAnswer: 1,
+    explanation: 'Alkenes have the general formula CₙH₂ₙ with one C=C double bond.',
+    explanationBn: 'অ্যালকিনের সাধারণ সূত্র CₙH₂ₙ যেখানে একটি C=C দ্বি-বন্ধন থাকে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-bio1-3',
+    subjectId: 'biology-1',
+    topicId: 'cell-hsc',
+    question: 'How many chromosomes are in a human somatic cell?',
+    questionBn: 'মানুষের দেহকোষে কতটি ক্রোমোজোম থাকে?',
+    options: ['23', '44', '46', '92'],
+    optionsBn: ['২৩', '৪৪', '৪৬', '৯২'],
+    correctAnswer: 2,
+    explanation: 'Human somatic cells have 46 chromosomes (23 pairs).',
+    explanationBn: 'মানুষের দেহকোষে ৪৬টি ক্রোমোজোম থাকে (২৩ জোড়া)।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-bio2-4',
+    subjectId: 'biology-2',
+    topicId: 'genetics-hsc',
+    question: 'What is the ratio of Mendel\'s monohybrid cross in F2 generation?',
+    questionBn: 'মেন্ডেলের মনোহাইব্রিড ক্রসে F2 প্রজন্মের অনুপাত কত?',
+    options: ['1:1', '1:2:1', '3:1', '9:3:3:1'],
+    optionsBn: ['১:১', '১:২:১', '৩:১', '৯:৩:৩:১'],
+    correctAnswer: 2,
+    explanation: 'Monohybrid cross gives a 3:1 phenotypic ratio in F2.',
+    explanationBn: 'মনোহাইব্রিড ক্রসে F2 তে ৩:১ ফিনোটাইপিক অনুপাত পাওয়া যায়।',
+    difficulty: 'medium',
+    points: 15,
+  },
+  {
+    id: 'q-hsc-hm1-4',
+    subjectId: 'higher-math-1',
+    topicId: 'trigonometry-hsc',
+    question: 'What is sin²θ + cos²θ equal to?',
+    questionBn: 'sin²θ + cos²θ এর মান কত?',
+    options: ['0', '1', '2', 'tan²θ'],
+    optionsBn: ['০', '১', '২', 'tan²θ'],
+    correctAnswer: 1,
+    explanation: 'sin²θ + cos²θ = 1 is the fundamental Pythagorean identity.',
+    explanationBn: 'sin²θ + cos²θ = 1 মৌলিক পিথাগোরিয়ান অভেদ।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-3',
+    subjectId: 'higher-math-2',
+    topicId: 'calculus',
+    question: 'What is the derivative of x³?',
+    questionBn: 'x³ এর অন্তরক কত?',
+    options: ['3x', '3x²', 'x²', '2x³'],
+    optionsBn: ['3x', '3x²', 'x²', '2x³'],
+    correctAnswer: 1,
+    explanation: 'd/dx(x³) = 3x² using the power rule.',
+    explanationBn: 'd/dx(x³) = 3x² পাওয়ার রুল ব্যবহার করে।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-hm2-4',
+    subjectId: 'higher-math-2',
+    topicId: 'integration',
+    question: 'What is ∫2x dx?',
+    questionBn: '∫2x dx কত?',
+    options: ['2x + C', 'x² + C', '2x² + C', 'x + C'],
+    optionsBn: ['2x + C', 'x² + C', '2x² + C', 'x + C'],
+    correctAnswer: 1,
+    explanation: '∫2x dx = 2(x²/2) + C = x² + C',
+    explanationBn: '∫2x dx = 2(x²/2) + C = x² + C',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-ict-6',
+    subjectId: 'ict',
+    topicId: 'programming',
+    question: 'What is the output of: printf("%d", 5+3);',
+    questionBn: 'printf("%d", 5+3); এর আউটপুট কী?',
+    options: ['5+3', '53', '8', 'Error'],
+    optionsBn: ['5+3', '53', '8', 'Error'],
+    correctAnswer: 2,
+    explanation: '5+3 is evaluated first (=8), then printed as integer.',
+    explanationBn: '5+3 প্রথমে হিসাব হয় (=8), তারপর integer হিসেবে প্রিন্ট হয়।',
+    difficulty: 'easy',
+    points: 10,
+  },
+  {
+    id: 'q-hsc-ict-7',
+    subjectId: 'ict',
+    topicId: 'web',
+    question: 'What does CSS stand for?',
+    questionBn: 'CSS এর পূর্ণরূপ কী?',
+    options: ['Computer Style Sheets', 'Cascading Style Sheets', 'Creative Style Sheets', 'Colorful Style Sheets'],
+    correctAnswer: 1,
+    explanation: 'CSS stands for Cascading Style Sheets, used for styling web pages.',
+    explanationBn: 'CSS এর পূর্ণরূপ Cascading Style Sheets, ওয়েব পেজ স্টাইলিংয়ে ব্যবহৃত।',
+    difficulty: 'easy',
+    points: 10,
   },
 ];
 
