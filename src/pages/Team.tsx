@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface TeamMember {
@@ -45,8 +45,42 @@ const teamMembers: TeamMember[] = [
   },
 ];
 
+interface MemberAvatarProps {
+  member: TeamMember;
+}
+
+const MemberAvatar: React.FC<MemberAvatarProps> = ({ member }) => {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <div className={cn(
+      'w-20 h-20 mx-auto mb-3 rounded-2xl bg-gradient-to-br flex items-center justify-center overflow-hidden',
+      member.color
+    )}>
+      {imageError ? (
+        <span className="text-3xl">👤</span>
+      ) : (
+        <img 
+          src={member.image} 
+          alt={member.name}
+          className="w-full h-full object-cover"
+          onError={() => setImageError(true)}
+        />
+      )}
+    </div>
+  );
+};
+
+const TeamPhotoFallback: React.FC = () => (
+  <div className="text-center p-8">
+    <span className="text-6xl">👥</span>
+    <p className="text-muted-foreground mt-4">Team Fakibazz</p>
+  </div>
+);
+
 export const Team: React.FC = () => {
   const navigate = useNavigate();
+  const [teamImageError, setTeamImageError] = useState(false);
 
   return (
     <div className="min-h-screen bg-background">
@@ -77,15 +111,16 @@ export const Team: React.FC = () => {
         {/* Team Photo */}
         <div className="glass-card rounded-2xl p-4 mb-12 animate-scale-in">
           <div className="aspect-video rounded-xl overflow-hidden bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-            <img 
-              src="/team/team.jpg" 
-              alt="Team Fakibazz" 
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                e.currentTarget.style.display = 'none';
-                e.currentTarget.parentElement!.innerHTML = '<div class="text-center p-8"><span class="text-6xl">👥</span><p class="text-muted-foreground mt-4">Team Fakibazz</p></div>';
-              }}
-            />
+            {teamImageError ? (
+              <TeamPhotoFallback />
+            ) : (
+              <img 
+                src="/team/team.jpg" 
+                alt="Team Fakibazz" 
+                className="w-full h-full object-cover"
+                onError={() => setTeamImageError(true)}
+              />
+            )}
           </div>
         </div>
 
@@ -97,20 +132,7 @@ export const Team: React.FC = () => {
               className="glass-card rounded-2xl p-4 text-center animate-slide-up hover:scale-105 transition-transform"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={cn(
-                'w-20 h-20 mx-auto mb-3 rounded-2xl bg-gradient-to-br flex items-center justify-center overflow-hidden',
-                member.color
-              )}>
-                <img 
-                  src={member.image} 
-                  alt={member.name}
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.style.display = 'none';
-                    e.currentTarget.parentElement!.innerHTML = `<span class="text-3xl">👤</span>`;
-                  }}
-                />
-              </div>
+              <MemberAvatar member={member} />
               <h3 className="font-semibold text-foreground">{member.name}</h3>
               <p className="text-xs text-muted-foreground mt-1">{member.role}</p>
             </div>
