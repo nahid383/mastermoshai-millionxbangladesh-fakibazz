@@ -21,6 +21,11 @@ import { NoteReader } from "@/pages/NoteReader";
 import { AIChat } from "@/pages/AIChat";
 import { QuestionBank } from "@/pages/QuestionBank";
 import { Leaderboard } from "@/pages/Leaderboard";
+import { SubjectChapters } from "@/pages/SubjectChapters";
+import { ChapterLearning } from "@/pages/ChapterLearning";
+import { SelfStudy } from "@/pages/SelfStudy";
+import { AITutor } from "@/pages/AITutor";
+import { BoardQuestions } from "@/pages/BoardQuestions";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -124,6 +129,46 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <Learn />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/learn/subject/:subjectId"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <SubjectChapters />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/learn/chapter/:subjectId/:topicId"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <ChapterLearning />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/learn/self-study/:subjectId/:topicId"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <SelfStudy />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/learn/ai-master/:subjectId/:topicId"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <AITutor />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/learn/board-questions/:subjectId/:topicId"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <BoardQuestions />
           </ProtectedRoute>
         }
       />
