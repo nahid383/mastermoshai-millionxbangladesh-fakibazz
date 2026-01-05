@@ -30,7 +30,7 @@ export const SelfStudy: React.FC = () => {
   
   // Get note and questions for this topic
   const note = sampleNotes.find(n => n.topicId === topicId);
-  const questions = sampleQuestions.filter(q => q.topicId === topicId).slice(0, 5);
+  const questions = sampleQuestions.filter(q => q.topicId === topicId).slice(0, 10);
   const currentQuestion = questions[currentIndex];
   
   const isNoteRead = profile.readNotes?.includes(note?.id ?? '') ?? false;
