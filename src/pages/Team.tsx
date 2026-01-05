@@ -15,13 +15,13 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: 'Rayed',
-    role: 'Team Leader',
+    role: 'UI Architect',
     image: '/team/rayed.jpg',
     color: 'from-primary to-accent',
   },
   {
     name: 'Nahid',
-    role: 'Full-Stack Developer',
+    role: 'Team Lead',
     image: '/team/nahid.jpg',
     color: 'from-accent to-success',
   },
