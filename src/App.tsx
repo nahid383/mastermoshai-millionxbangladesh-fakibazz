@@ -27,14 +27,6 @@ import { SelfStudy } from "@/pages/SelfStudy";
 import { AITutor } from "@/pages/AITutor";
 import { BoardQuestions } from "@/pages/BoardQuestions";
 import NotFound from "@/pages/NotFound";
-import { WeaknessHeatmap } from "@/pages/WeaknessHeatmap";
-import { StudyPlanner } from "@/pages/StudyPlanner";
-import { MentalSupport } from "@/pages/MentalSupport";
-import { UniversityPrep } from "@/pages/UniversityPrep";
-import { TimePressure } from "@/pages/TimePressure";
-import { DoubtResolver } from "@/pages/DoubtResolver";
-import { AnswerChecker } from "@/pages/AnswerChecker";
-import { GuardianDashboard } from "@/pages/GuardianDashboard";
 
 const queryClient = new QueryClient();
 
@@ -225,70 +217,6 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <Leaderboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/weakness-heatmap"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <WeaknessHeatmap />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/study-planner"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <StudyPlanner />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/mental-support"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <MentalSupport />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/university-prep"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <UniversityPrep />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/time-pressure"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <TimePressure />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/doubt-resolver"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <DoubtResolver />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/answer-checker"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <AnswerChecker />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/guardian"
-        element={
-          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
-            <GuardianDashboard />
           </ProtectedRoute>
         }
       />
