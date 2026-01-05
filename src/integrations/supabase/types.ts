@@ -14,6 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
+      answer_evaluations: {
+        Row: {
+          ai_feedback: Json | null
+          created_at: string
+          id: string
+          max_score: number | null
+          question: string
+          score: number | null
+          student_answer: string
+          subject_id: string
+          topic: string | null
+          user_id: string
+        }
+        Insert: {
+          ai_feedback?: Json | null
+          created_at?: string
+          id?: string
+          max_score?: number | null
+          question: string
+          score?: number | null
+          student_answer: string
+          subject_id: string
+          topic?: string | null
+          user_id: string
+        }
+        Update: {
+          ai_feedback?: Json | null
+          created_at?: string
+          id?: string
+          max_score?: number | null
+          question?: string
+          score?: number | null
+          student_answer?: string
+          subject_id?: string
+          topic?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      doubt_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          is_resolved: boolean | null
+          messages: Json | null
+          subject_id: string | null
+          topic: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_resolved?: boolean | null
+          messages?: Json | null
+          subject_id?: string | null
+          topic?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_resolved?: boolean | null
+          messages?: Json | null
+          subject_id?: string | null
+          topic?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      guardian_links: {
+        Row: {
+          approved_at: string | null
+          created_at: string
+          guardian_id: string
+          id: string
+          status: string
+          student_id: string
+        }
+        Insert: {
+          approved_at?: string | null
+          created_at?: string
+          guardian_id: string
+          id?: string
+          status?: string
+          student_id: string
+        }
+        Update: {
+          approved_at?: string | null
+          created_at?: string
+          guardian_id?: string
+          id?: string
+          status?: string
+          student_id?: string
+        }
+        Relationships: []
+      }
+      mental_support_sessions: {
+        Row: {
+          created_at: string
+          id: string
+          messages: Json | null
+          mood_level: number | null
+          stress_level: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          messages?: Json | null
+          mood_level?: number | null
+          stress_level?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          messages?: Json | null
+          mood_level?: number | null
+          stress_level?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           admission_year: string | null
@@ -134,15 +260,150 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_attempts: {
+        Row: {
+          answers: Json | null
+          created_at: string
+          difficulty: string
+          id: string
+          is_timed: boolean | null
+          score: number
+          subject_id: string
+          time_taken: number | null
+          topic: string
+          total_questions: number
+          user_id: string
+        }
+        Insert: {
+          answers?: Json | null
+          created_at?: string
+          difficulty?: string
+          id?: string
+          is_timed?: boolean | null
+          score?: number
+          subject_id: string
+          time_taken?: number | null
+          topic: string
+          total_questions: number
+          user_id: string
+        }
+        Update: {
+          answers?: Json | null
+          created_at?: string
+          difficulty?: string
+          id?: string
+          is_timed?: boolean | null
+          score?: number
+          subject_id?: string
+          time_taken?: number | null
+          topic?: string
+          total_questions?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      study_plans: {
+        Row: {
+          created_at: string
+          exam_date: string | null
+          id: string
+          plan_data: Json
+          target_university: string | null
+          updated_at: string
+          user_id: string
+          weekly_hours: number | null
+        }
+        Insert: {
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          plan_data?: Json
+          target_university?: string | null
+          updated_at?: string
+          user_id: string
+          weekly_hours?: number | null
+        }
+        Update: {
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          plan_data?: Json
+          target_university?: string | null
+          updated_at?: string
+          user_id?: string
+          weekly_hours?: number | null
+        }
+        Relationships: []
+      }
+      university_prep: {
+        Row: {
+          created_at: string
+          id: string
+          mock_tests_completed: number | null
+          progress: Json | null
+          target_unit: string | null
+          university: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mock_tests_completed?: number | null
+          progress?: Json | null
+          target_unit?: string | null
+          university: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mock_tests_completed?: number | null
+          progress?: Json | null
+          target_unit?: string | null
+          university?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "student" | "guardian" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -269,6 +530,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["student", "guardian", "admin"],
+    },
   },
 } as const

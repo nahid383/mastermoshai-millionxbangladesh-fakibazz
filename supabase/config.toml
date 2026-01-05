@@ -2,3 +2,15 @@ project_id = "hvdyqbtzgwemluhdpuur"
 
 [functions.ai-chat]
 verify_jwt = false
+
+[functions.mental-support]
+verify_jwt = false
+
+[functions.doubt-resolver]
+verify_jwt = false
+
+[functions.answer-checker]
+verify_jwt = false
+
+[functions.ai-study-planner]
+verify_jwt = false
