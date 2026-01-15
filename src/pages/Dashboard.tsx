@@ -2,13 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Header } from '@/components/Header';
 import { ProgressRing } from '@/components/ProgressRing';
-import { SubjectCard } from '@/components/SubjectCard';
 import { StatsCard } from '@/components/StatsCard';
 import { PWAInstallBanner } from '@/components/PWAInstallBanner';
 import { Button } from '@/components/ui/button';
 import { useStudent } from '@/context/StudentContext';
-import { subjects } from '@/lib/data';
-import { Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot, Database } from 'lucide-react';
+import { getSubjectsByLevel } from '@/lib/data';
+import { cn } from '@/lib/utils';
+import { 
+  Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot, 
+  GraduationCap, Clock, Brain, MessageCircle, Heart, Users,
+  ChevronRight, Search, BarChart3, FileQuestion
+} from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -21,6 +25,117 @@ export const Dashboard: React.FC = () => {
   
   const useBangla = profile.medium === 'bangla';
   const greeting = useBangla ? 'স্বাগতম' : 'Welcome back';
+  const subjects = getSubjectsByLevel(profile.level);
+
+  const quickActions = [
+    {
+      id: 'learn',
+      title: useBangla ? 'পড়াশোনা শুরু করুন' : 'Start Learning',
+      subtitle: useBangla ? 'বিষয় ভিত্তিক অধ্যায়' : 'Subject chapters',
+      icon: BookOpen,
+      color: 'from-emerald-500 to-teal-600',
+      path: '/learn'
+    },
+    {
+      id: 'ai-tutor',
+      title: useBangla ? 'AI মাস্টার' : 'AI Master',
+      subtitle: useBangla ? 'প্রশ্ন করুন' : 'Ask anything',
+      icon: Bot,
+      color: 'from-violet-500 to-purple-600',
+      path: '/ai-chat'
+    },
+    {
+      id: 'practice',
+      title: useBangla ? 'কুইজ অনুশীলন' : 'Quiz Practice',
+      subtitle: useBangla ? 'MCQ অনুশীলন' : 'MCQ practice',
+      icon: Target,
+      color: 'from-orange-500 to-red-600',
+      path: '/subjects'
+    },
+    {
+      id: 'admission',
+      title: useBangla ? 'ভর্তি প্রস্তুতি' : 'University Prep',
+      subtitle: useBangla ? 'DU, BUET, মেডিকেল' : 'DU, BUET, Medical',
+      icon: GraduationCap,
+      color: 'from-blue-500 to-indigo-600',
+      path: '/university-prep'
+    }
+  ];
+
+  const learningModes = [
+    {
+      id: 'self-study',
+      title: useBangla ? 'নিজে পড়ুন' : 'Study by Yourself',
+      description: useBangla 
+        ? 'গঠনমূলক পাঠ + পরীক্ষা + ব্যক্তিগত প্রতিক্রিয়া'
+        : 'Structured lessons + exam + personalized feedback',
+      icon: BookOpen,
+      color: 'from-emerald-500 to-teal-600'
+    },
+    {
+      id: 'ai-master',
+      title: useBangla ? 'AI মাস্টারের সাথে' : 'Study with AI Master',
+      description: useBangla 
+        ? 'যেকোনো সময় প্রশ্ন করুন, তাৎক্ষণিক ব্যাখ্যা পান'
+        : 'Ask questions anytime, get instant explanations',
+      icon: Bot,
+      color: 'from-violet-500 to-purple-600'
+    },
+    {
+      id: 'board-questions',
+      title: useBangla ? 'বোর্ড প্রশ্ন বিশ্লেষণ' : 'Board Question Analysis',
+      description: useBangla 
+        ? 'MCQ ও সৃজনশীল প্রশ্ন বিস্তারিত প্রতিক্রিয়া সহ'
+        : 'MCQ & creative questions with detailed feedback',
+      icon: FileQuestion,
+      color: 'from-orange-500 to-red-600'
+    }
+  ];
+
+  const features = [
+    { 
+      id: 'weakness', 
+      title: useBangla ? 'দুর্বলতা হিটম্যাপ' : 'Weakness Heatmap', 
+      icon: BarChart3, 
+      path: '/weakness-heatmap',
+      badge: useBangla ? 'গুরুত্বপূর্ণ' : 'Important'
+    },
+    { 
+      id: 'planner', 
+      title: useBangla ? 'AI স্টাডি প্ল্যানার' : 'AI Study Planner', 
+      icon: Clock, 
+      path: '/study-planner',
+      badge: 'AI'
+    },
+    { 
+      id: 'doubt', 
+      title: useBangla ? 'ডাউট সলভার' : 'Smart Doubt Resolver', 
+      icon: MessageCircle, 
+      path: '/doubt-resolver',
+      badge: '24/7'
+    },
+    { 
+      id: 'mental', 
+      title: useBangla ? 'মানসিক সহায়তা' : 'Mental Support', 
+      icon: Heart, 
+      path: '/mental-support',
+      badge: null
+    },
+    { 
+      id: 'time-pressure', 
+      title: useBangla ? 'টাইম প্রেশার ট্রেনিং' : 'Time Pressure Training', 
+      icon: Clock, 
+      path: '/time-pressure',
+      badge: null
+    },
+    { 
+      id: 'answer-check', 
+      title: useBangla ? 'উত্তর যাচাই' : 'Answer Checking', 
+      icon: FileQuestion, 
+      path: '/answer-checker',
+      badge: useBangla ? 'বোর্ড স্টাইল' : 'Board Style'
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background">
@@ -29,7 +144,7 @@ export const Dashboard: React.FC = () => {
       
       <main className="container max-w-4xl mx-auto px-4 py-6">
         {/* Greeting */}
-        <div className="mb-8 animate-fade-in">
+        <div className="mb-6 animate-fade-in">
           <h1 className="text-2xl font-bold text-foreground">
             {greeting}, {profile.name || 'Student'}! 👋
           </h1>
@@ -38,174 +153,211 @@ export const Dashboard: React.FC = () => {
           </p>
         </div>
 
+        {/* Search Bar */}
+        <div className="relative mb-6 animate-slide-up">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <input
+            type="text"
+            placeholder={useBangla ? 'বিষয় বা অধ্যায় খুঁজুন...' : 'Search topics or chapters...'}
+            className="w-full h-12 pl-12 pr-4 rounded-xl border-2 border-border bg-card text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none transition-colors"
+            onClick={() => navigate('/learn')}
+            readOnly
+          />
+        </div>
+
+        {/* Quick Actions Grid */}
+        <div className="grid grid-cols-2 gap-3 mb-6">
+          {quickActions.map((action, index) => (
+            <button
+              key={action.id}
+              onClick={() => navigate(action.path)}
+              className={cn(
+                'p-4 rounded-2xl border border-border bg-card text-left',
+                'hover:border-primary/50 hover:shadow-lg transition-all duration-300',
+                'animate-slide-up group'
+              )}
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
+              <div className={cn(
+                'w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br mb-3',
+                'group-hover:scale-110 transition-transform',
+                action.color
+              )}>
+                <action.icon className="w-6 h-6 text-white" />
+              </div>
+              <h3 className="font-semibold text-foreground text-sm mb-0.5">{action.title}</h3>
+              <p className="text-xs text-muted-foreground">{action.subtitle}</p>
+            </button>
+          ))}
+        </div>
+
         {/* Daily Goal Card */}
-        <div className="glass-card rounded-2xl p-6 mb-6 animate-slide-up">
-          <div className="flex items-center gap-6">
-            <ProgressRing progress={dailyProgress} size={100} strokeWidth={10}>
+        <div className="glass-card rounded-2xl p-5 mb-6 animate-slide-up" style={{ animationDelay: '100ms' }}>
+          <div className="flex items-center gap-5">
+            <ProgressRing progress={dailyProgress} size={80} strokeWidth={8}>
               <div className="text-center">
-                <p className="text-2xl font-bold text-foreground">{profile.dailyProgress}</p>
-                <p className="text-xs text-muted-foreground">/{profile.dailyGoal}</p>
+                <p className="text-xl font-bold text-foreground">{profile.dailyProgress}</p>
+                <p className="text-[10px] text-muted-foreground">/{profile.dailyGoal}</p>
               </div>
             </ProgressRing>
             <div className="flex-1">
-              <div className="flex items-center gap-2 mb-2">
-                <Target className="w-5 h-5 text-primary" />
-                <h2 className="font-semibold text-foreground">Daily Goal</h2>
+              <div className="flex items-center gap-2 mb-1">
+                <Target className="w-4 h-4 text-primary" />
+                <h2 className="font-semibold text-foreground text-sm">
+                  {useBangla ? 'দৈনিক লক্ষ্য' : 'Daily Goal'}
+                </h2>
               </div>
-              <p className="text-sm text-muted-foreground mb-4">
+              <p className="text-xs text-muted-foreground mb-3">
                 {dailyProgress >= 100 
-                  ? '🎉 Goal completed! Keep the momentum going!' 
-                  : `${profile.dailyGoal - profile.dailyProgress} more questions to reach your goal`}
+                  ? (useBangla ? '🎉 লক্ষ্য সম্পন্ন!' : '🎉 Goal completed!')
+                  : (useBangla 
+                      ? `আরো ${profile.dailyGoal - profile.dailyProgress}টি প্রশ্ন` 
+                      : `${profile.dailyGoal - profile.dailyProgress} more questions`)}
               </p>
               <Button 
                 variant="hero" 
                 size="sm"
                 onClick={() => navigate('/subjects')}
+                className="h-8 text-xs"
               >
-                <Sparkles className="w-4 h-4" />
-                Start Practice
+                <Sparkles className="w-3 h-3" />
+                {useBangla ? 'অনুশীলন শুরু' : 'Start Practice'}
               </Button>
             </div>
           </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <StatsCard
-            title="Total Points"
-            value={profile.totalPoints}
-            icon={Zap}
-            trend="up"
-            trendValue="+12%"
-            delay={100}
-          />
-          <StatsCard
-            title="Accuracy"
-            value={`${accuracy}%`}
-            icon={Target}
-            trend={accuracy >= 70 ? 'up' : 'neutral'}
-            trendValue={accuracy >= 70 ? 'Great!' : 'Practice more'}
-            delay={150}
-          />
-          <StatsCard
-            title="Questions"
-            value={profile.questionsAnswered}
-            subtitle="Total answered"
-            icon={BookOpen}
-            delay={200}
-          />
-          <StatsCard
-            title="Badges"
-            value={profile.badges.length}
-            subtitle={`${8 - profile.badges.length} more to unlock`}
-            icon={Trophy}
-            delay={250}
-          />
+        <div className="grid grid-cols-4 gap-2 mb-6">
+          <div className="p-3 rounded-xl bg-card border border-border text-center">
+            <Zap className="w-5 h-5 mx-auto mb-1 text-primary" />
+            <p className="font-bold text-foreground">{profile.totalPoints}</p>
+            <p className="text-[10px] text-muted-foreground">{useBangla ? 'পয়েন্ট' : 'Points'}</p>
+          </div>
+          <div className="p-3 rounded-xl bg-card border border-border text-center">
+            <Target className="w-5 h-5 mx-auto mb-1 text-success" />
+            <p className="font-bold text-foreground">{accuracy}%</p>
+            <p className="text-[10px] text-muted-foreground">{useBangla ? 'নির্ভুলতা' : 'Accuracy'}</p>
+          </div>
+          <div className="p-3 rounded-xl bg-card border border-border text-center">
+            <BookOpen className="w-5 h-5 mx-auto mb-1 text-accent" />
+            <p className="font-bold text-foreground">{profile.questionsAnswered}</p>
+            <p className="text-[10px] text-muted-foreground">{useBangla ? 'উত্তর' : 'Answered'}</p>
+          </div>
+          <div className="p-3 rounded-xl bg-card border border-border text-center">
+            <Trophy className="w-5 h-5 mx-auto mb-1 text-warning" />
+            <p className="font-bold text-foreground">{profile.badges.length}</p>
+            <p className="text-[10px] text-muted-foreground">{useBangla ? 'ব্যাজ' : 'Badges'}</p>
+          </div>
+        </div>
+
+        {/* Learning Modes Section */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-semibold text-foreground">
+              {useBangla ? 'শেখার পদ্ধতি' : 'Learning Modes'}
+            </h2>
+            <Button variant="ghost" size="sm" onClick={() => navigate('/learn')}>
+              {useBangla ? 'সব দেখুন' : 'View All'}
+              <ChevronRight className="w-4 h-4" />
+            </Button>
+          </div>
+          <div className="space-y-3">
+            {learningModes.map((mode, index) => (
+              <button
+                key={mode.id}
+                onClick={() => navigate('/learn')}
+                className={cn(
+                  'w-full p-4 rounded-xl border border-border bg-card text-left',
+                  'hover:border-primary/50 transition-all duration-300',
+                  'flex items-center gap-4 animate-slide-up group'
+                )}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div className={cn(
+                  'w-12 h-12 rounded-xl flex items-center justify-center bg-gradient-to-br',
+                  'group-hover:scale-110 transition-transform',
+                  mode.color
+                )}>
+                  <mode.icon className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground text-sm">{mode.title}</h3>
+                  <p className="text-xs text-muted-foreground">{mode.description}</p>
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="mb-6">
+          <h2 className="font-semibold text-foreground mb-4">
+            {useBangla ? 'বিশেষ ফিচার' : 'Special Features'}
+          </h2>
+          <div className="grid grid-cols-2 gap-3">
+            {features.map((feature, index) => (
+              <button
+                key={feature.id}
+                onClick={() => navigate(feature.path)}
+                className={cn(
+                  'p-4 rounded-xl border border-border bg-card text-left',
+                  'hover:border-primary/50 hover:bg-primary/5 transition-all duration-300',
+                  'flex items-start gap-3 animate-slide-up group relative'
+                )}
+                style={{ animationDelay: `${index * 30}ms` }}
+              >
+                <feature.icon className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-foreground text-sm truncate pr-6">{feature.title}</h3>
+                </div>
+                {feature.badge && (
+                  <span className="absolute top-2 right-2 px-1.5 py-0.5 rounded-full bg-primary/10 text-primary text-[10px] font-medium">
+                    {feature.badge}
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Weak Topics Alert */}
         {profile.weakTopics.length > 0 && (
-          <div className="bg-warning/10 border border-warning/20 rounded-2xl p-4 mb-6 animate-slide-up" style={{ animationDelay: '200ms' }}>
+          <div className="bg-warning/10 border border-warning/20 rounded-2xl p-4 mb-6 animate-slide-up">
             <div className="flex items-start gap-3">
               <TrendingUp className="w-5 h-5 text-warning shrink-0 mt-0.5" />
               <div>
-                <h3 className="font-semibold text-foreground">Focus Areas</h3>
-                <p className="text-sm text-muted-foreground mt-1">
-                  Practice these topics to improve: {profile.weakTopics.slice(0, 3).join(', ')}
+                <h3 className="font-semibold text-foreground text-sm">
+                  {useBangla ? 'ফোকাস এরিয়া' : 'Focus Areas'}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {useBangla ? 'এই টপিকগুলো অনুশীলন করুন: ' : 'Practice these topics: '}
+                  {profile.weakTopics.slice(0, 3).join(', ')}
                 </p>
               </div>
             </div>
           </div>
         )}
 
-        {/* AI Chat Card */}
-        <div className="glass-card rounded-2xl p-5 mb-6 animate-slide-up bg-gradient-to-br from-primary/10 to-accent/10" style={{ animationDelay: '250ms' }}>
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-              <Bot className="w-7 h-7 text-white" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-foreground">
-                {useBangla ? 'মাস্টার মশাই AI' : 'Master Moshai AI'}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {useBangla ? 'যেকোনো প্রশ্নের উত্তর পান' : 'Ask any study question'}
-              </p>
-            </div>
-            <Button variant="hero" size="sm" onClick={() => navigate('/ai-chat')}>
-              <Sparkles className="w-4 h-4" />
-              {useBangla ? 'জিজ্ঞাসা করুন' : 'Ask AI'}
-            </Button>
+        {/* Guardian Dashboard Link */}
+        <button
+          onClick={() => navigate('/guardian-dashboard')}
+          className="w-full p-4 rounded-xl border border-border bg-gradient-to-r from-blue-500/10 to-purple-500/10 text-left flex items-center gap-4 animate-slide-up mb-6"
+        >
+          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+            <Users className="w-6 h-6 text-white" />
           </div>
-        </div>
-
-        {/* Question Bank Card */}
-        <div className="glass-card rounded-2xl p-5 mb-6 animate-slide-up" style={{ animationDelay: '275ms' }}>
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
-              <Database className="w-7 h-7 text-white" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-foreground">
-                {useBangla ? 'প্রশ্ন ব্যাংক' : 'Question Bank'}
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {useBangla ? 'প্রশ্ন যোগ, সম্পাদনা ও মুছুন' : 'Add, edit & manage quiz questions'}
-              </p>
-            </div>
-            <Button variant="outline" size="sm" onClick={() => navigate('/question-bank')}>
-              <Database className="w-4 h-4" />
-              {useBangla ? 'ম্যানেজ' : 'Manage'}
-            </Button>
+          <div className="flex-1">
+            <h3 className="font-semibold text-foreground text-sm">
+              {useBangla ? 'অভিভাবক ড্যাশবোর্ড' : 'Guardian Dashboard'}
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              {useBangla ? 'অভিভাবকদের জন্য প্রগ্রেস ট্র্যাকিং' : 'Progress tracking for parents'}
+            </p>
           </div>
-        </div>
-        <div className="mb-6">
-          <h2 className="text-lg font-semibold text-foreground mb-4">
-            {useBangla ? 'বিষয়সমূহ' : 'Subjects'}
-          </h2>
-          <div className="space-y-3">
-            {subjects.slice(0, 4).map((subject, index) => (
-              <SubjectCard
-                key={subject.id}
-                subject={subject}
-                useBangla={useBangla}
-                onClick={() => navigate(`/quiz/${subject.id}`)}
-                progress={Math.floor(Math.random() * 60)} // Demo progress
-                delay={index * 50}
-              />
-            ))}
-          </div>
-          <Button
-            variant="outline"
-            className="w-full mt-4"
-            onClick={() => navigate('/subjects')}
-          >
-            View All Subjects
-          </Button>
-        </div>
-
-        {/* Badges Preview */}
-        {profile.badges.length > 0 && (
-          <div className="glass-card rounded-2xl p-5 animate-slide-up" style={{ animationDelay: '300ms' }}>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold text-foreground">Recent Badges</h3>
-              <Button variant="ghost" size="sm" onClick={() => navigate('/profile')}>
-                View all
-              </Button>
-            </div>
-            <div className="flex gap-3 overflow-x-auto pb-2">
-              {profile.badges.slice(-4).map((badge) => (
-                <div
-                  key={badge.id}
-                  className="flex-shrink-0 w-16 h-16 rounded-2xl bg-accent/10 flex items-center justify-center text-2xl"
-                  title={badge.name}
-                >
-                  {badge.icon}
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </button>
       </main>
     </div>
   );
