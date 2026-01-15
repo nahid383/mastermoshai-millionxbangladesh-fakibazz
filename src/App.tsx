@@ -34,6 +34,9 @@ import { TimePressure } from "@/pages/TimePressure";
 import { DoubtResolver } from "@/pages/DoubtResolver";
 import { AnswerChecker } from "@/pages/AnswerChecker";
 import { GuardianDashboard } from "@/pages/GuardianDashboard";
+import { Calendar } from "@/pages/Calendar";
+import { TodoList } from "@/pages/TodoList";
+import { Analytics } from "@/pages/Analytics";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -290,6 +293,30 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <GuardianDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/calendar"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <Calendar />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/todo"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <TodoList />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/analytics"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <Analytics />
           </ProtectedRoute>
         }
       />
