@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import { 
   Zap, Target, Trophy, TrendingUp, Sparkles, BookOpen, Bot, 
   GraduationCap, Clock, Brain, MessageCircle, Heart, Users,
-  ChevronRight, Search, BarChart3, FileQuestion
+  ChevronRight, Search, BarChart3, FileQuestion, Calendar, ListTodo
 } from 'lucide-react';
 
 export const Dashboard: React.FC = () => {
@@ -90,6 +90,30 @@ export const Dashboard: React.FC = () => {
       icon: FileQuestion,
       color: 'from-orange-500 to-red-600'
     }
+  ];
+
+  const tools = [
+    { 
+      id: 'calendar', 
+      title: useBangla ? 'ক্যালেন্ডার' : 'Calendar', 
+      icon: Calendar, 
+      path: '/calendar',
+      color: 'from-blue-500 to-cyan-600'
+    },
+    { 
+      id: 'todo', 
+      title: useBangla ? 'টু-ডু লিস্ট' : 'To-Do List', 
+      icon: ListTodo, 
+      path: '/todo',
+      color: 'from-violet-500 to-purple-600'
+    },
+    { 
+      id: 'analytics', 
+      title: useBangla ? 'বিশ্লেষণ' : 'Analytics', 
+      icon: BarChart3, 
+      path: '/analytics',
+      color: 'from-emerald-500 to-teal-600'
+    },
   ];
 
   const features = [
@@ -248,6 +272,36 @@ export const Dashboard: React.FC = () => {
             <Trophy className="w-5 h-5 mx-auto mb-1 text-warning" />
             <p className="font-bold text-foreground">{profile.badges.length}</p>
             <p className="text-[10px] text-muted-foreground">{useBangla ? 'ব্যাজ' : 'Badges'}</p>
+          </div>
+        </div>
+
+        {/* Tools Section - Calendar, Todo, Analytics */}
+        <div className="mb-6">
+          <h2 className="font-semibold text-foreground mb-3">
+            {useBangla ? 'টুলস' : 'Tools'}
+          </h2>
+          <div className="grid grid-cols-3 gap-3">
+            {tools.map((tool, index) => (
+              <button
+                key={tool.id}
+                onClick={() => navigate(tool.path)}
+                className={cn(
+                  'p-4 rounded-xl border border-border bg-card text-center',
+                  'hover:border-primary/50 hover:shadow-lg transition-all duration-300',
+                  'animate-slide-up group'
+                )}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <div className={cn(
+                  'w-10 h-10 rounded-xl flex items-center justify-center bg-gradient-to-br mx-auto mb-2',
+                  'group-hover:scale-110 transition-transform',
+                  tool.color
+                )}>
+                  <tool.icon className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="font-medium text-foreground text-xs">{tool.title}</h3>
+              </button>
+            ))}
           </div>
         </div>
 
