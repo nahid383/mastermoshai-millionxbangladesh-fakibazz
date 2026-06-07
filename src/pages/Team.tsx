@@ -140,7 +140,7 @@ export const Team: React.FC = () => {
 
         {/* Footer */}
         <div className="text-center text-xs text-muted-foreground">
-          <p className="font-medium">MillionX Bangladesh AI Buildathon 2026</p>
+          <p className="font-medium">The Infinity AIBuildfest 2026</p>
           <p className="mt-1">Built with ❤️ by Team Fakibazz</p>
         </div>
       </main>
