@@ -15,33 +15,21 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: 'Rayed',
-    role: 'UI Architect',
+    role: 'Database Engineer, Communication Lead',
     image: '/team/rayed.jpg',
     color: 'from-primary to-accent',
   },
   {
-    name: 'Nahid',
-    role: 'Team Lead',
+    name: 'Nahid Hasan',
+    role: 'Team Leader, Backend Engineer, Frontend Developer',
     image: '/team/nahid.jpg',
     color: 'from-accent to-success',
   },
   {
     name: 'Saleh',
-    role: 'Education Domain Expert',
+    role: 'Business Analyst, Frontend Developer',
     image: '/team/saleh.jpg',
     color: 'from-success to-warning',
-  },
-  {
-    name: 'Ankit',
-    role: 'Video Editor',
-    image: '/team/ankit.jpg',
-    color: 'from-warning to-primary',
-  },
-  {
-    name: 'Upoma',
-    role: 'Script Writer',
-    image: '/team/upoma.jpg',
-    color: 'from-primary to-warning',
   },
 ];
 
