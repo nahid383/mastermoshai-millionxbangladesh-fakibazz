@@ -53,6 +53,54 @@ export type Database = {
         }
         Relationships: []
       }
+      cq_submissions: {
+        Row: {
+          answer_text: string | null
+          created_at: string
+          evaluation: Json
+          id: string
+          level: string | null
+          max_score: number
+          medium: string | null
+          mode: string
+          question: Json
+          subject_id: string
+          subject_name: string | null
+          total_score: number
+          user_id: string
+        }
+        Insert: {
+          answer_text?: string | null
+          created_at?: string
+          evaluation: Json
+          id?: string
+          level?: string | null
+          max_score: number
+          medium?: string | null
+          mode: string
+          question: Json
+          subject_id: string
+          subject_name?: string | null
+          total_score: number
+          user_id: string
+        }
+        Update: {
+          answer_text?: string | null
+          created_at?: string
+          evaluation?: Json
+          id?: string
+          level?: string | null
+          max_score?: number
+          medium?: string | null
+          mode?: string
+          question?: Json
+          subject_id?: string
+          subject_name?: string | null
+          total_score?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
       doubt_sessions: {
         Row: {
           created_at: string
