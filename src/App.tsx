@@ -38,6 +38,7 @@ import { Calendar } from "@/pages/Calendar";
 import { TodoList } from "@/pages/TodoList";
 import { Analytics } from "@/pages/Analytics";
 import { CQExam } from "@/pages/CQExam";
+import { CQHistory } from "@/pages/CQHistory";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -326,6 +327,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
             <CQExam />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/cq-history"
+        element={
+          <ProtectedRoute user={user} loading={loading} isOnboarded={isOnboarded}>
+            <CQHistory />
           </ProtectedRoute>
         }
       />
