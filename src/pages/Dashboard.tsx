@@ -159,6 +159,13 @@ export const Dashboard: React.FC = () => {
       path: '/answer-checker',
       badge: useBangla ? 'বোর্ড স্টাইল' : 'Board Style'
     },
+    { 
+      id: 'cq-exam', 
+      title: useBangla ? 'সৃজনশীল পরীক্ষা (CQ)' : 'Creative Question Exam', 
+      icon: FileQuestion, 
+      path: '/cq-exam',
+      badge: useBangla ? 'OCR' : 'OCR'
+    },
   ];
 
   return (
