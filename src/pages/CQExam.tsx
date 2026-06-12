@@ -7,6 +7,9 @@ import { getSubjectsByLevel } from '@/lib/data';
 import { FileText, Loader2, Upload, Camera, Send, CheckCircle, AlertCircle, RotateCcw, Sparkles, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import { Link } from 'react-router-dom';
+import { History } from 'lucide-react';
 
 interface CQPart { label: string; text: string; marks: number; }
 interface CQQuestion { stimulus: string; parts: CQPart[]; totalMarks: number; }
@@ -135,6 +138,26 @@ export const CQExam: React.FC = () => {
       if (!r.ok) throw new Error('eval failed');
       const data = await r.json();
       setResult(data);
+      try {
+        const { data: auth } = await supabase.auth.getUser();
+        if (auth.user) {
+          await supabase.from('cq_submissions').insert({
+            user_id: auth.user.id,
+            subject_id: selectedSubject!,
+            subject_name: useBangla ? subj?.nameBn : subj?.name,
+            level: profile.level,
+            medium: profile.medium,
+            mode,
+            question: cq as any,
+            answer_text: mode === 'text' ? answerText : (data.ocrText || ''),
+            evaluation: data,
+            total_score: data.totalScore,
+            max_score: data.maxScore,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to save CQ submission', err);
+      }
     } catch (e) {
       toast.error(useBangla ? 'মূল্যায়নে সমস্যা' : 'Evaluation failed');
     }
@@ -179,6 +202,13 @@ export const CQExam: React.FC = () => {
           <h2 className="text-lg font-semibold text-foreground mb-4">
             {useBangla ? 'বিষয় বেছে নাও' : 'Choose Subject'}
           </h2>
+          <Link
+            to="/cq-history"
+            className="inline-flex items-center gap-2 text-sm text-primary hover:underline mb-4"
+          >
+            <History className="w-4 h-4" />
+            {useBangla ? 'পূর্ববর্তী জমা দেখো' : 'View past submissions'}
+          </Link>
           <div className="grid grid-cols-2 gap-4">
             {subjects.map((s, i) => (
               <button
